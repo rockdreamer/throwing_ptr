@@ -22,4 +22,8 @@ fi
 pip install conan --upgrade
 pip install conan_package_tools
 
+conan --version
+conan config set storage.path=~/conanData
+conan remote add rockdreamer-throwing_ptr https://api.bintray.com/conan/rockdreamer/throwing_ptr
+
 conan user
