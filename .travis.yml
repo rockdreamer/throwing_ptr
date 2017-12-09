@@ -50,8 +50,3 @@ install:
 script:
   - chmod +x .travis/run.sh
   - ./.travis/run.sh
-
-cache:
-  ccache: true
-  directories:
-    - $HOME/conanData     # Conan storage location
