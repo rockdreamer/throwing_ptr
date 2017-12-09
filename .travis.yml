@@ -5,7 +5,7 @@ env:
      - CONAN_USERNAME: "rockdreamer"
      - CONAN_LOGIN_USERNAME: "rockdreamer"
      - CONAN_CHANNEL: "testing"
-     - CONAN_UPLOAD: "https://api.bintray.com/rockdreamer/throwing_ptr/throwing_ptr"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/rockdreamer/throwing_ptr"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
 
 linux: &linux
