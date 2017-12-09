@@ -8,7 +8,7 @@ class ThrowingPtrConan(ConanFile):
     license = "Boost"
     url = "https://github.com/rockdreamer/throwing_ptr"
     description = "shared_ptr that throws on dereference if null"
-    exports_sources = "include/*", "CMakeLists.txt", "tests/*.cpp"
+    exports_sources = "*"
     settings = "os", "compiler", "arch", "build_type"
     generators = "cmake"
 
