@@ -8,29 +8,28 @@
 
 #if (defined(_MSC_VER) && _MSC_VER < 1800) ||                                  \
         (!defined(_MSC_VER) && __cplusplus < 201103L)
-#error trowing_ptr requires at least C++11
+#error throwing_ptr requires at least C++11
 #endif
 
 #if defined(__clang__)
 // clang supports from 3.1 on
 #define TSP_CONSTEXPR constexpr
+#define TSP_NOEXCEPT noexcept
 
 #elif defined(_MSC_VER)
-#if _MSC_VER < 1900
 
-// Visual Studio 2013
-#define TSP_CONSTEXPR
-
-#elif _MSC_VER < 1910
-
-// Visual Studio 2015
-#define TSP_CONSTEXPR constexpr
-
-#else
-
+#if _MSC_VER >= 1900
 // Visual Studio 2017
 #define TSP_CONSTEXPR constexpr
-
+#define TSP_NOEXCEPT noexcept
+#elif _MSC_VER >= 1800
+// Visual Studio 2015
+#define TSP_CONSTEXPR constexpr
+#define TSP_NOEXCEPT
+#elif _MSC_VER >= 1800
+// Visual Studio 2013
+#define TSP_CONSTEXPR
+#define TSP_NOEXCEPT
 #endif
 
 #elif defined(__GNUC__)
@@ -41,15 +40,12 @@
 #define TSP_CONSTEXPR
 #endif
 
+#define TSP_NOEXCEPT noexcept
+
 #else
 // Unknown compiler, bare minimum
 #define TSP_CONSTEXPR
-#endif
-
-#if (defined(_MSC_VER) && _MSC_VER < 1900) || __cplusplus < 201103L
-#define TSP_CONSTEXPR
-#else
-#define TSP_CONSTEXPR constexpr
+#define TSP_NOEXCEPT
 #endif
 
 namespace throwing {
@@ -59,16 +55,16 @@ public:
     /** \brief Constructs a shared_ptr with no managed object, i.e. empty
      * shared_ptr.
      */
-    TSP_CONSTEXPR shared_ptr() noexcept = default;
+    TSP_CONSTEXPR shared_ptr() TSP_NOEXCEPT = default;
 
     /** \brief Constructs a shared_ptr with no managed object, i.e. empty
      * shared_ptr.
      */
-    TSP_CONSTEXPR shared_ptr(std::nullptr_t ptr) noexcept : p(ptr){};
+    TSP_CONSTEXPR shared_ptr(std::nullptr_t ptr) TSP_NOEXCEPT : p(ptr){};
 
     /** \brief Returns the stored pointer.
      */
-    T *get() const noexcept { return p.get(); }
+    T *get() const TSP_NOEXCEPT { return p.get(); }
 
 private:
     std::shared_ptr<T> p;
@@ -77,3 +73,4 @@ private:
 
 // Do not leak these definitions
 #undef TSP_CONSTEXPR
+#undef TSP_NOEXCEPT
