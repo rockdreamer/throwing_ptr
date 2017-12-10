@@ -16,9 +16,10 @@ template <typename T> class shared_ptr {
 public:
     shared_ptr() = default;
 
-    T *get() {
-        if (!p)
-            throw std::runtime_error("nullptr access");
+    /** \brief Returns the stored pointer.
+     *
+     */
+    T *get() const noexcept {
         return p.get();
     }
 
