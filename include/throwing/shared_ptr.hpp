@@ -73,3 +73,6 @@ private:
     std::shared_ptr<T> p;
 };
 }
+
+// Do not leak these definitions
+#undef TSP_CONSTEXPR
