@@ -1,8 +1,15 @@
 project(throwing_ptr CXX)
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.8)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+
+if(DEFINED ENV{CXX_STANDARD})
+    set(CMAKE_CXX_STANDARD ENV{CXX_STANDARD})
+else()
+    set(CMAKE_CXX_STANDARD 11)
+endif()
+message(STATUS "Building tests for C++${CMAKE_CXX_STANDARD}")
 
 include_directories("include")
 
