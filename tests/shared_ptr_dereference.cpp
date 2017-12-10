@@ -6,7 +6,13 @@
 #include <gtest/gtest.h>
 #include <throwing/shared_ptr.hpp>
 
-TEST(Get, Default) {
+TEST(Get, NullPtr) {
     throwing::shared_ptr<int> nothing;
+    EXPECT_EQ(nullptr, nothing.get());
+
+    throwing::shared_ptr<int> nothing_nullptr(nullptr);
+    EXPECT_EQ(nullptr, nothing.get());
+
+    throwing::shared_ptr<int> nothing_null(NULL);
     EXPECT_EQ(nullptr, nothing.get());
 }

@@ -14,14 +14,19 @@ namespace throwing {
 
 template <typename T> class shared_ptr {
 public:
+    /** \brief Constructs a shared_ptr with no managed object, i.e. empty
+     * shared_ptr.
+     */
     shared_ptr() = default;
 
-    /** \brief Returns the stored pointer.
-     *
+    /** \brief Constructs a shared_ptr with no managed object, i.e. empty
+     * shared_ptr.
      */
-    T *get() const noexcept {
-        return p.get();
-    }
+    shared_ptr(std::nullptr_t ptr) : p(ptr){};
+
+    /** \brief Returns the stored pointer.
+     */
+    T *get() const noexcept { return p.get(); }
 
 private:
     std::shared_ptr<T> p;
