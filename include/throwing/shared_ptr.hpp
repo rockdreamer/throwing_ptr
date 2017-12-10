@@ -6,6 +6,10 @@
 #pragma once
 #include <memory>
 
+#if __cplusplus < 201103L
+#error trowing_ptr requires at least C++11
+#endif
+
 namespace throwing {
 
 template <typename T> class shared_ptr {
