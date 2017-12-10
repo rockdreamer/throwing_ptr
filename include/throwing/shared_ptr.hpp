@@ -6,7 +6,7 @@
 #pragma once
 #include <memory>
 
-#if __cplusplus < 201103L
+#if (defined(_MSC_VER) && _MSC_VER < 1800) || __cplusplus < 201103L
 #error trowing_ptr requires at least C++11
 #endif
 
