@@ -1,4 +1,5 @@
-from conans import ConanFile, CMake, tools
+"""throwing_ptr"""
+from conans import ConanFile, CMake
 
 class ThrowingPtrConan(ConanFile):
     """Conan package for throwing_ptr"""

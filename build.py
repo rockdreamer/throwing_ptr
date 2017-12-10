@@ -1,3 +1,4 @@
+"""multi packager for throwing_ptr"""
 from conan.packager import ConanMultiPackager
 
 if __name__ == "__main__":
