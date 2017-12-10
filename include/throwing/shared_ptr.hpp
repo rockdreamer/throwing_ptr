@@ -60,7 +60,7 @@ public:
     /** \brief Constructs a shared_ptr with no managed object, i.e. empty
      * shared_ptr.
      */
-    TSP_CONSTEXPR shared_ptr(std::nullptr_t ptr) TSP_NOEXCEPT : p(ptr){};
+    TSP_CONSTEXPR shared_ptr(std::nullptr_t ptr) TSP_NOEXCEPT : p(ptr) {}
 
     /** \brief Returns the stored pointer.
      */
