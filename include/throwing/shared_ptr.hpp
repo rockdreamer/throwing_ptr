@@ -18,14 +18,14 @@
 
 #elif defined(_MSC_VER)
 
-#if _MSC_VER >= 1900
+#if _MSC_VER >= 1910
 // Visual Studio 2017
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-#elif _MSC_VER >= 1800
+#elif _MSC_VER >= 1900
 // Visual Studio 2015
 #define TSP_CONSTEXPR constexpr
-#define TSP_NOEXCEPT
+#define TSP_NOEXCEPT noexcept
 #elif _MSC_VER >= 1800
 // Visual Studio 2013
 #define TSP_CONSTEXPR
