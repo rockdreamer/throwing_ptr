@@ -29,7 +29,16 @@ enable_cxx_compiler_flag_if_supported("-Wall")
 enable_cxx_compiler_flag_if_supported("-Wextra")
 enable_cxx_compiler_flag_if_supported("-pedantic")
 enable_cxx_compiler_flag_if_supported("-Werror")
+
+# do not warn about known problems in googletest 1.8
 enable_cxx_compiler_flag_if_supported("-Wno-undef")
+enable_cxx_compiler_flag_if_supported("-Wno-c++98-compat-pedantic")
+enable_cxx_compiler_flag_if_supported("-Wno-c++98-compat")
+enable_cxx_compiler_flag_if_supported("-Wno-missing-noreturn")
+enable_cxx_compiler_flag_if_supported("-Wno-shift-sign-overflow")
+enable_cxx_compiler_flag_if_supported("-Wno-used-but-marked-unused")
+enable_cxx_compiler_flag_if_supported("-Wno-global-constructors")
+enable_cxx_compiler_flag_if_supported("-Wno-weak-vtables")
 
 include_directories("include")
 
