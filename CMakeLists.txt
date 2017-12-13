@@ -63,7 +63,7 @@ if(WIN32)
    endif()
 endif()
 
-add_executable(shared_ptr_dereference tests/shared_ptr_dereference.cpp)
-target_link_libraries(shared_ptr_dereference ${CONAN_LIBS})
-add_test(NAME shared_ptr_dereference COMMAND shared_ptr_dereference)
+add_executable(shared_ptr_construction tests/shared_ptr_construction.cpp)
+target_link_libraries(shared_ptr_construction ${CONAN_LIBS})
+add_test(NAME shared_ptr_construction COMMAND shared_ptr_construction)
 
