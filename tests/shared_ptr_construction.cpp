@@ -8,11 +8,17 @@
 
 namespace {
 class A {
-    int dummy;
+    int dummy_a;
+
+public:
+    int dummy() { return dummy_a; }
 };
 
 class B : public A {
-    int dummy2;
+    int dummy_b;
+
+public:
+    int dummy() { return dummy_b; }
 };
 
 struct A_D {
@@ -21,7 +27,8 @@ struct A_D {
 
 struct Contained {
     // some data that we want to point to
-    int dummy;
+    int dummy_;
+    int dummy() { return dummy_; }
 };
 
 struct Container {
