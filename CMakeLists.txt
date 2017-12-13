@@ -68,6 +68,7 @@ if(NOT MSVC)
     enable_cxx_compiler_flag_if_supported("-Wno-padded")
     # do not warn about unused variables in tests
     enable_cxx_compiler_flag_if_supported("-Wno-unused")
+    enable_cxx_compiler_flag_if_supported("-Wno-unused-member-function")
 endif()
 
 add_executable(shared_ptr_construction tests/shared_ptr_construction.cpp)
