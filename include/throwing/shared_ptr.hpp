@@ -156,7 +156,7 @@ public:
      * After the construction, *this contains a copy of the previous state of r,
      * r is empty and its stored pointer is null.
      */
-    shared_ptr(shared_ptr &&r) TSP_NOEXCEPT = default;
+    shared_ptr(shared_ptr &&r) TSP_NOEXCEPT : p(std::move(r.p)) {}
 
     /** \brief  Move-constructs a shared_ptr from r.
      *
