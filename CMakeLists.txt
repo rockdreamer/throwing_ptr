@@ -37,7 +37,23 @@ else()
     enable_cxx_compiler_flag_if_supported("-Wextra")
     enable_cxx_compiler_flag_if_supported("-pedantic")
     enable_cxx_compiler_flag_if_supported("-Werror")
+endif()
 
+include_directories("include")
+
+add_executable(compile_it tests/compile_it.cpp)
+
+enable_testing()
+if(WIN32)
+   if(MSVC_VERSION)
+       if(MSVC_VERSION GREATER_EQUAL 1910)
+        add_definitions(-DGTEST_LANG_CXX11=1)
+       endif()
+   endif()
+endif()
+
+
+if(NOT MSVC)
     # do not warn about known problems in googletest 1.8
     enable_cxx_compiler_flag_if_supported("-Wno-undef")
     enable_cxx_compiler_flag_if_supported("-Wno-c++98-compat-pedantic")
@@ -50,17 +66,8 @@ else()
     enable_cxx_compiler_flag_if_supported("-Wno-error=deprecated")
     enable_cxx_compiler_flag_if_supported("-Wno-error=zero-as-null-pointer-constant")
     enable_cxx_compiler_flag_if_supported("-Wno-padded")
-endif()
-
-include_directories("include")
-
-enable_testing()
-if(WIN32)
-   if(MSVC_VERSION)
-       if(MSVC_VERSION GREATER_EQUAL 1910)
-        add_definitions(-DGTEST_LANG_CXX11=1)
-       endif()
-   endif()
+    # do not warn about unused variables in tests
+    enable_cxx_compiler_flag_if_supported("-Wno-unused")
 endif()
 
 add_executable(shared_ptr_construction tests/shared_ptr_construction.cpp)
