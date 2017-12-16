@@ -387,6 +387,11 @@ public:
      */
     long use_count() const TSP_NOEXCEPT { return p.use_count(); }
 
+    /** \brief Checks if *this stores a non-null pointer, i.e. whether get() !=
+     * nullptr.
+     */
+    explicit operator bool() const TSP_NOEXCEPT { return (bool)p; }
+
 private:
     std::shared_ptr<T> p;
 };

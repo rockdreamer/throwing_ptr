@@ -88,3 +88,13 @@ TEST(UseCount, UseCount) {
     EXPECT_EQ(0l, ptr.use_count());
     EXPECT_EQ(0l, ptr2.use_count());
 }
+
+TEST(OperatorBool, OperatorBool) {
+    Foo *foo = new Foo;
+    throwing::shared_ptr<Foo> ptr;
+    EXPECT_FALSE(ptr);
+    ptr.reset(foo);
+    EXPECT_TRUE(ptr);
+    ptr.reset();
+    EXPECT_FALSE(ptr);
+}
