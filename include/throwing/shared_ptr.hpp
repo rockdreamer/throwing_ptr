@@ -597,6 +597,158 @@ Deleter *get_deleter(const shared_ptr<T> &p) TSP_NOEXCEPT {
     return std::get_deleter<Deleter>(p.get_std_shared_ptr());
 }
 
+/** \brief Compare two shared_ptr objects
+ * \return lhs.get() == rhs.get()
+ */
+template <class T, class U>
+bool operator==(const shared_ptr<T> &lhs,
+                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() == rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare two shared_ptr objects
+ * \return !(lhs == rhs)
+ */
+template <class T, class U>
+bool operator!=(const shared_ptr<T> &lhs,
+                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() != rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare two shared_ptr objects
+ * \return std::less<V>()(lhs.get(), rhs.get()), where V is the composite
+ * pointer type of std::shared_ptr<T>::element_type* and
+ * std::shared_ptr<U>::element_type*
+ */
+template <class T, class U>
+bool operator<(const shared_ptr<T> &lhs,
+               const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() < rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare two shared_ptr objects
+ * \return rhs < lhs
+ */
+template <class T, class U>
+bool operator>(const shared_ptr<T> &lhs,
+               const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() > rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare two shared_ptr objects
+ * \return !(rhs < lhs)
+ */
+template <class T, class U>
+bool operator<=(const shared_ptr<T> &lhs,
+                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() <= rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare two shared_ptr objects
+ * \return !(lhs < rhs)
+ */
+template <class T, class U>
+bool operator>=(const shared_ptr<T> &lhs,
+                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() >= rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !lhs
+ */
+template <class T>
+bool operator==(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() == rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !rhs
+ */
+template <class T>
+bool operator==(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs == rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return (bool)lhs
+ */
+template <class T>
+bool operator!=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() != rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return (bool)rhs
+ */
+template <class T>
+bool operator!=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs != rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return std::less<shared_ptr<T>::element_type*>()(lhs.get(), nullptr)
+ */
+template <class T>
+bool operator<(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() < rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return std::less<shared_ptr<T>::element_type*>()(nullptr, rhs.get())
+ */
+template <class T>
+bool operator<(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs < rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return nullptr < lhs
+ */
+template <class T>
+bool operator>(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() > rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return rhs < nullptr
+ */
+template <class T>
+bool operator>(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs > rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !(nullptr < lhs)
+ */
+template <class T>
+bool operator<=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() <= rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !(rhs < nullptr)
+ */
+template <class T>
+bool operator<=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs <= rhs.get_std_shared_ptr();
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !(lhs < nullptr)
+ */
+template <class T>
+bool operator>=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_shared_ptr() >= rhs;
+}
+
+/** \brief Compare a shared_ptr with a null pointer
+ * \return !(nullptr < rhs)
+ */
+template <class T>
+bool operator>=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    return lhs >= rhs.get_std_shared_ptr();
+}
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
