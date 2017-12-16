@@ -74,6 +74,7 @@ endif()
 set(TESTS
     shared_ptr_construction
     shared_ptr_assignment
+    shared_ptr_reset
 )
 
 foreach(TEST ${TESTS})

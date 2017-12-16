@@ -344,6 +344,53 @@ public:
      */
     void reset() TSP_NOEXCEPT { p.reset(); }
 
+    /** \brief Replaces the managed object with an object pointed to by ptr.
+     *
+     * Y must be a complete type and implicitly convertible to T.
+     *
+     * Uses the delete expression as the deleter. A valid delete expression must
+     * be available, i.e. delete ptr must be well formed, have well-defined
+     * behavior and not throw any exceptions.
+     *
+     * Equivalent to shared_ptr<T>(ptr).swap(*this);
+     */
+    template <class Y> void reset(Y *ptr) { p.reset(ptr); }
+
+    /** \brief Replaces the managed object with an object pointed to by ptr.
+     *
+     * Y must be a complete type and implicitly convertible to T.
+     *
+     * Uses the specified deleter d as the deleter. Deleter must be callable for
+     * the type T, i.e. d(ptr) must be well formed, have well-defined behavior
+     * and not throw any exceptions. Deleter must be CopyConstructible, and its
+     * copy constructor and destructor must not throw exceptions.
+     *
+     * Equivalent to shared_ptr<T>(ptr, d).swap(*this);
+     */
+    template <class Y, class Deleter> void reset(Y *ptr, Deleter d) {
+        p.reset(ptr, d);
+    }
+
+    /** \brief Replaces the managed object with an object pointed to by ptr.
+     *
+     * Y must be a complete type and implicitly convertible to T.
+     *
+     * Uses the specified deleter d as the deleter. Deleter must be callable for
+     * the type T, i.e. d(ptr) must be well formed, have well-defined behavior
+     * and not throw any exceptions. Deleter must be CopyConstructible, and its
+     * copy constructor and destructor must not throw exceptions.
+     *
+     * Additionally uses a copy of alloc for allocation of data for internal
+     * use. Alloc must be a Allocator. The copy constructor and destructor must
+     * not throw exceptions.
+     *
+     * Equivalent to shared_ptr<T>(ptr, d, alloc).swap(*this);
+     */
+    template <class Y, class Deleter, class Alloc>
+    void reset(Y *ptr, Deleter d, Alloc alloc) {
+        p.reset(ptr, d, alloc);
+    }
+
 private:
     std::shared_ptr<T> p;
 };
