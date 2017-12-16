@@ -328,6 +328,10 @@ public:
         return *this;
     }
 
+    /** \brief Exchanges the contents of *this and r
+     */
+    void swap(shared_ptr &r) TSP_NOEXCEPT { p.swap(r.p); }
+
     /** \brief Returns the stored pointer.
      */
     T *get() const TSP_NOEXCEPT { return p.get(); }
@@ -395,6 +399,18 @@ private:
     std::shared_ptr<T> p;
 };
 } // namespace throwing
+
+/** \brief Specializes the std::swap algorithm for throwing::shared_ptr.
+ *
+ * Swaps the pointers of lhs and rhs.
+ *
+ * Calls lhs.swap(rhs).
+ */
+template <class T>
+void std::swap(throwing::shared_ptr<T> &lhs,
+               throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
+    lhs.swap(rhs);
+}
 
 // Do not leak these definitions
 #undef TSP_CONSTEXPR

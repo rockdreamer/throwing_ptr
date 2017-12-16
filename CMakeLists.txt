@@ -75,6 +75,7 @@ set(TESTS
     shared_ptr_construction
     shared_ptr_assignment
     shared_ptr_reset
+    shared_ptr_swap
 )
 
 foreach(TEST ${TESTS})
