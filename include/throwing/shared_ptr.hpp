@@ -231,6 +231,103 @@ public:
     template <class Y, class Deleter>
     shared_ptr(std::unique_ptr<Y, Deleter> &&r) : p(std::move(r)) {}
 
+    /** \brief Destructor
+     * If *this owns an object and it is the last shared_ptr owning it, the
+     * object is destroyed through the owned deleter.
+     * After the destruction, the smart pointers that shared ownership with
+     * *this, if any, will report a use_count() that is one less than its
+     * previous value.
+
+     * Notes:
+
+     * Unlike throwing::unique_ptr, the throwing of std::shared_ptr is invoked
+     * even if the managed pointer is null.
+     */
+    ~shared_ptr() = default;
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * If *this already owns an object and it is the last shared_ptr owning it,
+     * and r is not the same as *this, the object is destroyed through the owned
+     * deleter.
+     *
+     * Shares ownership of the object managed by r. If r manages no object,
+     * *this manages no object too.
+     * Equivalent to shared_ptr<T>(r).swap(*this).
+     */
+    shared_ptr &operator=(const shared_ptr &r) TSP_NOEXCEPT {
+        p = r.p;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * If *this already owns an object and it is the last shared_ptr owning it,
+     * and r is not the same as *this, the object is destroyed through the owned
+     * deleter.
+     *
+     * Shares ownership of the object managed by r. If r manages no object,
+     * *this manages no object too.
+     * Equivalent to shared_ptr<T>(r).swap(*this).
+     */
+    template <class Y>
+    shared_ptr &operator=(const shared_ptr<Y> &r) TSP_NOEXCEPT {
+        p = r.p;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * If *this already owns an object and it is the last shared_ptr owning it,
+     * and r is not the same as *this, the object is destroyed through the owned
+     * deleter.
+     *
+     * Move-assigns a shared_ptr from r. After the assignment, *this contains a
+     * copy of the previous state of r, r is empty. Equivalent to
+     * shared_ptr<T>(std::move(r)).swap(*this)
+     */
+    shared_ptr &operator=(shared_ptr &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * If *this already owns an object and it is the last shared_ptr owning it,
+     * and r is not the same as *this, the object is destroyed through the owned
+     * deleter.
+     *
+     * Move-assigns a shared_ptr from r. After the assignment, *this contains a
+     * copy of the previous state of r, r is empty. Equivalent to
+     * shared_ptr<T>(std::move(r)).swap(*this)
+     */
+    template <class Y> shared_ptr &operator=(shared_ptr<Y> &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * If *this already owns an object and it is the last shared_ptr owning it,
+     * and r is not the same as *this, the object is destroyed through the owned
+     * deleter.
+     *
+     * Transfers the ownership of the object managed by r to *this. The deleter
+     * associated to r is stored for future deletion of the managed object. r
+     * manages no object after the call. Equivalent to
+     * shared_ptr<T>(std::move(r)).swap(*this).
+     */
+    template <class Y, class Deleter>
+    shared_ptr &operator=(std::unique_ptr<Y, Deleter> &&r) {
+        p = std::move(r);
+        return *this;
+    }
+
     /** \brief Returns the stored pointer.
      */
     T *get() const TSP_NOEXCEPT { return p.get(); }
@@ -250,7 +347,7 @@ public:
 private:
     std::shared_ptr<T> p;
 };
-}
+} // namespace throwing
 
 // Do not leak these definitions
 #undef TSP_CONSTEXPR

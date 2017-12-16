@@ -49,13 +49,13 @@ TEST(Get, NullPtr) {
 
 TEST(Construction, ConstructFromPointer) {
     A *ptr1 = new A;
-    auto t_ptr1 = throwing::shared_ptr<A>(ptr1);
+    throwing::shared_ptr<A> t_ptr1(ptr1);
     EXPECT_EQ(ptr1, t_ptr1.get());
 }
 
 TEST(Construction, ConstructFromPointerAndDeleter) {
     A *ptr1 = new A;
-    auto t_ptr1 = throwing::shared_ptr<A>(ptr1, A_D());
+    throwing::shared_ptr<A> t_ptr1(ptr1, A_D());
     EXPECT_EQ(ptr1, t_ptr1.get());
 }
 
@@ -63,7 +63,7 @@ TEST(Construction, ConstructFromPointerAndLamdaDeleter) {
     A *ptr1 = new A;
     bool lamda_called = false;
     {
-        auto t_ptr1 = throwing::shared_ptr<A>(ptr1, [&lamda_called](A *p) {
+        throwing::shared_ptr<A> t_ptr1(ptr1, [&lamda_called](A *p) {
             delete p;
             lamda_called = true;
         });
@@ -75,20 +75,20 @@ TEST(Construction, ConstructFromPointerAndLamdaDeleter) {
 
 TEST(Construction, ConstructFromPointerToDerived) {
     B *ptr1 = new B;
-    auto t_ptr1 = throwing::shared_ptr<A>(ptr1);
+    throwing::shared_ptr<A> t_ptr1(ptr1);
     EXPECT_EQ(ptr1, t_ptr1.get());
 }
 
 TEST(Construction, ConstructFromBaseType) {
     int *ptr1 = new int;
-    auto t_ptr1 = throwing::shared_ptr<int>(ptr1);
+    throwing::shared_ptr<int> t_ptr1(ptr1);
     EXPECT_EQ(ptr1, t_ptr1.get());
 }
 
 TEST(Construction, ConstructFromNullPtrAndLamdaDeleter) {
     bool lamda_called = false;
     {
-        auto t_ptr1 = throwing::shared_ptr<A>(nullptr, [&lamda_called](A *p) {
+        throwing::shared_ptr<A> t_ptr1(nullptr, [&lamda_called](A *p) {
             delete p;
             lamda_called = true;
         });
@@ -103,7 +103,7 @@ TEST(Construction, ConstructFromNullPtrLamdaDeleterAndAllocator) {
     std::allocator<void *> allocator;
     bool lamda_called = false;
     {
-        auto t_ptr1 = throwing::shared_ptr<A>(ptr1,
+        throwing::shared_ptr<A> t_ptr1(ptr1,
                                               [&lamda_called](A *p) {
                                                   delete p;
                                                   lamda_called = true;
@@ -119,7 +119,7 @@ TEST(Construction, AliasingConstructor) {
     Container *ptr1 = new Container;
     bool lamda_called = false;
     {
-        auto t_ptr1 = throwing::shared_ptr<Container>(
+        throwing::shared_ptr<Container> t_ptr1(
                 ptr1, [&lamda_called](Container *p) {
                     delete p;
                     lamda_called = true;
@@ -139,7 +139,7 @@ TEST(Construction, AliasingConstructor) {
 TEST(Construction, CopyConstructor) {
     A *ptr1 = new A;
     auto t_ptr1 = throwing::shared_ptr<A>(ptr1);
-    throwing::shared_ptr<A> t_ptr2 = t_ptr1;
+    throwing::shared_ptr<A> t_ptr2(t_ptr1);
     EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
     t_ptr1.reset();
     EXPECT_EQ(ptr1, t_ptr2.get());

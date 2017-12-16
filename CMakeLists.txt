@@ -71,7 +71,14 @@ if(NOT MSVC)
     enable_cxx_compiler_flag_if_supported("-Wno-unused-member-function")
 endif()
 
-add_executable(shared_ptr_construction tests/shared_ptr_construction.cpp)
-target_link_libraries(shared_ptr_construction ${CONAN_LIBS})
-add_test(NAME shared_ptr_construction COMMAND shared_ptr_construction)
+set(TESTS
+    shared_ptr_construction
+    shared_ptr_assignment
+)
+
+foreach(TEST ${TESTS})
+    add_executable(${TEST} tests/${TEST}.cpp)
+    target_link_libraries(${TEST} ${CONAN_LIBS})
+    add_test(NAME ${TEST} COMMAND ${TEST})
+endforeach()
 
