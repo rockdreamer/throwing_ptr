@@ -71,3 +71,20 @@ TEST(NullPtrException, NullPtrCatchWhatType) {
         EXPECT_FALSE(what.empty());
     }
 }
+
+TEST(UseCount, UseCount) {
+    Foo *foo = new Foo;
+    throwing::shared_ptr<Foo> ptr;
+    EXPECT_EQ(0l, ptr.use_count());
+    ptr.reset(foo);
+    EXPECT_EQ(1l, ptr.use_count());
+    auto ptr2 = ptr;
+    EXPECT_EQ(2l, ptr.use_count());
+    EXPECT_EQ(2l, ptr2.use_count());
+    ptr.reset();
+    EXPECT_EQ(0l, ptr.use_count());
+    EXPECT_EQ(1l, ptr2.use_count());
+    ptr2.reset();
+    EXPECT_EQ(0l, ptr.use_count());
+    EXPECT_EQ(0l, ptr2.use_count());
+}

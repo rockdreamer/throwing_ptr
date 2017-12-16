@@ -377,6 +377,16 @@ public:
         return ptr;
     }
 
+    /** \brief Returns the number of different shared_ptr instances (this
+     * included) managing the current object.
+     *
+     * If there is no managed object, ​0​ is returned.
+     *
+     * In multithreaded environment, the value returned by use_count is
+     * approximate (typical implementations use a memory_order_relaxed load)
+     */
+    long use_count() const TSP_NOEXCEPT { return p.use_count(); }
+
 private:
     std::shared_ptr<T> p;
 };
