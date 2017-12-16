@@ -8,12 +8,11 @@
 
 namespace {
 class A {
-    bool &deleted;
-
 public:
     A(bool &deleted) : deleted(deleted) {}
-
     virtual ~A() { deleted = true; }
+    A &operator=(const A &) { return *this; }
+    bool &deleted;
 };
 
 class B : public A {
@@ -21,6 +20,7 @@ class B : public A {
 
 public:
     B(bool &deleted) : A(deleted) {}
+    B &operator=(const B &) { return *this; }
     int dummy() { return dummy_b; }
 };
 } // namespace
