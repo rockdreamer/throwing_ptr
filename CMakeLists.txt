@@ -72,13 +72,14 @@ if(NOT MSVC)
 endif()
 
 set(TESTS
-    shared_ptr_construction
+    shared_ptr_access
     shared_ptr_assignment
+    shared_ptr_cast
+    shared_ptr_construction
+    shared_ptr_make_shared
+    shared_ptr_ordering
     shared_ptr_reset
     shared_ptr_swap
-    shared_ptr_access
-    shared_ptr_ordering
-    shared_ptr_make_shared
 )
 
 foreach(TEST ${TESTS})

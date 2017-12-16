@@ -503,6 +503,78 @@ shared_ptr<T> allocate_shared(const Alloc &alloc, Args &&... args) {
             std::allocate_shared<T>(alloc, std::forward<Args>(args)...)));
 }
 
+/** \brief Creates a new instance of shared_ptr whose stored pointer is obtained
+ * from r's stored pointer using a static_cast expression.
+ *
+ * If r is empty, so is the new shared_ptr (but its stored pointer is not
+ * necessarily null).
+ *
+ * Otherwise, the new shared_ptr will share ownership with r.
+ *
+ * The behavior is undefined unless static_cast<T*>((U*)nullptr) is well formed.
+ */
+template <class T, class U>
+shared_ptr<T> static_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
+    auto p = static_cast<typename shared_ptr<T>::element_type *>(r.get());
+    return shared_ptr<T>(r, p);
+}
+
+/** \brief Creates a new instance of shared_ptr whose stored pointer is obtained
+ * from r's stored pointer using a dynamic_cast expression.
+ *
+ * If r is empty, so is the new shared_ptr (but its stored pointer is not
+ * necessarily null).
+ *
+ * Otherwise, the new shared_ptr will share ownership with r, except that it is
+ * empty if the dynamic_cast performed by dynamic_pointer_cast returns a null
+ * pointer.
+ *
+ * The behavior is undefined unless dynamic_cast<T*>((U*)nullptr) is well
+ * formed.
+ */
+template <class T, class U>
+shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
+    if (auto p =
+                dynamic_cast<typename shared_ptr<T>::element_type *>(r.get())) {
+        return shared_ptr<T>(r, p);
+    } else {
+        return shared_ptr<T>();
+    }
+}
+
+/** \brief Creates a new instance of shared_ptr whose stored pointer is obtained
+ * from r's stored pointer using a const_cast expression.
+ *
+ * If r is empty, so is the new shared_ptr (but its stored pointer is not
+ * necessarily null).
+ *
+ * Otherwise, the new shared_ptr will share ownership with r.
+ *
+ * The behavior is undefined unless const_cast<T*>((U*)nullptr) is well formed.
+ */
+template <class T, class U>
+shared_ptr<T> const_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
+    auto p = const_cast<typename shared_ptr<T>::element_type *>(r.get());
+    return shared_ptr<T>(r, p);
+}
+
+/** \brief Creates a new instance of shared_ptr whose stored pointer is obtained
+ * from r's stored pointer using a reinterpret_cast expression.
+ *
+ * If r is empty, so is the new shared_ptr (but its stored pointer is not
+ * necessarily null).
+ *
+ * Otherwise, the new shared_ptr will share ownership with r.
+ *
+ * The behavior is undefined unless reinterpret_cast<T*>((U*)nullptr) is well
+ * formed.
+ */
+template <class T, class U>
+shared_ptr<T> reinterpret_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
+    auto p = reinterpret_cast<typename shared_ptr<T>::element_type *>(r.get());
+    return shared_ptr<T>(r, p);
+}
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
