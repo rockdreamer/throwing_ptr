@@ -398,7 +398,6 @@ public:
 private:
     std::shared_ptr<T> p;
 };
-} // namespace throwing
 
 /** \brief Specializes the std::swap algorithm for throwing::shared_ptr.
  *
@@ -407,10 +406,13 @@ private:
  * Calls lhs.swap(rhs).
  */
 template <class T>
-void std::swap(throwing::shared_ptr<T> &lhs,
+void swap(throwing::shared_ptr<T> &lhs,
                throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
     lhs.swap(rhs);
 }
+
+
+} // namespace throwing
 
 // Do not leak these definitions
 #undef TSP_CONSTEXPR
