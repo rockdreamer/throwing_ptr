@@ -9,12 +9,14 @@
 namespace {
 class Base {
 public:
+    virtual ~Base() = default;
     virtual bool mutating() { return true; }
     virtual bool is_derived() const { return false; }
 };
 
 class Derived : public Base {
 public:
+    virtual ~Derived() = default;
     virtual bool is_derived() const { return true; }
 };
 

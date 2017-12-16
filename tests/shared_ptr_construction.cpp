@@ -46,6 +46,7 @@ TEST(Construction, ConstructFromPointerAndDeleter) {
     A *ptr1 = new A;
     throwing::shared_ptr<A> t_ptr1(ptr1, A_D());
     EXPECT_EQ(ptr1, t_ptr1.get());
+    EXPECT_NE(nullptr, throwing::get_deleter<A_D>(t_ptr1));
 }
 
 TEST(Construction, ConstructFromPointerAndLamdaDeleter) {

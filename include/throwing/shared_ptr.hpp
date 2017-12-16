@@ -355,6 +355,16 @@ public:
      */
     T *get() const TSP_NOEXCEPT { return p.get(); }
 
+    /** \brief Returns the underlying std::shared_pointer.
+     */
+    const std::shared_ptr<T> &get_std_shared_ptr() const TSP_NOEXCEPT {
+        return p;
+    }
+
+    /** \brief Returns the underlying std::shared_pointer.
+     */
+    std::shared_ptr<T> &get_std_shared_ptr() TSP_NOEXCEPT { return p; }
+
     /** \brief Dereferences the stored pointer.
      *
      * Throws null_ptr_exception<T> if the pointer is null
@@ -573,6 +583,18 @@ template <class T, class U>
 shared_ptr<T> reinterpret_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
     auto p = reinterpret_cast<typename shared_ptr<T>::element_type *>(r.get());
     return shared_ptr<T>(r, p);
+}
+
+/** \brief Access to the p's deleter.
+ *
+ * If the shared pointer p owns a deleter of type cv-unqualified Deleter (e.g.
+ * if it was created with one of the constructors that take a deleter as a
+ * parameter), then returns a pointer to the deleter. Otherwise, returns a null
+ * pointer.
+ */
+template <class Deleter, class T>
+Deleter *get_deleter(const shared_ptr<T> &p) TSP_NOEXCEPT {
+    return std::get_deleter<Deleter>(p.get_std_shared_ptr());
 }
 
 } // namespace throwing
