@@ -13,24 +13,50 @@ struct Foo {
     Foo() : n1(0), n2(0) {}
 };
 
-TEST(MakeShared, StructWithArgs){
-    auto ptr = throwing::make_shared<Foo>(1,2);
+TEST(MakeShared, StructWithArgs) {
+    auto ptr = throwing::make_shared<Foo>(1, 2);
     EXPECT_EQ(1, ptr->n1);
     EXPECT_EQ(2, ptr->n2);
 }
 
-TEST(MakeShared, StructNoArgs){
+TEST(MakeShared, StructNoArgs) {
     auto ptr = throwing::make_shared<Foo>();
     EXPECT_EQ(0, ptr->n1);
     EXPECT_EQ(0, ptr->n2);
 }
 
-TEST(MakeShared, BaseType){
+TEST(MakeShared, BaseType) {
     auto ptr = throwing::make_shared<int>(42);
     EXPECT_EQ(42, *ptr);
 }
 
-TEST(MakeShared, BaseTypeNoArg){
+TEST(MakeShared, BaseTypeNoArg) {
     auto ptr = throwing::make_shared<int>();
+    EXPECT_TRUE(ptr);
+}
+
+TEST(AllocateShared, StructWithArgs) {
+    std::allocator<Foo> allocator;
+    auto ptr = throwing::allocate_shared<Foo>(allocator, 1, 2);
+    EXPECT_EQ(1, ptr->n1);
+    EXPECT_EQ(2, ptr->n2);
+}
+
+TEST(AllocateShared, StructNoArgs) {
+    std::allocator<Foo> allocator;
+    auto ptr = throwing::allocate_shared<Foo>(allocator);
+    EXPECT_EQ(0, ptr->n1);
+    EXPECT_EQ(0, ptr->n2);
+}
+
+TEST(AllocateShared, BaseType) {
+    std::allocator<int> allocator;
+    auto ptr = throwing::allocate_shared<int>(allocator, 42);
+    EXPECT_EQ(42, *ptr);
+}
+
+TEST(AllocateShared, BaseTypeNoArg) {
+    std::allocator<int> allocator;
+    auto ptr = throwing::allocate_shared<int>(allocator);
     EXPECT_TRUE(ptr);
 }

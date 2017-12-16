@@ -466,18 +466,43 @@ void swap(throwing::shared_ptr<T> &lhs,
  * The storage is typically larger than sizeof(T) in order to use one allocation
  * for both the control block of the shared pointer and the T object.
  *
- * The std::shared_ptr constructor called by this function enables
+ * The shared_ptr constructor called by this function enables
  * shared_from_this with a pointer to the newly constructed object of type T.
  *
  * This overload only participates in overload resolution if T is not an array
  * type
  */
 template <class T, class... Args> shared_ptr<T> make_shared(Args &&... args) {
-    return shared_ptr<T>(std::move(std::make_shared<T>(std::forward<Args>(args)...)));
+    return shared_ptr<T>(
+            std::move(std::make_shared<T>(std::forward<Args>(args)...)));
+}
+
+/** \brief Constructs an object of type T and wraps it in a throwing::shared_ptr
+ * using args as the parameter list for the constructor of T.
+ *
+ * The object is constructed as if by the expression
+ * std::allocator_traits<A2>::construct(a, pv, v)), where pv is an internal
+ * void* pointer to storage suitable to hold an object of type T and a is the
+ * possibly-rebound copy of the allocator.
+ *
+ * The storage is typically larger than sizeof(T) in order to use one allocation
+ * for both the control block of the shared pointer and the T object.
+ *
+ * The shared_ptr constructor called by this function enables shared_from_this
+ * with a pointer to the newly constructed object of type T.
+ *
+ * All memory allocation is done using a copy of alloc, which must satisfy the
+ * Allocator requirements.
+ *
+ * This overload only participates in overload resolution if T is not an array
+ * type
+ */
+template <class T, class Alloc, class... Args>
+shared_ptr<T> allocate_shared(const Alloc &alloc, Args &&... args) {
+    return shared_ptr<T>(std::move(
+            std::allocate_shared<T>(alloc, std::forward<Args>(args)...)));
 }
 
 } // namespace throwing
 
-// Do not leak these definitions
-#undef TSP_CONSTEXPR
-#undef TSP_NOEXCEPT
+#include <throwing/private/clear_compiler_checks.hpp>

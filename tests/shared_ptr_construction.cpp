@@ -34,18 +34,7 @@ struct Contained {
 struct Container {
     Contained things;
 };
-}
-
-TEST(Get, NullPtr) {
-    throwing::shared_ptr<int> nothing;
-    EXPECT_EQ(nullptr, nothing.get());
-
-    throwing::shared_ptr<int> nothing_nullptr(nullptr);
-    EXPECT_EQ(nullptr, nothing.get());
-
-    throwing::shared_ptr<int> nothing_null(NULL);
-    EXPECT_EQ(nullptr, nothing.get());
-}
+} // namespace
 
 TEST(Construction, ConstructFromPointer) {
     A *ptr1 = new A;
@@ -104,11 +93,11 @@ TEST(Construction, ConstructFromNullPtrLamdaDeleterAndAllocator) {
     bool lamda_called = false;
     {
         throwing::shared_ptr<A> t_ptr1(ptr1,
-                                              [&lamda_called](A *p) {
-                                                  delete p;
-                                                  lamda_called = true;
-                                              },
-                                              allocator);
+                                       [&lamda_called](A *p) {
+                                           delete p;
+                                           lamda_called = true;
+                                       },
+                                       allocator);
         EXPECT_EQ(ptr1, t_ptr1.get());
         EXPECT_FALSE(lamda_called);
     }
@@ -119,11 +108,11 @@ TEST(Construction, AliasingConstructor) {
     Container *ptr1 = new Container;
     bool lamda_called = false;
     {
-        throwing::shared_ptr<Container> t_ptr1(
-                ptr1, [&lamda_called](Container *p) {
-                    delete p;
-                    lamda_called = true;
-                });
+        throwing::shared_ptr<Container> t_ptr1(ptr1,
+                                               [&lamda_called](Container *p) {
+                                                   delete p;
+                                                   lamda_called = true;
+                                               });
         EXPECT_EQ(ptr1, t_ptr1.get());
         EXPECT_FALSE(lamda_called);
         auto via_aliasing =
