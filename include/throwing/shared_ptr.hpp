@@ -473,7 +473,7 @@ void swap(throwing::shared_ptr<T> &lhs,
  * type
  */
 template <class T, class... Args> shared_ptr<T> make_shared(Args &&... args) {
-    return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
+    return shared_ptr<T>(std::move(std::make_shared<T>(std::forward<Args>(args)...)));
 }
 
 } // namespace throwing
