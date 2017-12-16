@@ -5,48 +5,8 @@
 
 #pragma once
 #include <memory>
-
-#if (defined(_MSC_VER) && _MSC_VER < 1800) ||                                  \
-        (!defined(_MSC_VER) && __cplusplus < 201103L)
-#error throwing_ptr requires at least C++11
-#endif
-
-#if defined(__clang__)
-// clang supports from 3.1 on
-#define TSP_CONSTEXPR constexpr
-#define TSP_NOEXCEPT noexcept
-
-#elif defined(_MSC_VER)
-
-#if _MSC_VER >= 1910
-// Visual Studio 2017
-#define TSP_CONSTEXPR constexpr
-#define TSP_NOEXCEPT noexcept
-#elif _MSC_VER >= 1900
-// Visual Studio 2015
-#define TSP_CONSTEXPR constexpr
-#define TSP_NOEXCEPT noexcept
-#elif _MSC_VER >= 1800
-// Visual Studio 2013
-#define TSP_CONSTEXPR
-#define TSP_NOEXCEPT
-#endif
-
-#elif defined(__GNUC__)
-
-#if __cpp_constexpr >= 200704
-#define TSP_CONSTEXPR constexpr
-#else
-#define TSP_CONSTEXPR
-#endif
-
-#define TSP_NOEXCEPT noexcept
-
-#else
-// Unknown compiler, bare minimum
-#define TSP_CONSTEXPR
-#define TSP_NOEXCEPT
-#endif
+#include <throwing/null_ptr_exception.hpp>
+#include <throwing/private/compiler_checks.hpp>
 
 namespace throwing {
 
@@ -332,10 +292,6 @@ public:
      */
     void swap(shared_ptr &r) TSP_NOEXCEPT { p.swap(r.p); }
 
-    /** \brief Returns the stored pointer.
-     */
-    T *get() const TSP_NOEXCEPT { return p.get(); }
-
     /** \brief Releases the ownership of the managed object, if any.
      *
      * If *this already owns an object and it is the last shared_ptr owning it,
@@ -395,6 +351,32 @@ public:
         p.reset(ptr, d, alloc);
     }
 
+    /** \brief Returns the stored pointer.
+     */
+    T *get() const TSP_NOEXCEPT { return p.get(); }
+
+    /** \brief Dereferences the stored pointer.
+     *
+     * Throws null_ptr_exception<T> if the pointer is null
+     */
+    T &operator*() const {
+        const auto ptr = get();
+        if (nullptr == ptr)
+            throw null_ptr_exception<T>();
+        return *ptr;
+    }
+
+    /** \brief Dereferences the stored pointer.
+     *
+     * Throws null_ptr_exception<T> if the pointer is null
+     */
+    T *operator->() const {
+        const auto ptr = get();
+        if (nullptr == ptr)
+            throw null_ptr_exception<T>();
+        return ptr;
+    }
+
 private:
     std::shared_ptr<T> p;
 };
@@ -407,10 +389,9 @@ private:
  */
 template <class T>
 void swap(throwing::shared_ptr<T> &lhs,
-               throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
+          throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
     lhs.swap(rhs);
 }
-
 
 } // namespace throwing
 
