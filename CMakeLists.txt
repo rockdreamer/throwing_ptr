@@ -77,6 +77,7 @@ set(TESTS
     shared_ptr_reset
     shared_ptr_swap
     shared_ptr_access
+    shared_ptr_ordering
 )
 
 foreach(TEST ${TESTS})

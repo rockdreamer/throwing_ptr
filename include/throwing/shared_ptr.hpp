@@ -392,6 +392,54 @@ public:
      */
     explicit operator bool() const TSP_NOEXCEPT { return (bool)p; }
 
+    /** \brief Checks whether this shared_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     */
+    template <class Y>
+    bool owner_before(const shared_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other.p);
+    }
+
+    /** \brief Checks whether this shared_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     */
+    template <class Y>
+    bool owner_before(const std::shared_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other);
+    }
+
+    /** \brief Checks whether this shared_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     */
+    template <class Y>
+    bool owner_before(const std::weak_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other);
+    }
+
 private:
     std::shared_ptr<T> p;
 };
