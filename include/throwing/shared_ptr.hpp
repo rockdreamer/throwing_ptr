@@ -4,6 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
+#include <iosfwd>
 #include <memory>
 #include <throwing/null_ptr_exception.hpp>
 #include <throwing/private/compiler_checks.hpp>
@@ -747,6 +748,19 @@ bool operator>=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 template <class T>
 bool operator>=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs >= rhs.get_std_shared_ptr();
+}
+
+/** \brief Inserts the value of the pointer stored in ptr into the output stream
+ * os
+ *
+ * Equivalent to os << ptr.get().
+ * \return os
+ */
+template <class T, class U, class V>
+std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
+                                     const shared_ptr<T> &ptr) {
+    os << ptr.get();
+    return os;
 }
 
 } // namespace throwing

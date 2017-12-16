@@ -79,6 +79,7 @@ set(TESTS
     shared_ptr_construction
     shared_ptr_make_shared
     shared_ptr_ordering
+    shared_ptr_ostream
     shared_ptr_reset
     shared_ptr_swap
 )
