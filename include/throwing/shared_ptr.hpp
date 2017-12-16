@@ -390,7 +390,7 @@ public:
     /** \brief Checks if *this stores a non-null pointer, i.e. whether get() !=
      * nullptr.
      */
-    explicit operator bool() const TSP_NOEXCEPT { return (bool)p; }
+    explicit operator bool() const TSP_NOEXCEPT { return p.operator bool(); }
 
     /** \brief Checks whether this shared_ptr precedes other in implementation
      * defined owner-based (as opposed to value-based) order.
