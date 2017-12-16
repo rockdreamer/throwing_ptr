@@ -9,10 +9,10 @@
 namespace {
 class A {
 public:
-    A(bool &deleted) : deleted(deleted) {}
-    virtual ~A() { deleted = true; }
+    A(bool &deleted) : deleted_(deleted) {}
+    virtual ~A() { deleted_ = true; }
     A &operator=(const A &) { return *this; }
-    bool &deleted;
+    bool &deleted_;
 };
 
 class B : public A {
