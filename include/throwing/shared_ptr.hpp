@@ -456,6 +456,26 @@ void swap(throwing::shared_ptr<T> &lhs,
     lhs.swap(rhs);
 }
 
+/** \brief Constructs an object of type T and wraps it in a throwing::shared_ptr
+ * using args as the parameter list for the constructor of T.
+ *
+ * The object is constructed as if by the expression ::new (pv)
+ * T(std::forward<Args>(args)...), where pv is an internal void* pointer to
+ * storage suitable to hold an object of type T.
+ *
+ * The storage is typically larger than sizeof(T) in order to use one allocation
+ * for both the control block of the shared pointer and the T object.
+ *
+ * The std::shared_ptr constructor called by this function enables
+ * shared_from_this with a pointer to the newly constructed object of type T.
+ *
+ * This overload only participates in overload resolution if T is not an array
+ * type
+ */
+template <class T, class... Args> shared_ptr<T> make_shared(Args &&... args) {
+    return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
+}
+
 } // namespace throwing
 
 // Do not leak these definitions
