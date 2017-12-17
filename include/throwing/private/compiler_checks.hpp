@@ -15,21 +15,30 @@
 // clang supports from 3.1 on
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-
+#define TSP_ARRAY_SUPPORT                                                      \
+    defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
 #elif defined(_MSC_VER)
 
 #if _MSC_VER >= 1910
-// Visual Studio 2017
+// Visual Studio 2017 15.5
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
+#define TSP_ARRAY_SUPPORT (_MSVC_LANG > 201402)
+#elif _MSC_VER >= 1910
+// Visual Studio 2017 15.0
+#define TSP_CONSTEXPR constexpr
+#define TSP_NOEXCEPT noexcept
+#define TSP_ARRAY_SUPPORT false
 #elif _MSC_VER >= 1900
-// Visual Studio 2015
+// Visual Studio 2015 14.0
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
+#define TSP_ARRAY_SUPPORT false
 #elif _MSC_VER >= 1800
-// Visual Studio 2013
+// Visual Studio 2013 
 #define TSP_CONSTEXPR
 #define TSP_NOEXCEPT
+#define TSP_ARRAY_SUPPORT false
 #endif
 
 #elif defined(__GNUC__)
@@ -41,9 +50,12 @@
 #endif
 
 #define TSP_NOEXCEPT noexcept
+#define TSP_ARRAY_SUPPORT                                                      \
+    defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
 
 #else
 // Unknown compiler, bare minimum
 #define TSP_CONSTEXPR
 #define TSP_NOEXCEPT
+#define TSP_ARRAY_SUPPORT false
 #endif

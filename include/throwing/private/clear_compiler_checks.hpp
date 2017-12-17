@@ -9,3 +9,4 @@
 // Do not leak these definitions
 #undef TSP_CONSTEXPR
 #undef TSP_NOEXCEPT
+#undef TSP_ARRAY_SUPPORT
