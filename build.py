@@ -9,11 +9,9 @@ if __name__ == "__main__":
         if settings["compiler"] == "Visual Studio":
             filtered_builds.append([settings, options, env_vars, build_requires])
         else:
-            env_vars['CXX_STANDARD'] = '11'
-            filtered_builds.append([settings, options, env_vars, build_requires])
-            env_vars['CXX_STANDARD'] = '14'
-            filtered_builds.append([settings, options, env_vars, build_requires])
-            env_vars['CXX_STANDARD'] = '17'
-            filtered_builds.append([settings, options, env_vars, build_requires])
+            for std in ['11', '14', '17']:
+                env_vars = env_vars.copy()
+                env_vars['CXX_STANDARD'] = std
+                filtered_builds.append([settings, options, env_vars, build_requires])
     builder.builds = filtered_builds
     builder.run()
