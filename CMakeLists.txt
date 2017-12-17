@@ -74,7 +74,6 @@ endif()
 set(TESTS
     shared_ptr_access
     shared_ptr_assignment
-    shared_ptr_atomic
     shared_ptr_cast
     shared_ptr_comparison
     shared_ptr_construction
@@ -85,6 +84,14 @@ set(TESTS
     shared_ptr_reset
     shared_ptr_swap
 )
+
+# GCC < 5.0 has no support for atomic_ operations on std::shared_ptr
+# See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57250
+if ((NOT CMAKE_COMPILER_IS_GNUCC) OR CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0)
+    list(APPEND TESTS shared_ptr_atomic )
+else()
+    message(STATUS "Skipping atomic_tests because GCC ${CMAKE_CXX_COMPILER_VERSION} doesn't support them")
+endif()
 
 foreach(TEST ${TESTS})
     add_executable(${TEST} tests/${TEST}.cpp)
