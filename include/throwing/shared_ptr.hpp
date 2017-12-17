@@ -4,6 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
+#include <atomic>
 #include <functional>
 #include <iosfwd>
 #include <memory>
@@ -898,8 +899,6 @@ bool atomic_compare_exchange_weak_explicit(shared_ptr<T> *p,
 namespace std {
 
 /** \brief Template specialization of std::hash for throwing::shared_ptr<T>
- *
- * \return std::hash(p.get());
  */
 template <class T> struct hash<throwing::shared_ptr<T>> {
     size_t operator()(const throwing::shared_ptr<T> &x) const {
