@@ -765,6 +765,8 @@ std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
     return os;
 }
 
+#if !(defined(__GNUC__) && __GNUC__ < 5) // These operations are not supported in GCC < 5.0
+
 /** \brief Determines whether atomic access to the shared pointer pointed-to by
  * p is lock-free.
  */
@@ -893,6 +895,7 @@ bool atomic_compare_exchange_weak_explicit(shared_ptr<T> *p,
             reinterpret_cast<std::shared_ptr<T> *>(expected),
             desired.get_std_shared_ptr(), success, failure);
 }
+#endif // atomic methods supported by compiler
 
 } // namespace throwing
 
