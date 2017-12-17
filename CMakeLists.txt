@@ -44,6 +44,15 @@ endif()
 
 include_directories("include")
 
+check_cxx_source_compiles("
+#include <memory>
+
+int main(){
+    int* p = new int[10];
+    std::shared_ptr<int[]> sp(p);
+    return *p = sp[0];
+}
+" HAVE_SHARED_PTR_TO_ARRAY)
 add_executable(compile_it tests/compile_it.cpp)
 
 enable_testing()
@@ -86,9 +95,11 @@ set(TESTS
     shared_ptr_ostream
     shared_ptr_reset
     shared_ptr_swap
-    shared_ptr_to_array
 )
 
+if(HAVE_SHARED_PTR_TO_ARRAY)
+    list(APPEND TESTS shared_ptr_to_array )
+endif()
 # GCC < 5.0 has no support for atomic_ operations on std::shared_ptr
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57250
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" 
