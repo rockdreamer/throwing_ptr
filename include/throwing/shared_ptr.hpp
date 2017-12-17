@@ -763,6 +763,135 @@ std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
     return os;
 }
 
+/** \brief Determines whether atomic access to the shared pointer pointed-to by
+ * p is lock-free.
+ */
+template <class T> bool atomic_is_lock_free(shared_ptr<T> const *p) {
+    return atomic_is_lock_free(reinterpret_cast<std::shared_ptr<T> const *>(p));
+}
+
+/** \brief Equivalent to atomic_load_explicit(p, std::memory_order_seq_cst)
+ */
+template <class T> shared_ptr<T> atomic_load(const shared_ptr<T> *p) {
+    return std::move(
+            atomic_load(reinterpret_cast<const std::shared_ptr<T> *>(p)));
+}
+
+/** \brief Returns the shared pointer pointed-to by p.
+ *
+ * As with the non-specialized std::atomic_load_explicit, mo cannot be
+ * std::memory_order_release or std::memory_order_acq_rel
+ */
+template <class T>
+shared_ptr<T> atomic_load_explicit(const shared_ptr<T> *p,
+                                   std::memory_order mo) {
+    return std::move(atomic_load_explicit(
+            reinterpret_cast<const std::shared_ptr<T> *>(p), mo));
+}
+
+/** \brief Equivalent to atomic_store_explicit(p, r, memory_order_seq_cst)
+ */
+template <class T> void atomic_store(shared_ptr<T> *p, shared_ptr<T> r) {
+    atomic_store(reinterpret_cast<std::shared_ptr<T> *>(p),
+                 r.get_std_shared_ptr());
+}
+
+/** \brief Stores the shared pointer r in the shared pointer pointed-to by p
+ * atomically, effectively executing p->swap(r).
+ *
+ * As with the non-specialized std::atomic_store_explicit, mo cannot be
+ * std::memory_order_acquire or std::memory_order_acq_rel.
+ */
+template <class T>
+void atomic_store_explicit(shared_ptr<T> *p, shared_ptr<T> r,
+                           std::memory_order mo) {
+    atomic_store_explicit(reinterpret_cast<std::shared_ptr<T> *>(p),
+                          r.get_std_shared_ptr(), mo);
+}
+
+/** \brief Equivalent to atomic_exchange(p, r, memory_order_seq_cst)
+ */
+template <class T>
+shared_ptr<T> atomic_exchange(shared_ptr<T> *p, shared_ptr<T> r) {
+    return std::move(atomic_exchange(reinterpret_cast<std::shared_ptr<T> *>(p),
+                                     r.get_std_shared_ptr()));
+}
+
+/** \brief Stores the shared pointer r in the shared pointer pointed to by p and
+ * returns the value formerly pointed-to by p, atomically.
+ *
+ * Effectively executes p->swap(r) and returns a copy of r after the swap.
+ */
+template <class T>
+shared_ptr<T> atomic_exchange_explicit(shared_ptr<T> *p, shared_ptr<T> r,
+                                       std::memory_order mo) {
+    return std::move(
+            atomic_exchange_explicit(reinterpret_cast<std::shared_ptr<T> *>(p),
+                                     r.get_std_shared_ptr(), mo));
+}
+
+/** \brief Equivalent to atomic_compare_exchange_weak_explicit(p, expected,
+ * desired, std::memory_order_seq_cst, std::memory_order_seq_cst)
+ */
+template <class T>
+bool atomic_compare_exchange_weak(shared_ptr<T> *p, shared_ptr<T> *expected,
+                                  shared_ptr<T> desired) {
+    return atomic_compare_exchange_weak(
+            reinterpret_cast<std::shared_ptr<T> *>(p),
+            reinterpret_cast<std::shared_ptr<T> *>(expected),
+            desired.get_std_shared_ptr());
+}
+
+/** \brief Equivalent to atomic_compare_exchange_strong_explicit(p, expected,
+ * desired, std::memory_order_seq_cst, std::memory_order_seq_cst)
+ */
+template <class T>
+bool atomic_compare_exchange_strong(shared_ptr<T> *p, shared_ptr<T> *expected,
+                                    shared_ptr<T> desired) {
+    return atomic_compare_exchange_strong(
+            reinterpret_cast<std::shared_ptr<T> *>(p),
+            reinterpret_cast<std::shared_ptr<T> *>(expected),
+            desired.get_std_shared_ptr());
+}
+
+/** \brief Compares the shared pointers pointed-to by p and expected. If they
+ * are equivalent (store the same pointer value, and either share ownership of
+ * the same object or are both empty), assigns desired into *p using the memory
+ * ordering constraints specified by success and returns true. If they are not
+ * equivalent, assigns *p into *expected using the memory ordering constraints
+ * specified by failure and returns false.
+ */
+template <class T>
+bool atomic_compare_exchange_strong_explicit(shared_ptr<T> *p,
+                                             shared_ptr<T> *expected,
+                                             shared_ptr<T> desired,
+                                             std::memory_order success,
+                                             std::memory_order failure) {
+    return atomic_compare_exchange_strong_explicit(
+            reinterpret_cast<std::shared_ptr<T> *>(p),
+            reinterpret_cast<std::shared_ptr<T> *>(expected),
+            desired.get_std_shared_ptr(), success, failure);
+}
+
+/** \brief Compares the shared pointers pointed-to by p and expected. If they
+ * are equivalent (store the same pointer value, and either share ownership of
+ * the same object or are both empty), assigns desired into *p using the memory
+ * ordering constraints specified by success and returns true. If they are not
+ * equivalent, assigns *p into *expected using the memory ordering constraints
+ * specified by failure and returns false, but may fail spuriously.
+ */
+template <class T>
+bool atomic_compare_exchange_weak_explicit(shared_ptr<T> *p,
+                                           shared_ptr<T> *expected,
+                                           shared_ptr<T> desired,
+                                           std::memory_order success,
+                                           std::memory_order failure) {
+    return atomic_compare_exchange_weak_explicit(
+            reinterpret_cast<std::shared_ptr<T> *>(p),
+            reinterpret_cast<std::shared_ptr<T> *>(expected),
+            desired.get_std_shared_ptr(), success, failure);
+}
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
