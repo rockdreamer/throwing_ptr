@@ -5,7 +5,7 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 if(NOT MSVC AND NOT DEFINED ENV{CXX_STANDARD})
-    message(FATAL "CXX_STANDARD environment variable not set")
+    message(FATAL_ERROR "CXX_STANDARD environment variable not set")
 endif()
 
 if(DEFINED ENV{CXX_STANDARD})
