@@ -14,15 +14,15 @@ TEST(Comparison, TwoPointers) {
     auto t_ptr1_1 = t_ptr1;
     auto t_ptr2 = throwing::shared_ptr<int>(ptr2);
 
-    EXPECT_EQ(ptr1 == ptr2, t_ptr1 == t_ptr2);
-    EXPECT_EQ(ptr1 == ptr2, t_ptr1_1 == t_ptr2);
-    EXPECT_EQ(ptr1 == ptr1, t_ptr1 == t_ptr1);
-    EXPECT_EQ(ptr1 == ptr1, t_ptr1 == t_ptr1_1);
+    EXPECT_FALSE(t_ptr1 == t_ptr2);
+    EXPECT_FALSE(t_ptr1_1 == t_ptr2);
+    EXPECT_TRUE(t_ptr1 == t_ptr1);
+    EXPECT_TRUE(t_ptr1 == t_ptr1_1);
 
-    EXPECT_EQ(ptr1 != ptr2, t_ptr1 != t_ptr2);
-    EXPECT_EQ(ptr1 != ptr2, t_ptr1_1 != t_ptr2);
-    EXPECT_EQ(ptr1 != ptr1, t_ptr1 != t_ptr1);
-    EXPECT_EQ(ptr1 != ptr1, t_ptr1 != t_ptr1_1);
+    EXPECT_TRUE(t_ptr1 != t_ptr2);
+    EXPECT_TRUE(t_ptr1_1 != t_ptr2);
+    EXPECT_FALSE(t_ptr1 != t_ptr1);
+    EXPECT_FALSE(t_ptr1 != t_ptr1_1);
 
     EXPECT_EQ(ptr1 < ptr2, t_ptr1 < t_ptr2);
     EXPECT_EQ(ptr1 < ptr2, t_ptr1_1 < t_ptr2);
