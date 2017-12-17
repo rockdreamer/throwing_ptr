@@ -87,10 +87,11 @@ set(TESTS
 
 # GCC < 5.0 has no support for atomic_ operations on std::shared_ptr
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57250
-if ((NOT CMAKE_COMPILER_IS_GNUCC) OR CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0)
-    list(APPEND TESTS shared_ptr_atomic )
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" 
+    AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 5.0)
+    message(STATUS "Skipping tests on atomic_* because GCC ${CMAKE_CXX_COMPILER_VERSION} doesn't support them")
 else()
-    message(STATUS "Skipping atomic_tests because GCC ${CMAKE_CXX_COMPILER_VERSION} doesn't support them")
+    list(APPEND TESTS shared_ptr_atomic )
 endif()
 
 foreach(TEST ${TESTS})
