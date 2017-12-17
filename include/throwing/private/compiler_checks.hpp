@@ -17,14 +17,14 @@
 #define TSP_NOEXCEPT noexcept
 
 #if defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
-#define TSP_ARRAY_SUPPORT true
+#define TSP_ARRAY_SUPPORT 1
 #else
-#define TSP_ARRAY_SUPPORT false
+#define TSP_ARRAY_SUPPORT 0
 #endif
 
 #elif defined(_MSC_VER)
 
-#if _MSC_VER >= 1910
+#if _MSC_VER >= 1912
 // Visual Studio 2017 15.5
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
@@ -33,17 +33,17 @@
 // Visual Studio 2017 15.0
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-#define TSP_ARRAY_SUPPORT false
+#define TSP_ARRAY_SUPPORT 0
 #elif _MSC_VER >= 1900
 // Visual Studio 2015 14.0
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-#define TSP_ARRAY_SUPPORT false
+#define TSP_ARRAY_SUPPORT 0
 #elif _MSC_VER >= 1800
 // Visual Studio 2013 
 #define TSP_CONSTEXPR
 #define TSP_NOEXCEPT
-#define TSP_ARRAY_SUPPORT false
+#define TSP_ARRAY_SUPPORT 0
 #endif
 
 #elif defined(__GNUC__)
@@ -56,9 +56,9 @@
 
 #define TSP_NOEXCEPT noexcept
 #if defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
-#define TSP_ARRAY_SUPPORT true
+#define TSP_ARRAY_SUPPORT 1
 #else
-#define TSP_ARRAY_SUPPORT false
+#define TSP_ARRAY_SUPPORT 0
 #endif
 
 #else
