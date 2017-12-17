@@ -356,7 +356,7 @@ public:
 
     /** \brief Returns the stored pointer.
      */
-    T *get() const TSP_NOEXCEPT { return p.get(); }
+    element_type *get() const TSP_NOEXCEPT { return p.get(); }
 
     /** \brief Returns the underlying std::shared_pointer.
      */
@@ -389,6 +389,27 @@ public:
             throw null_ptr_exception<T>();
         return ptr;
     }
+
+#if TSP_ARRAY_SUPPORT
+    /** \brief Index into the array pointed to by the stored pointer.
+     *
+     * The behavior is undefined if the stored pointer is null or if idx is
+     * negative.
+     *
+     * If T (the template parameter of shared_ptr) is an array type U[N], idx
+     * must be less than N, otherwise the behavior is undefined.
+     *
+     * This method is available if the underlying compiler and c++ library
+     * implementation support it
+     * 
+     * Throws null_ptr_exception<T> if the pointer is null
+     */
+    element_type &operator[](std::ptrdiff_t idx) {
+        if (!p)
+            throw null_ptr_exception<T>();
+        return p.operator[](idx);
+    }
+#endif
 
     /** \brief Returns the number of different shared_ptr instances (this
      * included) managing the current object.

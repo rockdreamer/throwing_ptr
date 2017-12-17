@@ -83,6 +83,7 @@ set(TESTS
     shared_ptr_ostream
     shared_ptr_reset
     shared_ptr_swap
+    shared_ptr_to_array
 )
 
 # GCC < 5.0 has no support for atomic_ operations on std::shared_ptr

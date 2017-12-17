@@ -15,8 +15,13 @@
 // clang supports from 3.1 on
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-#define TSP_ARRAY_SUPPORT                                                      \
-    defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
+
+#if defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
+#define TSP_ARRAY_SUPPORT true
+#else
+#define TSP_ARRAY_SUPPORT false
+#endif
+
 #elif defined(_MSC_VER)
 
 #if _MSC_VER >= 1910
@@ -50,8 +55,11 @@
 #endif
 
 #define TSP_NOEXCEPT noexcept
-#define TSP_ARRAY_SUPPORT                                                      \
-    defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
+#if defined(__cpp_lib_shared_ptr_arrays) && __cpp_lib_shared_ptr_arrays
+#define TSP_ARRAY_SUPPORT true
+#else
+#define TSP_ARRAY_SUPPORT false
+#endif
 
 #else
 // Unknown compiler, bare minimum
