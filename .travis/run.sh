@@ -10,4 +10,8 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     pyenv activate conan
 fi
 
+if [[ "$CXX_STANDARD" == '' ]]; then
+    echo "CXX_STANDARD not set"
+    exit 1
+fi
 python build.py --build missing

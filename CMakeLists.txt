@@ -4,11 +4,14 @@ cmake_minimum_required(VERSION 3.5)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-if(DEFINED ENV{CXX_STANDARD})
-    set(CMAKE_CXX_STANDARD ENV{CXX_STANDARD})
-else()
-    set(CMAKE_CXX_STANDARD 11)
+if(NOT MSVC AND NOT DEFINED ENV{CXX_STANDARD})
+    message(FATAL "CXX_STANDARD environment variable not set")
 endif()
+
+if(DEFINED ENV{CXX_STANDARD})
+    set(CMAKE_CXX_STANDARD $ENV{CXX_STANDARD})
+endif()
+
 message(STATUS "Building tests for C++${CMAKE_CXX_STANDARD}")
 
 include(CheckCXXCompilerFlag)
