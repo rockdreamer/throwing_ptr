@@ -765,7 +765,8 @@ std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
     return os;
 }
 
-#if !(defined(__GNUC__) && __GNUC__ < 5) // These operations are not supported in GCC < 5.0
+#if !(!defined(__clang__) && defined(__GNUC__) &&                              \
+      __GNUC__ < 5) // These operations are not supported in GCC < 5.0
 
 /** \brief Determines whether atomic access to the shared pointer pointed-to by
  * p is lock-free.
