@@ -95,6 +95,7 @@ set(TESTS
     shared_ptr_ostream
     shared_ptr_reset
     shared_ptr_swap
+    unique_ptr_access
 )
 
 if(HAVE_SHARED_PTR_TO_ARRAY)
@@ -116,6 +117,7 @@ foreach(TEST ${TESTS})
 endforeach()
 
 set(COMPILE_FAIL_TESTS
+    unique_ptr_s_operator
 )
 if(NOT HAVE_SHARED_PTR_TO_ARRAY)
     list(APPEND COMPILE_FAIL_TESTS shared_ptr_to_array)

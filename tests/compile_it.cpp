@@ -1,4 +1,5 @@
 #include "throwing/shared_ptr.hpp"
+#include "throwing/unique_ptr.hpp"
 
 int main(int, char **) {
     // Have one instance of each class in throwing::
