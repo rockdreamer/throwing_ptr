@@ -96,6 +96,7 @@ set(TESTS
     shared_ptr_reset
     shared_ptr_swap
     unique_ptr_access
+    unique_ptr_construction
 )
 
 if(HAVE_SHARED_PTR_TO_ARRAY)

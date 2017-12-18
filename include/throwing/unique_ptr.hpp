@@ -37,7 +37,7 @@ public:
     typedef typename std::unique_ptr<T, Deleter>::element_type element_type;
     typedef typename std::unique_ptr<T, Deleter>::deleter_type deleter_type;
 
-    /** \brief Constructs a std::unique_ptr that owns nothing.
+    /** \brief Constructs a unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
@@ -45,13 +45,23 @@ public:
      */
     TSP_CONSTEXPR unique_ptr() TSP_NOEXCEPT = default;
 
-    /** \brief Constructs a std::unique_ptr that owns nothing.
+    /** \brief Constructs a unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
      * not throw an exception.
      */
-    TSP_CONSTEXPR unique_ptr( std::nullptr_t ) TSP_NOEXCEPT {}
+    TSP_CONSTEXPR unique_ptr(std::nullptr_t) TSP_NOEXCEPT {}
+
+    /** \brief Constructs a unique_ptr which owns p.
+     *
+     * Initializing the stored pointer with p and value-initializing the stored
+     * deleter.
+     *
+     * Requires that Deleter is DefaultConstructible and that construction does
+     * not throw an exception.
+     */
+    explicit unique_ptr(pointer ptr) TSP_NOEXCEPT : p(ptr) {}
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
@@ -87,7 +97,7 @@ public:
     typedef typename std::unique_ptr<T[], Deleter>::element_type element_type;
     typedef typename std::unique_ptr<T[], Deleter>::deleter_type deleter_type;
 
-    /** \brief Constructs a std::unique_ptr that owns nothing.
+    /** \brief Constructs a unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
@@ -95,13 +105,13 @@ public:
      */
     TSP_CONSTEXPR unique_ptr() TSP_NOEXCEPT = default;
 
-    /** \brief Constructs a std::unique_ptr that owns nothing.
+    /** \brief Constructs a unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
      * not throw an exception.
      */
-    TSP_CONSTEXPR unique_ptr( std::nullptr_t ) TSP_NOEXCEPT {}
+    TSP_CONSTEXPR unique_ptr(std::nullptr_t) TSP_NOEXCEPT {}
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
