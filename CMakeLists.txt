@@ -115,3 +115,19 @@ foreach(TEST ${TESTS})
     add_test(NAME ${TEST} COMMAND ${TEST})
 endforeach()
 
+set(COMPILE_FAIL_TESTS
+)
+if(NOT HAVE_SHARED_PTR_TO_ARRAY)
+    list(APPEND COMPILE_FAIL_TESTS shared_ptr_to_array)
+endif()
+
+foreach(test_name ${COMPILE_FAIL_TESTS})
+    add_executable(must_fail_${test_name} tests/compile_fail/${test_name}.cpp)
+    set_target_properties(must_fail_${test_name} PROPERTIES
+        EXCLUDE_FROM_ALL TRUE
+        EXCLUDE_FROM_DEFAULT_BUILD TRUE)
+    add_test(NAME must_fail_${test_name}
+        COMMAND ${CMAKE_COMMAND} --build . --target must_fail_${test_name} --config $<CONFIGURATION>
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    set_tests_properties(must_fail_${test_name} PROPERTIES WILL_FAIL TRUE)
+endforeach()
