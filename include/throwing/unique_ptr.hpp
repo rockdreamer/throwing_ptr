@@ -45,6 +45,14 @@ public:
      */
     TSP_CONSTEXPR unique_ptr() TSP_NOEXCEPT = default;
 
+    /** \brief Constructs a std::unique_ptr that owns nothing.
+     *
+     * Value-initializes the stored pointer and the stored deleter.
+     * Requires that Deleter is DefaultConstructible and that construction does
+     * not throw an exception.
+     */
+    TSP_CONSTEXPR unique_ptr( std::nullptr_t ) TSP_NOEXCEPT {}
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -86,6 +94,14 @@ public:
      * not throw an exception.
      */
     TSP_CONSTEXPR unique_ptr() TSP_NOEXCEPT = default;
+
+    /** \brief Constructs a std::unique_ptr that owns nothing.
+     *
+     * Value-initializes the stored pointer and the stored deleter.
+     * Requires that Deleter is DefaultConstructible and that construction does
+     * not throw an exception.
+     */
+    TSP_CONSTEXPR unique_ptr( std::nullptr_t ) TSP_NOEXCEPT {}
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
