@@ -127,16 +127,83 @@ TEST(UniquePtrSingle, ConstuctWithPtrAndMovedReferenceDeleter) {
     EXPECT_TRUE(ptr2_deleted);
 }
 
-TEST(UniquePtrSingle, MoveConstuct) {
-    bool deleted = false;
-    Foo *foo = new Foo(deleted);
+TEST(UniquePtrSingle, ConstuctFromConvertibleCopyDeleter) {
+    bool d1_copied = false;
+    bool d1_moved = false;
+    bool d1_called = false;
+    bool ptr1_deleted = false;
+    bool d2_copied = false;
+    bool d2_moved = false;
+    bool d2_called = false;
+    bool ptr2_deleted = false;
+    auto clear_all = [&]() {
+        d1_copied = d2_copied = d1_called = d2_called = d1_moved = d2_moved =
+                false;
+    };
+    Deleter d1(&d1_copied, &d1_moved, &d1_called);
+    Deleter d2(&d2_copied, &d2_moved, &d2_called);
     {
-        std::unique_ptr<Foo> up1(foo);
-        EXPECT_EQ(foo, up1.get());
-        std::unique_ptr<Foo> up2(std::move(up1));
-        EXPECT_FALSE(deleted);
-        EXPECT_EQ(nullptr, up1.get());
-        EXPECT_EQ(foo, up2.get());
+        std::unique_ptr<Foo, Deleter> sup6a(new Foo(ptr1_deleted), d1);
+        throwing::unique_ptr<Foo, Deleter> tup6a(new Foo(ptr2_deleted), d2);
+        EXPECT_NE(nullptr, tup6a.get());
+        EXPECT_EQ(d1_copied, d2_copied);
+        EXPECT_EQ(d1_moved, d2_moved);
+        EXPECT_EQ(d1_called, d2_called);
+        EXPECT_FALSE(ptr2_deleted);
+        clear_all();
+        {
+            std::unique_ptr<Foo, Deleter> sup6b(std::move(sup6a));
+            EXPECT_NE(nullptr, sup6b.get());
+            EXPECT_FALSE(ptr2_deleted);
+            throwing::unique_ptr<Foo, Deleter> tup6b(std::move(tup6a));
+            EXPECT_NE(nullptr, tup6b.get());
+            EXPECT_EQ(d1_copied, d2_copied);
+            EXPECT_EQ(d1_moved, d2_moved);
+            EXPECT_EQ(d1_called, d2_called);
+            EXPECT_FALSE(ptr2_deleted);
+            clear_all();
+        }
+        EXPECT_TRUE(ptr2_deleted);
     }
-    EXPECT_TRUE(deleted);
+}
+
+TEST(UniquePtrSingle, ConstuctFromConvertibleMoveDeleter) {
+    bool d1_copied = false;
+    bool d1_moved = false;
+    bool d1_called = false;
+    bool ptr1_deleted = false;
+    bool d2_copied = false;
+    bool d2_moved = false;
+    bool d2_called = false;
+    bool ptr2_deleted = false;
+    auto clear_all = [&]() {
+        d1_copied = d2_copied = d1_called = d2_called = d1_moved = d2_moved =
+                false;
+    };
+    Deleter d1(&d1_copied, &d1_moved, &d1_called);
+    Deleter d2(&d2_copied, &d2_moved, &d2_called);
+    {
+        std::unique_ptr<Foo, Deleter &> sup6a(new Foo(ptr1_deleted), d1);
+        throwing::unique_ptr<Foo, Deleter &> tup6a(new Foo(ptr2_deleted), d2);
+        EXPECT_NE(nullptr, tup6a.get());
+        EXPECT_EQ(d1_copied, d2_copied);
+        EXPECT_EQ(d1_moved, d2_moved);
+        EXPECT_EQ(d1_called, d2_called);
+        EXPECT_FALSE(ptr2_deleted);
+        clear_all();
+        {
+            std::unique_ptr<Foo, Deleter> sup6b(std::move(sup6a));
+            EXPECT_NE(nullptr, sup6b.get());
+            EXPECT_FALSE(ptr2_deleted);
+
+            throwing::unique_ptr<Foo, Deleter> tup6b(std::move(tup6a));
+            EXPECT_NE(nullptr, tup6b.get());
+            EXPECT_EQ(d1_copied, d2_copied);
+            EXPECT_EQ(d1_moved, d2_moved);
+            EXPECT_EQ(d1_called, d2_called);
+            EXPECT_FALSE(ptr2_deleted);
+            clear_all();
+        }
+        EXPECT_TRUE(ptr2_deleted);
+    }
 }
