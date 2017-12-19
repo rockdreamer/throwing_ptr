@@ -84,6 +84,15 @@ public:
                typename std::remove_reference<Deleter>::type &&d2) TSP_NOEXCEPT
             : p(ptr, std::forward<decltype(d2)>(d2)) {}
 
+    /** \brief Constructs a unique_ptr by transferring ownership from u to
+     * *this.
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveConstructible (if Deleter is a reference, get_deleter() and
+     * u.get_deleter() after move construction reference the same value)
+     */
+    unique_ptr(unique_ptr &&u) TSP_NOEXCEPT : p(std::move(u.p)) {}
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */

@@ -126,3 +126,17 @@ TEST(UniquePtrSingle, ConstuctWithPtrAndMovedReferenceDeleter) {
     EXPECT_EQ(d1_called, d2_called);
     EXPECT_TRUE(ptr2_deleted);
 }
+
+TEST(UniquePtrSingle, MoveConstuct) {
+    bool deleted = false;
+    Foo *foo = new Foo(deleted);
+    {
+        std::unique_ptr<Foo> up1(foo);
+        EXPECT_EQ(foo, up1.get());
+        std::unique_ptr<Foo> up2(std::move(up1));
+        EXPECT_FALSE(deleted);
+        EXPECT_EQ(nullptr, up1.get());
+        EXPECT_EQ(foo, up2.get());
+    }
+    EXPECT_TRUE(deleted);
+}
