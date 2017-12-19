@@ -17,7 +17,7 @@ struct Foo {
 
 struct Deleter {
     Deleter(bool *copied, bool *moved, bool *called)
-            : m_copied(copied), m_moved(moved), m_called(called){};
+            : m_copied(copied), m_moved(moved), m_called(called){}
     Deleter(const Deleter &d)
             : m_copied(d.m_copied), m_moved(d.m_moved), m_called(d.m_called) {
         *m_copied = true;
@@ -34,7 +34,7 @@ struct Deleter {
     void operator()(Foo *p) const {
         *m_called = true;
         delete p;
-    };
+    }
     bool *m_copied;
     bool *m_moved;
     bool *m_called;

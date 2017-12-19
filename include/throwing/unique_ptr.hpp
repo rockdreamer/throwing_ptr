@@ -124,7 +124,7 @@ public:
 
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
-    std_unique_ptr_type &get_unique_ptr() { return p; };
+    std_unique_ptr_type &get_unique_ptr() { return p; }
 
 private:
     std_unique_ptr_type p;
