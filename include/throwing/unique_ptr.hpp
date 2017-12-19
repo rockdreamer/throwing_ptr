@@ -55,13 +55,34 @@ public:
 
     /** \brief Constructs a unique_ptr which owns p.
      *
-     * Initializing the stored pointer with p and value-initializing the stored
+     * Initialises the stored pointer with ptr and value-initialises the stored
      * deleter.
      *
      * Requires that Deleter is DefaultConstructible and that construction does
      * not throw an exception.
      */
     explicit unique_ptr(pointer ptr) TSP_NOEXCEPT : p(ptr) {}
+
+    /** \brief Constructs a std::unique_ptr object which owns p
+     *
+     * Initialises the stored pointer with ptr and initialises the stored
+     * deleter with d1
+     *
+     * Requires that Deleter is nothrow-CopyConstructible
+     */
+    unique_ptr(pointer ptr,
+               typename std::conditional<std::is_reference<Deleter>::value,
+                                         Deleter, const Deleter &>::type d1)
+            TSP_NOEXCEPT : p(ptr, std::forward<decltype(d1)>(d1)) {}
+
+    /** \brief Constructs a std::unique_ptr object which owns p
+     *
+     * Initialises the stored pointer with ptr.
+     * Moves d2 into stored_deleter.
+     */
+    unique_ptr(pointer ptr,
+               typename std::remove_reference<Deleter>::type &&d2) TSP_NOEXCEPT
+            : p(ptr, std::forward<decltype(d2)>(d2)) {}
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
