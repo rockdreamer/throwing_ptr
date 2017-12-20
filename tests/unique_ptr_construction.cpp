@@ -10,14 +10,14 @@ namespace {
 struct Foo {
     Foo(bool &deleted) : m_deleted(deleted) {}
     Foo(const Foo &p) : m_deleted(p.m_deleted) {}
-    Foo(Foo &&) = default;
+    Foo(Foo &&p) : m_deleted(p.m_deleted) {}
     ~Foo() { m_deleted = true; }
     bool &m_deleted;
 };
 
 struct Deleter {
     Deleter(bool *copied, bool *moved, bool *called)
-            : m_copied(copied), m_moved(moved), m_called(called){}
+            : m_copied(copied), m_moved(moved), m_called(called) {}
     Deleter(const Deleter &d)
             : m_copied(d.m_copied), m_moved(d.m_moved), m_called(d.m_called) {
         *m_copied = true;
