@@ -95,7 +95,7 @@ public:
      * nothrow-MoveConstructible (if Deleter is a reference, get_deleter() and
      * u.get_deleter() after move construction reference the same value)
      */
-    unique_ptr(unique_ptr &&u) TSP_NOEXCEPT = default;
+    unique_ptr(unique_ptr &&u) TSP_NOEXCEPT : p(std::move(u.p)) {}
 
     /** \brief Constructs a unique_ptr by transferring ownership from u to
      * *this, where u is constructed with a specified deleter (E).
