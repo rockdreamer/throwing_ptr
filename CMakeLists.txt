@@ -76,7 +76,7 @@ if(NOT MSVC)
     enable_cxx_compiler_flag_if_supported("-Wno-global-constructors")
     enable_cxx_compiler_flag_if_supported("-Wno-weak-vtables")
     enable_cxx_compiler_flag_if_supported("-Wno-error=deprecated")
-    enable_cxx_compiler_flag_if_supported("-Wno-error=zero-as-null-pointer-constant")
+    enable_cxx_compiler_flag_if_supported("-Wno-zero-as-null-pointer-constant")
     enable_cxx_compiler_flag_if_supported("-Wno-padded")
     # do not warn about unused variables in tests
     enable_cxx_compiler_flag_if_supported("-Wno-unused")
