@@ -13,7 +13,7 @@ class ThrowingPtrConan(ConanFile):
     settings = "os", "compiler", "arch", "build_type"
     generators = "cmake"
 
-    build_requires = "gtest/1.8.0@lasote/stable"
+    build_requires = "gtest/1.8.0@bincrafters/stable"
     default_options = "gtest:shared=False"
 
     def build(self): # this is not building a library, just tests
