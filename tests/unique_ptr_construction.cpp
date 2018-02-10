@@ -22,10 +22,19 @@ struct Deleter {
             : m_copied(d.m_copied), m_moved(d.m_moved), m_called(d.m_called) {
         *m_copied = true;
     }
+
+#ifdef _MSC_VER
+#pragma warning(push)  
+#pragma warning(disable : 4521)  
+#endif
     Deleter(Deleter &d)
             : m_copied(d.m_copied), m_moved(d.m_moved), m_called(d.m_called) {
         *m_copied = true;
     }
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
     Deleter(Deleter &&d)
             : m_copied(std::move(d.m_copied)), m_moved(std::move(d.m_moved)),
               m_called(std::move(d.m_called)) {
