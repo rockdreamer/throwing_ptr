@@ -40,7 +40,7 @@
 #define TSP_NOEXCEPT noexcept
 #define TSP_ARRAY_SUPPORT 0
 #elif _MSC_VER >= 1800
-// Visual Studio 2013 
+// Visual Studio 2013
 #define TSP_CONSTEXPR
 #define TSP_NOEXCEPT
 #define TSP_ARRAY_SUPPORT 0

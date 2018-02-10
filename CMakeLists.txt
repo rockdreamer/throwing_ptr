@@ -1,5 +1,8 @@
 project(throwing_ptr_tests CXX)
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
+
+#Honour the CMAKE_CXX_STANDARD in try_compile
+cmake_policy(SET CMP0067 NEW)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
