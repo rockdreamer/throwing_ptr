@@ -31,6 +31,14 @@ struct Deleter {
               m_called(std::move(d.m_called)) {
         *m_moved = true;
     }
+    Deleter& operator =(const Deleter& other){
+        if (this != &other)
+        {
+            *m_copied = true;
+        }
+        return *this;        
+    }
+    
     void operator()(Foo *p) const {
         *m_called = true;
         delete p;
