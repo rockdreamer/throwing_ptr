@@ -11,7 +11,8 @@
 
 namespace {
 struct Foo {
-    Foo(bool &deleted) : m_deleted(deleted) {}
+    Foo() : m_deleted(nullptr) {}
+    Foo(bool &deleted) : m_deleted(&deleted) {}
     Foo(const Foo &p) : m_deleted(p.m_deleted) {}
     Foo(Foo &&p) : m_deleted(p.m_deleted) {}
     Foo& operator =(const Foo& other) {
@@ -21,8 +22,8 @@ struct Foo {
         }
         return *this;
     }
-    ~Foo() { m_deleted = true; }
-    bool &m_deleted;
+    ~Foo() { *m_deleted = true; }
+    bool *m_deleted;
 };
 
 struct Deleter {
