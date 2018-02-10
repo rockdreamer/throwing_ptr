@@ -5,12 +5,22 @@
 
 #include <gtest/gtest.h>
 #include <throwing/unique_ptr.hpp>
+#ifdef _MSC_VER
+#pragma warning(disable : 4521)  
+#endif
 
 namespace {
 struct Foo {
     Foo(bool &deleted) : m_deleted(deleted) {}
     Foo(const Foo &p) : m_deleted(p.m_deleted) {}
     Foo(Foo &&p) : m_deleted(p.m_deleted) {}
+    Foo& operator =(const Foo& other) {
+        if (this != &other)
+        {
+            m_deleted = other.m_deleted;
+        }
+        return *this;
+    }
     ~Foo() { m_deleted = true; }
     bool &m_deleted;
 };
@@ -23,17 +33,10 @@ struct Deleter {
         *m_copied = true;
     }
 
-#ifdef _MSC_VER
-#pragma warning(push)  
-#pragma warning(disable : 4521)  
-#endif
     Deleter(Deleter &d)
             : m_copied(d.m_copied), m_moved(d.m_moved), m_called(d.m_called) {
         *m_copied = true;
     }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
     Deleter(Deleter &&d)
             : m_copied(std::move(d.m_copied)), m_moved(std::move(d.m_moved)),
