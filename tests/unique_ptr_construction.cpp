@@ -27,6 +27,7 @@ struct Foo {
 };
 
 struct Deleter {
+    Deleter(): m_copied(nullptr), m_moved(nullptr), m_called(nullptr) {}
     Deleter(bool *copied, bool *moved, bool *called)
             : m_copied(copied), m_moved(moved), m_called(called) {}
     Deleter(const Deleter &d)
