@@ -28,7 +28,7 @@
 // Visual Studio 2017 15.5
 #define TSP_CONSTEXPR constexpr
 #define TSP_NOEXCEPT noexcept
-#define TSP_ARRAY_SUPPORT (_MSVC_LANG > 201402)
+#define TSP_ARRAY_SUPPORT 1
 #elif _MSC_VER >= 1910
 // Visual Studio 2017 15.0
 #define TSP_CONSTEXPR constexpr
