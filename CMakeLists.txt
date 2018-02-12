@@ -56,7 +56,15 @@ int main(){
     return *p = sp[0];
 }
 " HAVE_SHARED_PTR_TO_ARRAY)
-add_executable(compile_it tests/compile_it.cpp)
+
+add_executable( compile_it 
+	tests/compile_it.cpp
+	include/throwing/shared_ptr.hpp
+	include/throwing/unique_ptr.hpp
+	include/throwing/null_ptr_exception.hpp
+	include/throwing/private/compiler_checks.hpp
+	include/throwing/private/clear_compiler_checks.hpp
+)
 
 enable_testing()
 if(WIN32)
