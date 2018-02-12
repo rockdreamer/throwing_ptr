@@ -95,6 +95,7 @@ TEST(UniquePtrSingle, ConstuctWithPtrAndNonReferenceDeleter) {
     EXPECT_TRUE(ptr2_deleted);
 }
 
+#if !defined(_MSC_VER) || _MSC_VER > 1800 
 TEST(UniquePtrSingle, ConstuctWithPtrAndReferenceDeleter) {
     bool d1_copied = false;
     bool d1_moved = false;
@@ -120,6 +121,7 @@ TEST(UniquePtrSingle, ConstuctWithPtrAndReferenceDeleter) {
     EXPECT_EQ(d1_called, d2_called);
     EXPECT_TRUE(ptr2_deleted);
 }
+#endif
 
 TEST(UniquePtrSingle, ConstuctWithPtrAndMovedReferenceDeleter) {
     bool d1_copied = false;
@@ -189,6 +191,7 @@ TEST(UniquePtrSingle, ConstuctFromConvertibleCopyDeleter) {
     }
 }
 
+#if !defined(_MSC_VER) || _MSC_VER > 1800 
 TEST(UniquePtrSingle, ConstuctFromConvertibleMoveDeleter) {
     bool d1_copied = false;
     bool d1_moved = false;
@@ -229,3 +232,4 @@ TEST(UniquePtrSingle, ConstuctFromConvertibleMoveDeleter) {
         EXPECT_TRUE(ptr2_deleted);
     }
 }
+#endif
