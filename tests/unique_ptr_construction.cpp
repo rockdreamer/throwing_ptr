@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 #include <throwing/unique_ptr.hpp>
 #ifdef _MSC_VER
-#pragma warning(disable : 4521)  
+#pragma warning(disable : 4521)
 #endif
 
 namespace {
@@ -15,9 +15,8 @@ struct Foo {
     Foo(bool &deleted) : m_deleted(&deleted) {}
     Foo(const Foo &p) : m_deleted(p.m_deleted) {}
     Foo(Foo &&p) : m_deleted(p.m_deleted) {}
-    Foo& operator =(const Foo& other) {
-        if (this != &other)
-        {
+    Foo &operator=(const Foo &other) {
+        if (this != &other) {
             m_deleted = other.m_deleted;
         }
         return *this;
@@ -27,7 +26,7 @@ struct Foo {
 };
 
 struct Deleter {
-    Deleter(): m_copied(nullptr), m_moved(nullptr), m_called(nullptr) {}
+    Deleter() : m_copied(nullptr), m_moved(nullptr), m_called(nullptr) {}
     Deleter(bool *copied, bool *moved, bool *called)
             : m_copied(copied), m_moved(moved), m_called(called) {}
     Deleter(const Deleter &d)
@@ -45,14 +44,13 @@ struct Deleter {
               m_called(std::move(d.m_called)) {
         *m_moved = true;
     }
-    Deleter& operator =(const Deleter& other){
-        if (this != &other)
-        {
+    Deleter &operator=(const Deleter &other) {
+        if (this != &other) {
             *m_copied = true;
         }
-        return *this;        
+        return *this;
     }
-    
+
     void operator()(Foo *p) const {
         *m_called = true;
         delete p;
@@ -61,7 +59,7 @@ struct Deleter {
     bool *m_moved;
     bool *m_called;
 };
-}
+} // namespace
 
 TEST(UniquePtrSingle, ConstuctWithPtr) {
     int *p = new int;
@@ -95,7 +93,7 @@ TEST(UniquePtrSingle, ConstuctWithPtrAndNonReferenceDeleter) {
     EXPECT_TRUE(ptr2_deleted);
 }
 
-#if !defined(_MSC_VER) || _MSC_VER > 1800 
+#if !defined(_MSC_VER) || _MSC_VER > 1800
 TEST(UniquePtrSingle, ConstuctWithPtrAndReferenceDeleter) {
     bool d1_copied = false;
     bool d1_moved = false;
@@ -191,7 +189,7 @@ TEST(UniquePtrSingle, ConstuctFromConvertibleCopyDeleter) {
     }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER > 1800 
+#if !defined(_MSC_VER) || _MSC_VER > 1800
 TEST(UniquePtrSingle, ConstuctFromConvertibleMoveDeleter) {
     bool d1_copied = false;
     bool d1_moved = false;

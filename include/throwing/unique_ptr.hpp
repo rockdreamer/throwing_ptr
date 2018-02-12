@@ -73,8 +73,8 @@ public:
      * deleter with d1
      *
      * Requires that Deleter is nothrow-CopyConstructible
-	 *
-	 * @todo the current implementation fails for VS2013
+     *
+     * @todo the current implementation fails for VS2013
      */
     unique_ptr(pointer ptr,
                typename std::conditional<std::is_reference<Deleter>::value,
@@ -195,6 +195,6 @@ public:
 private:
     std::unique_ptr<T[], Deleter> p;
 };
-}
+} // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
