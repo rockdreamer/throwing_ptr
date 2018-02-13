@@ -18,9 +18,6 @@ TEST(UniquePtrToArray, NullPtr) {
 
 	throwing::unique_ptr<int[]> nothing_nullptr(nullptr);
 	EXPECT_EQ(nullptr, nothing.get());
-
-	throwing::unique_ptr<int[]> nothing_null((int*)NULL);
-    EXPECT_EQ(nullptr, nothing.get());
 }
 
 TEST(UniquePtrToArray, Get) {
