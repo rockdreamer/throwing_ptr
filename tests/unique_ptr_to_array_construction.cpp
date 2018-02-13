@@ -115,8 +115,7 @@ TEST(UniquePtrToArray, ConstuctWithPtrAndMovedReferenceDeleter) {
         EXPECT_NE(nullptr, foo2.get());
         EXPECT_EQ(0, Deleter<6>::deleter_calls());
     }
-    EXPECT_EQ(1, Deleter<5>::object_count());
-    EXPECT_EQ(1, Deleter<6>::object_count());
+    EXPECT_EQ(Deleter<5>::object_count(), Deleter<6>::object_count());
     EXPECT_EQ(1, Deleter<6>::deleter_calls());
 }
 

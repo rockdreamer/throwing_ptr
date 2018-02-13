@@ -13,11 +13,3 @@ TEST(Get, NullPtr) {
     throwing::unique_ptr<int> nothing2(nullptr);
     EXPECT_EQ(nullptr, nothing2.get());
 }
-
-TEST(Get, NullPtrArray) {
-    throwing::unique_ptr<int[]> nothing;
-    EXPECT_EQ(nullptr, nothing.get());
-
-    throwing::unique_ptr<int[]> nothing2(nullptr);
-    EXPECT_EQ(nullptr, nothing2.get());
-}
