@@ -153,6 +153,7 @@ private:
  */
 template <typename T, typename Deleter> class unique_ptr<T[], Deleter> {
 public:
+    typedef typename std::unique_ptr<T[], Deleter> std_unique_ptr_type;
     typedef typename std::unique_ptr<T[], Deleter>::pointer pointer;
     typedef typename std::unique_ptr<T[], Deleter>::element_type element_type;
     typedef typename std::unique_ptr<T[], Deleter>::deleter_type deleter_type;
@@ -173,6 +174,102 @@ public:
      */
     TSP_CONSTEXPR unique_ptr(std::nullptr_t) TSP_NOEXCEPT {}
 
+    /** \brief Constructs a unique_ptr which owns p.
+     *
+     * Initialises the stored pointer with ptr and value-initialises the stored
+     * deleter.
+     *
+     * Requires that Deleter is DefaultConstructible and that construction does
+     * not throw an exception.
+     *
+     * This constructor is ill-formed if Deleter is of pointer or reference
+     * type. (until C++17)
+     *
+     * This overload only participates in overload resolution if
+     * std::is_default_constructible<Deleter>::value is true and Deleter is not
+     * a pointer type. The program is ill-formed if this constructor is selected
+     * by class template argument deduction. (since C++17)
+     *
+     * This overload will not participate in overload resolution unless one of
+     * the following is true:
+     * - U is the same type as pointer, or
+     * - U is std::nullptr_t, or
+     * - pointer is the same type as element_type* and U is some pointer type V*
+     * such that V(*)[] is implicitly convertible to element_type(*)[]
+     */
+    template <class U> explicit unique_ptr(U ptr) TSP_NOEXCEPT : p(ptr) {}
+
+    /** \brief Constructs a std::unique_ptr object which owns ptr
+     *
+     * Initialises the stored pointer with ptr and initialises the stored
+     * deleter with d1
+     *
+     * This overload will not participate in overload resolution unless one of
+     * the following is true:
+     * - U is the same type as pointer, or
+     * - U is std::nullptr_t, or
+     * - pointer is the same type as element_type* and U is some pointer type V*
+     * such that V(*)[] is implicitly convertible to element_type(*)[]
+     *
+     * @todo the current implementation fails for VS2013
+     */
+    template <class U>
+    unique_ptr(U ptr,
+               typename std::conditional<std::is_reference<Deleter>::value,
+                                         Deleter, const Deleter &>::type d1)
+            TSP_NOEXCEPT : p(ptr, std::forward<decltype(d1)>(d1)) {}
+
+    /** \brief Constructs a std::unique_ptr object which owns ptr
+     *
+     * Initialises the stored pointer with ptr.
+     * Moves d2 into stored_deleter.
+     *
+     * This overload will not participate in overload resolution unless one of
+     * the following is true:
+     * - U is the same type as pointer, or
+     * - U is std::nullptr_t, or
+     * - pointer is the same type as element_type* and U is some pointer type V*
+     * such that V(*)[] is implicitly convertible to element_type(*)[]
+     */
+    template <class U>
+    unique_ptr(U ptr,
+               typename std::remove_reference<Deleter>::type &&d2) TSP_NOEXCEPT
+            : p(ptr, std::forward<decltype(d2)>(d2)) {}
+
+    /** \brief Constructs a unique_ptr by transferring ownership from u to
+     * *this.
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveConstructible (if Deleter is a reference, get_deleter() and
+     * u.get_deleter() after move construction reference the same value)
+     */
+    unique_ptr(unique_ptr &&u) TSP_NOEXCEPT : p(std::move(u.p)) {}
+
+    /** \brief Constructs a unique_ptr by transferring ownership from u to
+     * *this, where u is constructed with a specified deleter (E).
+     *
+     * It depends upon whether E is a reference type, as following:
+     * a) if E is a reference type, this deleter is copy constructed from u's
+     * deleter (requires that this construction does not throw)
+     * b) if E is a non-reference type, this deleter is move constructed from
+     * u's deleter (requires that this construction does not throw)
+     *
+     * This constructor only participates in overload resolution if all of the
+     * following are true:
+     * a) unique_ptr<U, E>::pointer is implicitly convertible to pointer
+     * b) U is an array type
+     * c) pointer is the same type as element_type*
+     * d) unique_ptr<U,E>::pointer is the same type as
+     * unique_ptr<U,E>::element_type*
+     * e) unique_ptr<U,E>::element_type(*)[] is convertible to element_type(*)[]
+     * f) Either Deleter is a reference type and E is the same type as Deleter,
+     * or Deleter is not a reference type and E is implicitly convertible to
+     * Deleter.
+     */
+    template <class U, class E>
+    unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
+            : p(std::move(u.get_unique_ptr())) {}
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -192,6 +289,9 @@ public:
         return p[i];
     }
 
+    /** \brief Returns reference to the wrapped std::unique_ptr
+     */
+    std_unique_ptr_type &get_unique_ptr() { return p; }
 private:
     std::unique_ptr<T[], Deleter> p;
 };

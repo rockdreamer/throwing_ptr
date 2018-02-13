@@ -108,6 +108,7 @@ set(TESTS
     shared_ptr_swap
     unique_ptr_access
     unique_ptr_construction
+    unique_ptr_to_array_construction
 )
 
 if(HAVE_SHARED_PTR_TO_ARRAY)
