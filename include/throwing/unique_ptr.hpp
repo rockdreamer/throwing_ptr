@@ -270,6 +270,14 @@ public:
     unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
             : p(std::move(u.get_unique_ptr())) {}
 
+    /** \brief Destructor
+     * If get() == nullptr there are no effects. Otherwise, the owned object is
+     * destroyed via get_deleter()(get()) on the underlying unique_ptr.
+     *
+     * Requires that get_deleter()(get()) does not throw exceptions.
+     */
+    ~unique_ptr() = default;
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -292,6 +300,7 @@ public:
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
     std_unique_ptr_type &get_unique_ptr() { return p; }
+
 private:
     std::unique_ptr<T[], Deleter> p;
 };
