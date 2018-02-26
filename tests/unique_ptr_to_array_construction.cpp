@@ -59,11 +59,10 @@ TEST_CASE("unique_ptr to array construction from pointer and non reference "
     {
         std::unique_ptr<Foo[], Deleter<1>> foo1(new Foo[10], d1);
         REQUIRE(Foo::object_count() == 10);
-        REQUIRE(Deleter<1>::object_count() == 2);
 
         throwing::unique_ptr<Foo[], Deleter<2>> foo2(new Foo[10], d2);
         REQUIRE(Foo::object_count() == 20);
-        REQUIRE(Deleter<2>::object_count() == 2);
+        REQUIRE(Deleter<2>::object_count() == Deleter<1>::object_count());
 
         REQUIRE(foo2.get() != nullptr);
         REQUIRE(Deleter<2>::deleter_calls() == 0);
@@ -111,12 +110,11 @@ TEST_CASE("unique_ptr to array construction from pointer and move reference "
     {
         std::unique_ptr<Foo[], Deleter<5>> foo1(new Foo[10], std::move(d1));
         REQUIRE(Foo::object_count() == 10);
-        REQUIRE(Deleter<5>::object_count() == 1);
 
         throwing::unique_ptr<Foo[], Deleter<6>> foo2(new Foo[10],
                                                      std::move(d2));
         REQUIRE(Foo::object_count() == 20);
-        REQUIRE(Deleter<6>::object_count() == 1);
+        REQUIRE(Deleter<5>::object_count() == Deleter<6>::object_count());
 
         REQUIRE(foo2.get() != nullptr);
         REQUIRE(Deleter<6>::deleter_calls() == 0);
