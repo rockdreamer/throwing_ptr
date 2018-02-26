@@ -140,3 +140,5 @@ foreach(test_name ${COMPILE_FAIL_TESTS})
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     set_tests_properties(must_fail_${test_name} PROPERTIES WILL_FAIL TRUE)
 endforeach()
+
+add_custom_target(verbose_tests COMMAND ${CMAKE_CTEST_COMMAND} -C Release --verbose)

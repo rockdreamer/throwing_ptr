@@ -19,7 +19,7 @@ class ThrowingPtrConan(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
-        cmake.test()
+        cmake.test(target='verbose_tests')
 
     def package(self):
         self.copy("*.hpp")
