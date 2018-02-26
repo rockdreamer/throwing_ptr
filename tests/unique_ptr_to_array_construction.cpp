@@ -68,8 +68,7 @@ TEST_CASE("unique_ptr to array construction from pointer and non reference "
         REQUIRE(Deleter<2>::deleter_calls() == 0);
     }
     REQUIRE(Foo::object_count() == 0);
-    REQUIRE(Deleter<1>::object_count() == 1);
-    REQUIRE(Deleter<2>::object_count() == 1);
+    REQUIRE(Deleter<2>::object_count() == Deleter<1>::object_count());
     REQUIRE(Deleter<2>::deleter_calls() == 1);
 }
 
@@ -168,11 +167,10 @@ TEST_CASE("unique_ptr to array construction from convertible pointer and move "
     {
         std::unique_ptr<Foo[], Deleter<9> &> foo1(new Foo[10], d1);
         REQUIRE(Foo::object_count() == 10);
-        REQUIRE(Deleter<9>::object_count() == 1);
 
         throwing::unique_ptr<Foo[], Deleter<10> &> foo2(new Foo[10], d2);
         REQUIRE(Foo::object_count() == 20);
-        REQUIRE(Deleter<10>::object_count() == 1);
+        REQUIRE(Deleter<10>::object_count() == Deleter<9>::object_count());
 
         REQUIRE(foo2.get() != nullptr);
         REQUIRE(Deleter<10>::deleter_calls() == 0);
