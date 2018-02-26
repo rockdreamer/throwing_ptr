@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -23,65 +23,70 @@ public:
 
 } // namespace
 
-TEST(Assignment, FromThrowingSharedPtr) {
+TEST_CASE("assignment from throwing::shared_ptr", "[shared_ptr][assignment]") {
     A *ptr1 = new A;
     throwing::shared_ptr<A> t_ptr1(ptr1);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Assignment, FromStdSharedPtr) {
+TEST_CASE("assignment from std::shared_ptr", "[shared_ptr][assignment]") {
     A *ptr1 = new A;
     std::shared_ptr<A> t_ptr1(ptr1);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Assignment, FromThrowingPtrToDerived) {
+TEST_CASE("assignment from throwing::shared_ptr to derived class",
+          "[shared_ptr][assignment]") {
     throwing::shared_ptr<B> t_ptr1(new B);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
 }
 
-TEST(Assignment, FromSharedPtrToDerived) {
+TEST_CASE("assignment from std::shared_ptr to derived class",
+          "[shared_ptr][assignment]") {
     std::shared_ptr<B> t_ptr1(new B);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
 }
 
-TEST(Assignment, MoveThrowingPtrToDerived) {
+TEST_CASE("move assignment from throwing::shared_ptr to derived class",
+          "[shared_ptr][assignment]") {
     B *ptr = new B;
     throwing::shared_ptr<B> t_ptr1(ptr);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = std::move(t_ptr1);
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr);
 }
 
-TEST(Assignment, MoveSharedPtrToDerived) {
+TEST_CASE("move assignment from std::shared_ptr to derived class",
+          "[shared_ptr][assignment]") {
     B *ptr = new B;
     std::shared_ptr<B> t_ptr1(ptr);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = std::move(t_ptr1);
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr);
 }
 
-TEST(Assignment, MoveDerivedStdUniquePtr) {
+TEST_CASE("move assignment from std::unique_ptr to derived class",
+          "[shared_ptr][assignment]") {
     B *ptr1 = new B;
     std::unique_ptr<B> u_ptr1(ptr1);
     throwing::shared_ptr<A> t_ptr2;
     t_ptr2 = std::move(u_ptr1);
-    EXPECT_EQ(nullptr, u_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(u_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }

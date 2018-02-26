@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 struct Foo {
@@ -13,50 +13,53 @@ struct Foo {
     Foo() : n1(0), n2(0) {}
 };
 
-TEST(MakeShared, StructWithArgs) {
+TEST_CASE("make_shared struct with arguments", "[shared_ptr][make_shared]") {
     auto ptr = throwing::make_shared<Foo>(1, 2);
-    EXPECT_EQ(1, ptr->n1);
-    EXPECT_EQ(2, ptr->n2);
+    REQUIRE(ptr->n1 == 1);
+    REQUIRE(ptr->n2 == 2);
 }
 
-TEST(MakeShared, StructNoArgs) {
+TEST_CASE("make_shared struct with no arguments", "[shared_ptr][make_shared]") {
     auto ptr = throwing::make_shared<Foo>();
-    EXPECT_EQ(0, ptr->n1);
-    EXPECT_EQ(0, ptr->n2);
+    REQUIRE(ptr->n1 == 0);
+    REQUIRE(ptr->n2 == 0);
 }
 
-TEST(MakeShared, BaseType) {
+TEST_CASE("make_shared base type with argument", "[shared_ptr][make_shared]") {
     auto ptr = throwing::make_shared<int>(42);
-    EXPECT_EQ(42, *ptr);
+    REQUIRE(*ptr == 42);
 }
 
-TEST(MakeShared, BaseTypeNoArg) {
+TEST_CASE("make_shared base type no arguments", "[shared_ptr][make_shared]") {
     auto ptr = throwing::make_shared<int>();
-    EXPECT_TRUE(ptr);
+    REQUIRE(ptr);
 }
 
-TEST(AllocateShared, StructWithArgs) {
+TEST_CASE("allocate_shared with arguments", "[shared_ptr][allocate_shared]") {
     std::allocator<Foo> allocator;
     auto ptr = throwing::allocate_shared<Foo>(allocator, 1, 2);
-    EXPECT_EQ(1, ptr->n1);
-    EXPECT_EQ(2, ptr->n2);
+    REQUIRE(ptr->n1 == 1);
+    REQUIRE(ptr->n2 == 2);
 }
 
-TEST(AllocateShared, StructNoArgs) {
+TEST_CASE("allocate_shared with no arguments",
+          "[shared_ptr][allocate_shared]") {
     std::allocator<Foo> allocator;
     auto ptr = throwing::allocate_shared<Foo>(allocator);
-    EXPECT_EQ(0, ptr->n1);
-    EXPECT_EQ(0, ptr->n2);
+    REQUIRE(ptr->n1 == 0);
+    REQUIRE(ptr->n2 == 0);
 }
 
-TEST(AllocateShared, BaseType) {
+TEST_CASE("allocate_shared base type with arguments",
+          "[shared_ptr][allocate_shared]") {
     std::allocator<int> allocator;
     auto ptr = throwing::allocate_shared<int>(allocator, 42);
-    EXPECT_EQ(42, *ptr);
+    REQUIRE(*ptr == 42);
 }
 
-TEST(AllocateShared, BaseTypeNoArg) {
+TEST_CASE("allocate_shared base type with no arguments",
+          "[shared_ptr][allocate_shared]") {
     std::allocator<int> allocator;
     auto ptr = throwing::allocate_shared<int>(allocator);
-    EXPECT_TRUE(ptr);
+    REQUIRE(ptr);
 }

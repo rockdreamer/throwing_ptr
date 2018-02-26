@@ -3,12 +3,12 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
-TEST(SharedPtr, Hash) {
+TEST_CASE("hash operator of shared_ptr", "[shared_ptr][hash]") {
     auto p = std::make_shared<int>(42);
     throwing::shared_ptr<int> tp = p;
-    EXPECT_EQ(std::hash<std::shared_ptr<int>>()(p),
-              std::hash<throwing::shared_ptr<int>>()(tp));
+    REQUIRE(std::hash<throwing::shared_ptr<int>>()(tp) ==
+            std::hash<std::shared_ptr<int>>()(p));
 }

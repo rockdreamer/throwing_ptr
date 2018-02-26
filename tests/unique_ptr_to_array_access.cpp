@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/unique_ptr.hpp>
 
 namespace {
@@ -12,28 +12,32 @@ struct Foo {
 };
 } // namespace
 
-TEST(UniquePtrToArray, NullPtr) {
-	throwing::unique_ptr<int[]> nothing;
-	EXPECT_EQ(nullptr, nothing.get());
+TEST_CASE("unique_ptr to array: get on null returns nullptr",
+          "[unique_ptr][array][nullptr][access]") {
+    throwing::unique_ptr<int[]> nothing;
+    REQUIRE(nothing.get() == nullptr);
 
-	throwing::unique_ptr<int[]> nothing_nullptr(nullptr);
-	EXPECT_EQ(nullptr, nothing.get());
+    throwing::unique_ptr<int[]> nothing_nullptr(nullptr);
+    REQUIRE(nothing.get() == nullptr);
 }
 
-TEST(UniquePtrToArray, Get) {
+TEST_CASE("unique_ptr to array: get returns first element",
+          "[unique_ptr][array][access]") {
     int *ptr = new int[10];
     throwing::unique_ptr<int[]> t_ptr(ptr);
-    EXPECT_EQ(ptr, t_ptr.get());
+    REQUIRE(t_ptr.get() == ptr);
 }
 
-TEST(UniquePtrToArray, SquareBracketsToNullPtr) {
+TEST_CASE("unique_ptr to array: dereferencing nullptr throws",
+          "[unique_ptr][array][access][nullptr]") {
     throwing::unique_ptr<Foo[]> nothing;
-    EXPECT_THROW(nothing[0], throwing::base_null_ptr_exception);
-    EXPECT_THROW(nothing[0], throwing::null_ptr_exception<Foo>);
+    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo>);
 }
 
-TEST(UniquePtrToArray, SquareBracketsWorks) {
+TEST_CASE("unique_ptr to array: [0] returns first element",
+          "[unique_ptr][array][access]") {
     int *ptr = new int[10];
     throwing::unique_ptr<int[]> t_ptr(ptr);
-    EXPECT_EQ(ptr, &t_ptr[0]);
+    REQUIRE(&t_ptr[0] == ptr);
 }

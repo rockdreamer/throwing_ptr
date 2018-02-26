@@ -3,33 +3,33 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
-TEST(Swap, SwapPtrs) {
+TEST_CASE("shared_ptr swap swaps pointers", "[shared_ptr][swap]") {
     int *ptr1 = new int;
     throwing::shared_ptr<int> t_ptr1(ptr1);
     int *ptr2 = new int;
     throwing::shared_ptr<int> t_ptr2(ptr2);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_EQ(ptr2, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE(t_ptr2.get() == ptr2);
     t_ptr1.swap(t_ptr2);
-    EXPECT_EQ(ptr2, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == ptr2);
+    REQUIRE(t_ptr2.get() == ptr1);
     std::swap(t_ptr1, t_ptr2);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_EQ(ptr2, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE(t_ptr2.get() == ptr2);
 }
 
-TEST(Swap, SwapNullPtrs) {
+TEST_CASE("shared_ptr swap null pointers", "[shared_ptr][swap][nullptr]") {
     throwing::shared_ptr<int> t_ptr1;
     throwing::shared_ptr<int> t_ptr2;
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(nullptr, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == nullptr);
     t_ptr1.swap(t_ptr2);
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(nullptr, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == nullptr);
     std::swap(t_ptr1, t_ptr2);
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(nullptr, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == nullptr);
 }

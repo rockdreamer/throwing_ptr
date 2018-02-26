@@ -67,14 +67,6 @@ add_executable( compile_it
 )
 
 enable_testing()
-if(WIN32)
-   if(MSVC_VERSION)
-       if(MSVC_VERSION GREATER_EQUAL 1910)
-        add_definitions(-DGTEST_LANG_CXX11=1)
-       endif()
-   endif()
-endif()
-
 
 if(NOT MSVC)
     # do not warn about known problems in googletest 1.8
@@ -124,11 +116,12 @@ else()
     list(APPEND TESTS shared_ptr_atomic )
 endif()
 
+set(TEST_SOURCES tests/test_main.cpp)
 foreach(TEST ${TESTS})
-    add_executable(${TEST} tests/${TEST}.cpp)
-    target_link_libraries(${TEST} ${CONAN_LIBS})
-    add_test(NAME ${TEST} COMMAND ${TEST})
+    list(APPEND TEST_SOURCES tests/${TEST}.cpp)
 endforeach()
+add_executable(throwing_ptr_tests ${TEST_SOURCES})
+add_test(NAME throwing_ptr_tests COMMAND throwing_ptr_tests)
 
 set(COMPILE_FAIL_TESTS
     unique_ptr_s_operator

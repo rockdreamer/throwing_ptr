@@ -3,24 +3,24 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <sstream>
 #include <throwing/shared_ptr.hpp>
 
-TEST(Stream, Operator) {
+TEST_CASE("operator<< prints stored ptr", "[shared_ptr][streams]") {
     auto ptr = throwing::make_shared<int>();
     std::stringstream ss_ptr;
     ss_ptr << ptr.get();
     std::stringstream ss_tptr;
     ss_tptr << ptr;
-    EXPECT_EQ(ss_ptr.str(), ss_tptr.str());
+    REQUIRE(ss_tptr.str() == ss_ptr.str());
 }
 
-TEST(Stream, Null) {
+TEST_CASE("operator<< prints nullptr", "[shared_ptr][streams]") {
     throwing::shared_ptr<int> ptr;
     std::stringstream ss_ptr;
     ss_ptr << ptr.get();
     std::stringstream ss_tptr;
     ss_tptr << ptr;
-    EXPECT_EQ(ss_ptr.str(), ss_tptr.str());
+    REQUIRE(ss_tptr.str() == ss_ptr.str());
 }

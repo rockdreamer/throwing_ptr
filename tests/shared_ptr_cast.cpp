@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -26,42 +26,42 @@ struct Reintepretable {
 
 } // namespace
 
-TEST(Casts, StaticPointerCast) {
+TEST_CASE("static_pointer_cast to base class", "[shared_ptr][cast]") {
     auto base_ptr = throwing::make_shared<Base>();
-    EXPECT_FALSE(base_ptr->is_derived());
+    REQUIRE_FALSE(base_ptr->is_derived());
     auto derived_ptr = throwing::make_shared<Derived>();
-    EXPECT_TRUE(derived_ptr->is_derived());
+    REQUIRE(derived_ptr->is_derived());
 
     // static_pointer_cast to go up class hierarchy
     base_ptr = throwing::static_pointer_cast<Base>(derived_ptr);
-    EXPECT_TRUE(derived_ptr->is_derived());
+    REQUIRE(derived_ptr->is_derived());
 }
 
-TEST(Casts, DynamicPointerCast) {
+TEST_CASE("dynamic_pointer_cast to derived class", "[shared_ptr][cast]") {
     auto base_ptr = throwing::make_shared<Base>();
-    EXPECT_FALSE(base_ptr->is_derived());
+    REQUIRE_FALSE(base_ptr->is_derived());
     auto derived_ptr = throwing::make_shared<Derived>();
-    EXPECT_TRUE(derived_ptr->is_derived());
+    REQUIRE(derived_ptr->is_derived());
 
     // static_pointer_cast to go up class hierarchy
     base_ptr = throwing::static_pointer_cast<Base>(derived_ptr);
 
     // dynamic_pointer_cast to go down/across class hierarchy
     auto downcast_ptr = throwing::dynamic_pointer_cast<Derived>(base_ptr);
-    EXPECT_TRUE(downcast_ptr);
-    EXPECT_TRUE(downcast_ptr->is_derived());
+    REQUIRE(downcast_ptr);
+    REQUIRE(downcast_ptr->is_derived());
 }
 
-TEST(Casts, ConstPointerCast) {
+TEST_CASE("const_pointer_cast", "[shared_ptr][cast]") {
     const auto const_ptr = throwing::make_shared<Base>();
     auto non_const_ptr = throwing::const_pointer_cast<Base>(const_ptr);
-    EXPECT_TRUE(non_const_ptr->mutating());
+    REQUIRE(non_const_ptr->mutating());
 }
 
-TEST(Casts, ReinterpretPointerCast) {
+TEST_CASE("reinterpret_pointer_cast", "[shared_ptr][cast]") {
     auto p = throwing::make_shared<Reintepretable>();
-    EXPECT_TRUE(p);
+    REQUIRE(p);
     auto reinterpreted = throwing::reinterpret_pointer_cast<int>(p);
-    EXPECT_TRUE(reinterpreted);
-    EXPECT_EQ(2, p.use_count());
+    REQUIRE(reinterpreted);
+    REQUIRE(p.use_count() == 2);
 }

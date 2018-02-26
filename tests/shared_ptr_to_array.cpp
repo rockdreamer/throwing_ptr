@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -12,31 +12,35 @@ struct Foo {
 };
 } // namespace
 
-TEST(Get, NullPtr) {
+TEST_CASE("shared_ptr to array from nullptr: get returns nullptr",
+          "[shared_ptr][array][access]") {
     throwing::shared_ptr<int[10]> nothing;
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 
     throwing::shared_ptr<int[10]> nothing_nullptr(nullptr);
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 
     throwing::shared_ptr<int[10]> nothing_null(NULL);
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 }
 
-TEST(Get, Get) {
+TEST_CASE("shared_ptr to array: get returns first element",
+          "[shared_ptr][array][access]") {
     int *ptr = new int[10];
     throwing::shared_ptr<int[10]> t_ptr(ptr);
-    EXPECT_EQ(ptr, t_ptr.get());
+    REQUIRE(t_ptr.get() == ptr);
 }
 
-TEST(SquareBrackets, NullPtr) {
+TEST_CASE("dereferencing null shared_ptr to array throws",
+          "[shared_ptr][array][access]") {
     throwing::shared_ptr<Foo[100]> nothing;
-    EXPECT_THROW(nothing[0], throwing::base_null_ptr_exception);
-    EXPECT_THROW(nothing[0], throwing::null_ptr_exception<Foo[100]>);
+    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo[100]>);
 }
 
-TEST(SquareBrackets, Works) {
+TEST_CASE("shared_ptr to array: [0] returns first element",
+          "[shared_ptr][array][access]") {
     int *ptr = new int[10];
     throwing::shared_ptr<int[10]> t_ptr(ptr);
-    EXPECT_EQ(ptr, &t_ptr[0]);
+    REQUIRE(&t_ptr[0] == ptr);
 }

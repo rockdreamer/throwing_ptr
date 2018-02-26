@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -36,20 +36,22 @@ struct Container {
 };
 } // namespace
 
-TEST(Construction, ConstructFromPointer) {
+TEST_CASE("shared_ptr constructor from pointer", "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
+    REQUIRE(t_ptr1.get() == ptr1);
 }
 
-TEST(Construction, ConstructFromPointerAndDeleter) {
+TEST_CASE("shared_ptr constructor from pointer and deleter",
+          "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     throwing::shared_ptr<A> t_ptr1(ptr1, A_D());
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_NE(nullptr, throwing::get_deleter<A_D>(t_ptr1));
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE(throwing::get_deleter<A_D>(t_ptr1) != nullptr);
 }
 
-TEST(Construction, ConstructFromPointerAndLamdaDeleter) {
+TEST_CASE("shared_ptr constructor from pointer and lambda deleter",
+          "Construction") {
     A *ptr1 = new A;
     bool lamda_called = false;
     {
@@ -57,38 +59,42 @@ TEST(Construction, ConstructFromPointerAndLamdaDeleter) {
             delete p;
             lamda_called = true;
         });
-        EXPECT_EQ(ptr1, t_ptr1.get());
-        EXPECT_FALSE(lamda_called);
+        REQUIRE(t_ptr1.get() == ptr1);
+        REQUIRE_FALSE(lamda_called);
     }
-    EXPECT_TRUE(lamda_called);
+    REQUIRE(lamda_called);
 }
 
-TEST(Construction, ConstructFromPointerToDerived) {
+TEST_CASE("shared_ptr constructor from pointer to derived class",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
+    REQUIRE(t_ptr1.get() == ptr1);
 }
 
-TEST(Construction, ConstructFromBaseType) {
+TEST_CASE("shared_ptr constructor from pointer to base type",
+          "[shared_ptr][constructor]") {
     int *ptr1 = new int;
     throwing::shared_ptr<int> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
+    REQUIRE(t_ptr1.get() == ptr1);
 }
 
-TEST(Construction, ConstructFromNullPtrAndLamdaDeleter) {
+TEST_CASE("shared_ptr constructor from nullptr and deleter",
+          "[shared_ptr][constructor]") {
     bool lamda_called = false;
     {
         throwing::shared_ptr<A> t_ptr1(nullptr, [&lamda_called](A *p) {
             delete p;
             lamda_called = true;
         });
-        EXPECT_EQ(nullptr, t_ptr1.get());
-        EXPECT_FALSE(lamda_called);
+        REQUIRE(t_ptr1.get() == nullptr);
+        REQUIRE_FALSE(lamda_called);
     }
-    EXPECT_TRUE(lamda_called);
+    REQUIRE(lamda_called);
 }
 
-TEST(Construction, ConstructFromNullPtrLamdaDeleterAndAllocator) {
+TEST_CASE("shared_ptr constructor from nullptr, lambda deleter and allocator",
+          "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     std::allocator<void *> allocator;
     bool lamda_called = false;
@@ -99,13 +105,13 @@ TEST(Construction, ConstructFromNullPtrLamdaDeleterAndAllocator) {
                                            lamda_called = true;
                                        },
                                        allocator);
-        EXPECT_EQ(ptr1, t_ptr1.get());
-        EXPECT_FALSE(lamda_called);
+        REQUIRE(t_ptr1.get() == ptr1);
+        REQUIRE_FALSE(lamda_called);
     }
-    EXPECT_TRUE(lamda_called);
+    REQUIRE(lamda_called);
 }
 
-TEST(Construction, AliasingConstructor) {
+TEST_CASE("shared_ptr aliasing constructor", "[shared_ptr][constructor]") {
     Container *ptr1 = new Container;
     bool lamda_called = false;
     {
@@ -114,100 +120,107 @@ TEST(Construction, AliasingConstructor) {
                                                    delete p;
                                                    lamda_called = true;
                                                });
-        EXPECT_EQ(ptr1, t_ptr1.get());
-        EXPECT_FALSE(lamda_called);
+        REQUIRE(t_ptr1.get() == ptr1);
+        REQUIRE_FALSE(lamda_called);
         auto via_aliasing =
                 throwing::shared_ptr<Contained>(t_ptr1, &ptr1->things);
-        EXPECT_FALSE(lamda_called);
+        REQUIRE_FALSE(lamda_called);
         t_ptr1.reset();
-        EXPECT_FALSE(lamda_called);
+        REQUIRE_FALSE(lamda_called);
         via_aliasing.reset();
-        EXPECT_TRUE(lamda_called);
+        REQUIRE(lamda_called);
     }
 }
 
-TEST(Construction, CopyConstructor) {
+TEST_CASE("shared_ptr copy constructor", "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     auto t_ptr1 = throwing::shared_ptr<A>(ptr1);
     throwing::shared_ptr<A> t_ptr2(t_ptr1);
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, CopyConstructorFromDerived) {
+TEST_CASE("shared_ptr copy constructor from derived", "Construction") {
     B *ptr1 = new B;
     auto t_ptr1 = throwing::shared_ptr<B>(ptr1);
     throwing::shared_ptr<A> t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, MoveConstructor) {
+TEST_CASE("shared_ptr move constructor", "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     auto t_ptr1 = throwing::shared_ptr<A>(ptr1);
     throwing::shared_ptr<A> t_ptr2(std::move(t_ptr1));
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, MoveConstructorFromDerived) {
+TEST_CASE("shared_ptr move constructor from derived",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto t_ptr1 = throwing::shared_ptr<B>(ptr1);
     throwing::shared_ptr<A> t_ptr2(std::move(t_ptr1));
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, ConstructorFromStdSharedPtr) {
+TEST_CASE("shared_ptr constructor from std::shared_ptr",
+          "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     auto t_ptr1 = std::shared_ptr<A>(ptr1);
     throwing::shared_ptr<A> t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, ConstructorFromDerivedStdSharedPtr) {
+TEST_CASE("shared_ptr constructor from std::shared_ptr to derived",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto t_ptr1 = std::shared_ptr<B>(ptr1);
     throwing::shared_ptr<A> t_ptr2 = t_ptr1;
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, MoveConstructorFromStdSharedPtr) {
+TEST_CASE("shared_ptr move constructor from std::shared_ptr",
+          "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     auto t_ptr1 = std::shared_ptr<A>(ptr1);
     throwing::shared_ptr<A> t_ptr2(std::move(t_ptr1));
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, MoveConstructorFromDerivedStdSharedPtr) {
+TEST_CASE("shared_ptr move constructor from std::shared_ptr to derived",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto t_ptr1 = std::shared_ptr<B>(ptr1);
     throwing::shared_ptr<A> t_ptr2(std::move(t_ptr1));
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, ConstructorFromDerivedStdWeakPtr) {
+TEST_CASE("shared_ptr constructor from derived std::weak_ptr",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto t_ptr1 = std::shared_ptr<B>(ptr1);
     std::weak_ptr<B> weak = t_ptr1;
     throwing::shared_ptr<A> t_ptr2(weak);
-    EXPECT_EQ(t_ptr1.get(), t_ptr2.get());
+    REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(t_ptr2.get() == ptr1);
 }
 
-TEST(Construction, ConstructorFromDerivedStdUniquePtr) {
+TEST_CASE("shared_ptr move constructor from std::unique_ptr",
+          "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto u_ptr1 = std::unique_ptr<B>(ptr1);
     throwing::shared_ptr<A> t_ptr2(std::move(u_ptr1));
-    EXPECT_EQ(nullptr, u_ptr1.get());
-    EXPECT_EQ(ptr1, t_ptr2.get());
+    REQUIRE(u_ptr1.get() == nullptr);
+    REQUIRE(t_ptr2.get() == ptr1);
 }

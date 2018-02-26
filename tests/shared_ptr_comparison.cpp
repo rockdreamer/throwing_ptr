@@ -3,80 +3,82 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+#include <catch.hpp>
 #include <functional>
-#include <gtest/gtest.h>
 #include <throwing/shared_ptr.hpp>
 
-TEST(Comparison, TwoPointers) {
+TEST_CASE("comparison operators between valid throwing::shared_ptr",
+          "[shared_ptr][comparison]") {
     int *ptr1 = new int;
     int *ptr2 = new int;
     auto t_ptr1 = throwing::shared_ptr<int>(ptr1);
     auto t_ptr1_1 = t_ptr1;
     auto t_ptr2 = throwing::shared_ptr<int>(ptr2);
 
-    EXPECT_FALSE(t_ptr1 == t_ptr2);
-    EXPECT_FALSE(t_ptr1_1 == t_ptr2);
-    EXPECT_TRUE(t_ptr1 == t_ptr1);
-    EXPECT_TRUE(t_ptr1 == t_ptr1_1);
+    REQUIRE_FALSE(t_ptr1 == t_ptr2);
+    REQUIRE_FALSE(t_ptr1_1 == t_ptr2);
+    REQUIRE(t_ptr1 == t_ptr1);
+    REQUIRE(t_ptr1 == t_ptr1_1);
 
-    EXPECT_TRUE(t_ptr1 != t_ptr2);
-    EXPECT_TRUE(t_ptr1_1 != t_ptr2);
-    EXPECT_FALSE(t_ptr1 != t_ptr1);
-    EXPECT_FALSE(t_ptr1 != t_ptr1_1);
+    REQUIRE(t_ptr1 != t_ptr2);
+    REQUIRE(t_ptr1_1 != t_ptr2);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1_1);
 
-    EXPECT_EQ(ptr1 < ptr2, t_ptr1 < t_ptr2);
-    EXPECT_EQ(ptr1 < ptr2, t_ptr1_1 < t_ptr2);
-    EXPECT_FALSE(t_ptr1 < t_ptr1);
-    EXPECT_FALSE(t_ptr1 < t_ptr1_1);
+    REQUIRE((t_ptr1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE((t_ptr1_1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE_FALSE(t_ptr1 < t_ptr1);
+    REQUIRE_FALSE(t_ptr1 < t_ptr1_1);
 
-    EXPECT_EQ(ptr1 > ptr2, t_ptr1 > t_ptr2);
-    EXPECT_EQ(ptr1 > ptr2, t_ptr1_1 > t_ptr2);
-    EXPECT_FALSE(t_ptr1 > t_ptr1);
-    EXPECT_FALSE(t_ptr1 > t_ptr1_1);
+    REQUIRE((t_ptr1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE((t_ptr1_1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE_FALSE(t_ptr1 > t_ptr1);
+    REQUIRE_FALSE(t_ptr1 > t_ptr1_1);
 
-    EXPECT_EQ(ptr1 <= ptr2, t_ptr1 <= t_ptr2);
-    EXPECT_EQ(ptr1 <= ptr2, t_ptr1_1 <= t_ptr2);
-    EXPECT_EQ(ptr1 <= ptr1, t_ptr1 <= t_ptr1);
-    EXPECT_EQ(ptr1 <= ptr1, t_ptr1 <= t_ptr1_1);
+    REQUIRE((t_ptr1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1_1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1 <= t_ptr1) == (ptr1 <= ptr1));
+    REQUIRE((t_ptr1 <= t_ptr1_1) == (ptr1 <= ptr1));
 
-    EXPECT_EQ(ptr1 >= ptr2, t_ptr1 >= t_ptr2);
-    EXPECT_EQ(ptr1 >= ptr2, t_ptr1_1 >= t_ptr2);
-    EXPECT_EQ(ptr1 >= ptr1, t_ptr1 >= t_ptr1);
-    EXPECT_EQ(ptr1 >= ptr1, t_ptr1 >= t_ptr1_1);
+    REQUIRE((t_ptr1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1_1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1 >= t_ptr1) == (ptr1 >= ptr1));
+    REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
 }
 
-TEST(Comparison, WithNullPtr) {
+TEST_CASE("comparison operators with null throwing::shared_ptr",
+          "[shared_ptr][comparison]") {
     int *ptr = new int;
     auto t_ptr = throwing::shared_ptr<int>(ptr);
     auto empty_t_ptr = throwing::shared_ptr<int>();
 
-    EXPECT_TRUE(empty_t_ptr == nullptr);
-    EXPECT_FALSE(t_ptr == nullptr);
-    EXPECT_TRUE(nullptr == empty_t_ptr);
-    EXPECT_FALSE(nullptr == t_ptr);
+    REQUIRE(empty_t_ptr == nullptr);
+    REQUIRE_FALSE(t_ptr == nullptr);
+    REQUIRE(nullptr == empty_t_ptr);
+    REQUIRE_FALSE(nullptr == t_ptr);
 
-    EXPECT_FALSE(empty_t_ptr != nullptr);
-    EXPECT_TRUE(t_ptr != nullptr);
-    EXPECT_FALSE(nullptr != empty_t_ptr);
-    EXPECT_TRUE(nullptr != t_ptr);
+    REQUIRE_FALSE(empty_t_ptr != nullptr);
+    REQUIRE(t_ptr != nullptr);
+    REQUIRE_FALSE(nullptr != empty_t_ptr);
+    REQUIRE(nullptr != t_ptr);
 
-    EXPECT_EQ(std::less<int *>()(ptr, nullptr), t_ptr < nullptr);
-    EXPECT_EQ(std::less<int *>()(nullptr, nullptr), empty_t_ptr < nullptr);
-    EXPECT_EQ(std::less<int *>()(nullptr, ptr), nullptr < t_ptr);
-    EXPECT_EQ(std::less<int *>()(nullptr, nullptr), nullptr < empty_t_ptr);
+    REQUIRE((t_ptr < nullptr) == std::less<int *>()(ptr, nullptr));
+    REQUIRE((empty_t_ptr < nullptr) == std::less<int *>()(nullptr, nullptr));
+    REQUIRE((nullptr < t_ptr) == std::less<int *>()(nullptr, ptr));
+    REQUIRE((nullptr < empty_t_ptr) == std::less<int *>()(nullptr, nullptr));
 
-    EXPECT_EQ(std::less<int *>()(nullptr, ptr), t_ptr > nullptr);
-    EXPECT_EQ(std::less<int *>()(nullptr, nullptr), empty_t_ptr > nullptr);
-    EXPECT_EQ(std::less<int *>()(ptr, nullptr), nullptr > t_ptr);
-    EXPECT_EQ(std::less<int *>()(nullptr, nullptr), nullptr > empty_t_ptr);
+    REQUIRE((t_ptr > nullptr) == std::less<int *>()(nullptr, ptr));
+    REQUIRE((empty_t_ptr > nullptr) == std::less<int *>()(nullptr, nullptr));
+    REQUIRE((nullptr > t_ptr) == std::less<int *>()(ptr, nullptr));
+    REQUIRE((nullptr > empty_t_ptr) == std::less<int *>()(nullptr, nullptr));
 
-    EXPECT_EQ(!std::less<int *>()(nullptr, ptr), t_ptr <= nullptr);
-    EXPECT_EQ(!std::less<int *>()(nullptr, nullptr), empty_t_ptr <= nullptr);
-    EXPECT_EQ(!std::less<int *>()(ptr, nullptr), nullptr <= t_ptr);
-    EXPECT_EQ(!std::less<int *>()(nullptr, nullptr), nullptr <= empty_t_ptr);
+    REQUIRE((t_ptr <= nullptr) == !std::less<int *>()(nullptr, ptr));
+    REQUIRE((empty_t_ptr <= nullptr) == !std::less<int *>()(nullptr, nullptr));
+    REQUIRE((nullptr <= t_ptr) == !std::less<int *>()(ptr, nullptr));
+    REQUIRE((nullptr <= empty_t_ptr) == !std::less<int *>()(nullptr, nullptr));
 
-    EXPECT_EQ(!std::less<int *>()(ptr, nullptr), t_ptr >= nullptr);
-    EXPECT_EQ(!std::less<int *>()(nullptr, nullptr), empty_t_ptr >= nullptr);
-    EXPECT_EQ(!std::less<int *>()(nullptr, ptr), nullptr >= t_ptr);
-    EXPECT_EQ(!std::less<int *>()(nullptr, nullptr), nullptr >= empty_t_ptr);
+    REQUIRE((t_ptr >= nullptr) == !std::less<int *>()(ptr, nullptr));
+    REQUIRE((empty_t_ptr >= nullptr) == !std::less<int *>()(nullptr, nullptr));
+    REQUIRE((nullptr >= t_ptr) == !std::less<int *>()(nullptr, ptr));
+    REQUIRE((nullptr >= empty_t_ptr) == !std::less<int *>()(nullptr, nullptr));
 }

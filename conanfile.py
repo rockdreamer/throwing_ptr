@@ -10,11 +10,10 @@ class ThrowingPtrConan(ConanFile):
     url = "https://github.com/rockdreamer/throwing_ptr"
     description = "shared_ptr that throws on dereference if null"
     exports_sources = "*"
-    settings = "os", "compiler", "arch", "build_type"
+    settings = "os", "compiler"
     generators = "cmake"
 
-    build_requires = "gtest/1.8.0@bincrafters/stable"
-    default_options = "gtest:shared=False"
+    build_requires = "catch2/2.1.2@bincrafters/stable"
 
     def build(self): # this is not building a library, just tests
         cmake = CMake(self)

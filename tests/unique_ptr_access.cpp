@@ -3,13 +3,14 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/unique_ptr.hpp>
 
-TEST(Get, NullPtr) {
+TEST_CASE("unique_ptr to nullptr get returns nullptr",
+          "[unique_ptr][nullptr]") {
     throwing::unique_ptr<int> nothing;
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 
     throwing::unique_ptr<int> nothing2(nullptr);
-    EXPECT_EQ(nullptr, nothing2.get());
+    REQUIRE(nothing2.get() == nullptr);
 }

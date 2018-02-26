@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -12,47 +12,53 @@ struct Foo {
 };
 } // namespace
 
-TEST(Get, NullPtr) {
+TEST_CASE("shared_ptr get returns correctly with nullptr",
+          "[shared_ptr][access][nullptr]") {
     throwing::shared_ptr<int> nothing;
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 
     throwing::shared_ptr<int> nothing_nullptr(nullptr);
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 
     throwing::shared_ptr<int> nothing_null(NULL);
-    EXPECT_EQ(nullptr, nothing.get());
+    REQUIRE(nothing.get() == nullptr);
 }
 
-TEST(Get, Get) {
+TEST_CASE("shared_ptr get returns correct address", "[shared_ptr][access]") {
     int *ptr = new int;
     throwing::shared_ptr<int> t_ptr(ptr);
-    EXPECT_EQ(ptr, t_ptr.get());
+    REQUIRE(t_ptr.get() == ptr);
 }
 
-TEST(Star, NullPtr) {
+TEST_CASE("shared_ptr dereference via * throws on nullptr",
+          "[shared_ptr][dereference][nullptr]") {
     throwing::shared_ptr<int> nothing;
-    EXPECT_THROW((*nothing)++, throwing::base_null_ptr_exception);
-    EXPECT_THROW((*nothing)++, throwing::null_ptr_exception<int>);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::null_ptr_exception<int>);
 }
 
-TEST(Dereference, NullPtr) {
+TEST_CASE("shared_ptr dereference via -> throws on nullptr",
+          "[shared_ptr][dereference][nullptr]") {
     throwing::shared_ptr<Foo> nothing;
-    EXPECT_THROW(nothing->foo(), throwing::base_null_ptr_exception);
-    EXPECT_THROW(nothing->foo(), throwing::null_ptr_exception<Foo>);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::null_ptr_exception<Foo>);
 }
 
-TEST(NullPtrException, NullPtrCatchWithBase) {
+TEST_CASE("type specific shared_ptr exceptions are caught by base exception",
+          "[shared_ptr][exception]") {
     throwing::shared_ptr<int> nothing;
     try {
         (*nothing)++;
     } catch (const throwing::null_ptr_exception<float> &) {
         FAIL();
     } catch (const throwing::base_null_ptr_exception &e) {
-        EXPECT_STREQ("Dereference of nullptr", e.what());
+        REQUIRE(std::string(e.what()) == "Dereference of nullptr");
     }
 }
 
-TEST(NullPtrException, NullPtrCatchWithCorrectType) {
+TEST_CASE(
+        "type specific shared_ptr exceptions are caught by using correct type",
+        "[shared_ptr][exception]") {
     throwing::shared_ptr<int> nothing;
     try {
         (*nothing)++;
@@ -62,39 +68,40 @@ TEST(NullPtrException, NullPtrCatchWithCorrectType) {
     }
 }
 
-TEST(NullPtrException, NullPtrCatchWhatType) {
+TEST_CASE("shared_ptr exceptions have non-empty what()",
+          "[shared_ptr][exception]") {
     throwing::shared_ptr<int> nothing;
     try {
         (*nothing)++;
     } catch (const throwing::base_null_ptr_exception &e) {
         std::string what = e.what_type();
-        EXPECT_FALSE(what.empty());
+        REQUIRE_FALSE(what.empty());
     }
 }
 
-TEST(UseCount, UseCount) {
+TEST_CASE("shared_ptr use count works", "[shared_ptr][use count]") {
     Foo *foo = new Foo;
     throwing::shared_ptr<Foo> ptr;
-    EXPECT_EQ(0l, ptr.use_count());
+    REQUIRE(ptr.use_count() == 0l);
     ptr.reset(foo);
-    EXPECT_EQ(1l, ptr.use_count());
+    REQUIRE(ptr.use_count() == 1l);
     auto ptr2 = ptr;
-    EXPECT_EQ(2l, ptr.use_count());
-    EXPECT_EQ(2l, ptr2.use_count());
+    REQUIRE(ptr.use_count() == 2l);
+    REQUIRE(ptr2.use_count() == 2l);
     ptr.reset();
-    EXPECT_EQ(0l, ptr.use_count());
-    EXPECT_EQ(1l, ptr2.use_count());
+    REQUIRE(ptr.use_count() == 0l);
+    REQUIRE(ptr2.use_count() == 1l);
     ptr2.reset();
-    EXPECT_EQ(0l, ptr.use_count());
-    EXPECT_EQ(0l, ptr2.use_count());
+    REQUIRE(ptr.use_count() == 0l);
+    REQUIRE(ptr2.use_count() == 0l);
 }
 
-TEST(OperatorBool, OperatorBool) {
+TEST_CASE("operator bool works", "[shared_ptr]") {
     Foo *foo = new Foo;
     throwing::shared_ptr<Foo> ptr;
-    EXPECT_FALSE(ptr);
+    REQUIRE_FALSE(ptr);
     ptr.reset(foo);
-    EXPECT_TRUE(ptr);
+    REQUIRE(ptr);
     ptr.reset();
-    EXPECT_FALSE(ptr);
+    REQUIRE_FALSE(ptr);
 }

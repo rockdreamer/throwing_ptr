@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <gtest/gtest.h>
+#include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
 namespace {
@@ -25,32 +25,32 @@ public:
 };
 } // namespace
 
-TEST(Reset, Reset) {
+TEST_CASE("shared_ptr reset with no arguments clears", "[shared_ptr][reset]") {
     bool deleted = false;
     A *ptr1 = new A(deleted);
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_FALSE(deleted);
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE_FALSE(deleted);
     t_ptr1.reset();
-    EXPECT_EQ(nullptr, t_ptr1.get());
-    EXPECT_TRUE(deleted);
+    REQUIRE(t_ptr1.get() == nullptr);
+    REQUIRE(deleted);
 }
 
-TEST(Reset, ResetWithPtr) {
+TEST_CASE("shared_ptr reset with pointer", "[shared_ptr][reset]") {
     bool deleted1 = false;
     A *ptr1 = new A(deleted1);
     bool deleted2 = false;
     B *ptr2 = new B(deleted2);
 
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_FALSE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE_FALSE(deleted1);
     t_ptr1.reset(ptr2);
-    EXPECT_EQ(ptr2, t_ptr1.get());
-    EXPECT_TRUE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr2);
+    REQUIRE(deleted1);
 }
 
-TEST(Reset, ResetWithPtrAndDeleter) {
+TEST_CASE("shared_ptr reset with pointer and deleter", "[shared_ptr][reset]") {
     bool deleted1 = false;
     A *ptr1 = new A(deleted1);
     bool deleted2 = false;
@@ -63,21 +63,22 @@ TEST(Reset, ResetWithPtrAndDeleter) {
     };
 
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_FALSE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE_FALSE(deleted1);
 
     t_ptr1.reset(ptr2, deleter);
-    EXPECT_FALSE(lamda_called);
-    EXPECT_TRUE(deleted1);
-    EXPECT_EQ(ptr2, t_ptr1.get());
+    REQUIRE_FALSE(lamda_called);
+    REQUIRE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr2);
 
     t_ptr1.reset();
-    EXPECT_TRUE(deleted2);
-    EXPECT_TRUE(lamda_called);
-    EXPECT_EQ(nullptr, t_ptr1.get());
+    REQUIRE(deleted2);
+    REQUIRE(lamda_called);
+    REQUIRE(t_ptr1.get() == nullptr);
 }
 
-TEST(Reset, ResetWithPtrAndDeleterAndAllocator) {
+TEST_CASE("shared_ptr reset with pointer, deleter and allocator",
+          "[shared_ptr][reset]") {
     bool deleted1 = false;
     A *ptr1 = new A(deleted1);
     bool deleted2 = false;
@@ -90,17 +91,17 @@ TEST(Reset, ResetWithPtrAndDeleterAndAllocator) {
     };
 
     throwing::shared_ptr<A> t_ptr1(ptr1);
-    EXPECT_EQ(ptr1, t_ptr1.get());
-    EXPECT_FALSE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr1);
+    REQUIRE_FALSE(deleted1);
 
     std::allocator<void *> allocator;
     t_ptr1.reset(ptr2, deleter, allocator);
-    EXPECT_FALSE(lamda_called);
-    EXPECT_TRUE(deleted1);
-    EXPECT_EQ(ptr2, t_ptr1.get());
+    REQUIRE_FALSE(lamda_called);
+    REQUIRE(deleted1);
+    REQUIRE(t_ptr1.get() == ptr2);
 
     t_ptr1.reset();
-    EXPECT_TRUE(deleted2);
-    EXPECT_TRUE(lamda_called);
-    EXPECT_EQ(nullptr, t_ptr1.get());
+    REQUIRE(deleted2);
+    REQUIRE(lamda_called);
+    REQUIRE(t_ptr1.get() == nullptr);
 }
