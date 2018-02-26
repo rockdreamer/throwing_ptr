@@ -13,7 +13,7 @@ class ThrowingPtrConan(ConanFile):
     settings = "os", "compiler", "arch"
     generators = "cmake"
 
-    build_requires = "catch2/2.1.2@bincrafters/stable"
+    build_requires = "Catch/1.9.6@bincrafters/stable"
 
     def build(self): # this is not building a library, just tests
         cmake = CMake(self)
