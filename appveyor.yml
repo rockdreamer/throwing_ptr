@@ -4,7 +4,6 @@ environment:
     PYTHON: "C:\\Python27"
     PYTHON_VERSION: "2.7.14"
     PYTHON_ARCH: "32"
-    CTEST_OUTPUT_ON_FAILURE: "1"
 
     CONAN_REFERENCE: "throwing_ptr/0.1.0"
     CONAN_USERNAME: "rockdreamer"

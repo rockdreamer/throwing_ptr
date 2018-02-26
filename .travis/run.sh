@@ -9,5 +9,5 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     fi
     pyenv activate conan
 fi
-export CTEST_OUTPUT_ON_FAILURE=1
+
 python build.py --build throwing_ptr --build missing
