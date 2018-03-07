@@ -175,10 +175,29 @@ public:
         return *this;
     }
 
+    /** \brief Releases the ownership of the managed object if any.
+     *
+     * get() returns nullptr after the call.
+     *
+     * \return Pointer to the managed object or nullptr if there was no managed
+     * object, i.e. the value which would be returned by get() before the call.
+     */
+    pointer release() TSP_NOEXCEPT { return p.release(); }
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
     pointer get() const TSP_NOEXCEPT { return p.get(); }
+
+    /** \brief Returns the deleter object which would be used for destruction of
+     * the managed object.
+     */
+    Deleter &get_deleter() TSP_NOEXCEPT { return p.get_deleter(); }
+
+    /** \brief Returns the deleter object which would be used for destruction of
+     * the managed object.
+     */
+    const Deleter &get_deleter() const TSP_NOEXCEPT { return p.get_deleter(); }
 
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
@@ -389,10 +408,29 @@ public:
         return *this;
     }
 
+    /** \brief Releases the ownership of the managed object if any.
+     *
+     * get() returns nullptr after the call.
+     *
+     * \return Pointer to the managed object or nullptr if there was no managed
+     * object, i.e. the value which would be returned by get() before the call.
+     */
+    pointer release() TSP_NOEXCEPT { return p.release(); }
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
     pointer get() const TSP_NOEXCEPT { return p.get(); }
+
+    /** \brief Returns the deleter object which would be used for destruction of
+     * the managed object.
+     */
+    Deleter &get_deleter() TSP_NOEXCEPT { return p.get_deleter(); }
+
+    /** \brief Returns the deleter object which would be used for destruction of
+     * the managed object.
+     */
+    const Deleter &get_deleter() const TSP_NOEXCEPT { return p.get_deleter(); }
 
     /** \brief provides access to elements of an array managed by a unique_ptr.
      *

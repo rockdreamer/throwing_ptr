@@ -47,10 +47,9 @@ TEST_CASE("move assignment from throwing::unique_ptr to array of convertible "
 
 TEST_CASE("assignment from nullptr to array",
           "[unique_ptr][assignment][nullptr][array]") {
-    DeleterA d;
-    throwing::unique_ptr<A[], DeleterA &> t_ptr(new A[10], d);
+    throwing::unique_ptr<A[], DeleterA> t_ptr(new A[10]);
     REQUIRE(t_ptr.get());
     t_ptr = nullptr;
     REQUIRE_FALSE(t_ptr.get());
-    REQUIRE(d.called);
+    REQUIRE(t_ptr.get_deleter().called);
 }

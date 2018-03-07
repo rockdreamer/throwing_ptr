@@ -52,10 +52,9 @@ TEST_CASE("move assignment from throwing::unique_ptr to derived class",
 }
 
 TEST_CASE("assignment from nullptr", "[unique_ptr][assignment][nullptr]") {
-    DeleterA d;
-    throwing::unique_ptr<A, DeleterA &> t_ptr(new A, d);
+    throwing::unique_ptr<A, DeleterA> t_ptr(new A);
     REQUIRE(t_ptr.get());
     t_ptr = nullptr;
     REQUIRE_FALSE(t_ptr.get());
-    REQUIRE(d.called);
+    REQUIRE(t_ptr.get_deleter().called);
 }
