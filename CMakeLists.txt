@@ -99,8 +99,10 @@ set(TESTS
     shared_ptr_reset
     shared_ptr_swap
     unique_ptr_access
+    unique_ptr_assignment
     unique_ptr_construction
     unique_ptr_to_array_access
+    unique_ptr_to_array_assignment
     unique_ptr_to_array_construction
 )
 
@@ -125,6 +127,8 @@ add_test(NAME throwing_ptr_tests COMMAND throwing_ptr_tests)
 
 set(COMPILE_FAIL_TESTS
     unique_ptr_s_operator
+    unique_ptr_s_copy_assignment
+    unique_ptr_a_copy_assignment
 )
 if(NOT HAVE_SHARED_PTR_TO_ARRAY)
     list(APPEND COMPILE_FAIL_TESTS shared_ptr_to_array)

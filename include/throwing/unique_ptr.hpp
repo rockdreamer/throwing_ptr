@@ -39,7 +39,7 @@ public:
     typedef typename std::unique_ptr<T, Deleter>::deleter_type deleter_type;
 
     // allow access to p for other throwing::unique_ptr instantiations
-    //    template <typename Y, deleter_type> friend class unique_ptr;
+    template <typename OtherT, typename OtherDeleter> friend class unique_ptr;
 
     /** \brief Constructs a unique_ptr that owns nothing.
      *
@@ -120,13 +120,61 @@ public:
             : p(std::move(u.get_unique_ptr())) {}
 
     /** \brief Destructor
-    * If get() == nullptr there are no effects. Otherwise, the owned object is
-    * destroyed via get_deleter()(get()) on the underlying unique_ptr.
-    *
-    * Requires that get_deleter()(get()) does not throw exceptions.
-    */
+     * If get() == nullptr there are no effects. Otherwise, the owned object is
+     * destroyed via get_deleter()(get()) on the underlying unique_ptr.
+     *
+     * Requires that get_deleter()(get()) does not throw exceptions.
+     */
     ~unique_ptr() = default;
-    
+
+    /** \brief Assignment operator
+     *
+     * Transfers ownership from r to *this as if by calling reset(r.release())
+     * followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     */
+    unique_ptr &operator=(unique_ptr &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Transfers ownership from r to *this as if by calling reset(r.release())
+     * followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     *
+     * Only participates in overload resolution if U is not an array type and
+     * unique_ptr<U,E>::pointer is implicitly convertible to pointer and
+     * std::is_assignable<Deleter&, E&&>::value is true (since C++17).
+     */
+    template <class U, class E>
+    unique_ptr &operator=(unique_ptr<U, E> &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Effectively the same as calling reset().
+     */
+    unique_ptr &operator=(std::nullptr_t) TSP_NOEXCEPT {
+        p = nullptr;
+        return *this;
+    }
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -165,6 +213,9 @@ public:
     typedef typename std::unique_ptr<T[], Deleter>::pointer pointer;
     typedef typename std::unique_ptr<T[], Deleter>::element_type element_type;
     typedef typename std::unique_ptr<T[], Deleter>::deleter_type deleter_type;
+
+    // allow access to p for other throwing::unique_ptr instantiations
+    template <typename OtherT, typename OtherDeleter> friend class unique_ptr;
 
     /** \brief Constructs a unique_ptr that owns nothing.
      *
@@ -285,6 +336,58 @@ public:
      * Requires that get_deleter()(get()) does not throw exceptions.
      */
     ~unique_ptr() = default;
+
+    /** \brief Assignment operator
+     *
+     * Transfers ownership from r to *this as if by calling reset(r.release())
+     * followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     */
+    unique_ptr &operator=(unique_ptr &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Transfers ownership from r to *this as if by calling reset(r.release())
+     * followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     *
+     * Only participates in overload resolution if all of the following is true:
+     * - U is an array type
+     * - pointer is the same type as element_type*
+     * - unique_ptr<U,E>::pointer is the same type as
+     * unique_ptr<U,E>::element_type*
+     * - unique_ptr<U,E>::element_type(*)[] is convertible to element_type(*)[]
+     * - std::is_assignable<Deleter&, E&&>::value is true
+     */
+    template <class U, class E>
+    unique_ptr &operator=(unique_ptr<U, E> &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Effectively the same as calling reset().
+     */
+    unique_ptr &operator=(std::nullptr_t) TSP_NOEXCEPT {
+        p = nullptr;
+        return *this;
+    }
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
