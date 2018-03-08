@@ -779,4 +779,26 @@ void swap(throwing::unique_ptr<T> &lhs,
 
 } // namespace throwing
 
+namespace std {
+
+/** \brief Template specialization of std::hash for throwing::unique_ptr<T>
+ *
+ * When enabled, (since C++17) for a given throwing::unique_ptr<T, D> p, this
+ * specialization ensures that std::hash<throwing::unique_ptr<T, D>>()(p) ==
+ * std::hash<typename throwing::unique_ptr<T, D>::pointer>()(p.get())
+ *
+ * The specialization std::hash<throwing::unique_ptr<T,D>> is enabled (see
+ * std::hash) if std::hash<typename throwing::unique_ptr<T,D>::pointer> is
+ * enabled, and is disabled otherwise. (since C++17)
+ */
+template <typename Type, typename Deleter>
+struct hash<throwing::unique_ptr<Type, Deleter>> {
+    size_t operator()(const throwing::unique_ptr<Type, Deleter> &x) const {
+        return std::hash<typename throwing::unique_ptr<
+                Type, Deleter>::std_unique_ptr_type>()(x.get_std_unique_ptr());
+    }
+};
+
+} // namespace std
+
 #include <throwing/private/clear_compiler_checks.hpp>
