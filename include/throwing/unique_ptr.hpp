@@ -117,7 +117,7 @@ public:
      */
     template <class U, class E>
     unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
-            : p(std::move(u.get_unique_ptr())) {}
+            : p(std::move(u.get_std_unique_ptr())) {}
 
     /** \brief Destructor
      * If get() == nullptr there are no effects. Otherwise, the owned object is
@@ -244,7 +244,13 @@ public:
 
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
-    std_unique_ptr_type &get_unique_ptr() { return p; }
+    std_unique_ptr_type &get_std_unique_ptr() TSP_NOEXCEPT { return p; }
+
+    /** \brief Returns const reference to the wrapped std::unique_ptr
+     */
+    const std_unique_ptr_type &get_std_unique_ptr() const TSP_NOEXCEPT {
+        return p;
+    }
 
 private:
     std_unique_ptr_type p;
@@ -389,7 +395,7 @@ public:
      */
     template <class U, class E>
     unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
-            : p(std::move(u.get_unique_ptr())) {}
+            : p(std::move(u.get_std_unique_ptr())) {}
 
     /** \brief Destructor
      * If get() == nullptr there are no effects. Otherwise, the owned object is
@@ -535,7 +541,13 @@ public:
 
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
-    std_unique_ptr_type &get_unique_ptr() { return p; }
+    std_unique_ptr_type &get_std_unique_ptr() TSP_NOEXCEPT { return p; }
+
+    /** \brief Returns const reference to the wrapped std::unique_ptr
+     */
+    const std_unique_ptr_type &get_std_unique_ptr() const TSP_NOEXCEPT {
+        return p;
+    }
 
 private:
     std::unique_ptr<T[], Deleter> p;
@@ -544,7 +556,9 @@ private:
 // Helpers for make_unique type resolution, see n3656
 // https://isocpp.org/blog/2013/04/n3656-make-unique-revision-1
 namespace detail {
-template <class T> struct _Unique_if { typedef throwing::unique_ptr<T> _Single_object; };
+template <class T> struct _Unique_if {
+    typedef throwing::unique_ptr<T> _Single_object;
+};
 
 template <class T> struct _Unique_if<T[]> {
     typedef throwing::unique_ptr<T[]> _Unknown_bound;
@@ -588,6 +602,152 @@ typename detail::_Unique_if<T>::_Unknown_bound make_unique(size_t n) {
  */
 template <class T, class... Args>
 typename detail::_Unique_if<T>::_Known_bound make_unique(Args &&...) = delete;
+
+/** \brief Compare two unique_ptr objects
+ * \return lhs.get() == rhs.get()
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator==(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() == rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs.get() == rhs.get())
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator!=(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() != rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return std::less<CT>()(lhs.get(), rhs.get()),  where CT is
+ * std::common_type<unique_ptr<T1, D1>::pointer, unique_ptr<T2,
+ * D2>::pointer>::type
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() < rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(rhs < lhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<=(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() <= rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return rhs < lhs
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() > rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs < rhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>=(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() >= rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !lhs
+ */
+template <class T, class D>
+bool operator==(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_unique_ptr() == rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !rhs
+ */
+template <class T, class D>
+bool operator==(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) TSP_NOEXCEPT {
+    return lhs == rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return (bool)lhs
+ */
+template <class T, class D>
+bool operator!=(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
+    return lhs.get_std_unique_ptr() != rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return (bool)rhs
+ */
+template <class T, class D>
+bool operator!=(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) TSP_NOEXCEPT {
+    return lhs != rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return std::less<unique_ptr<T,D>::pointer>()(lhs.get(), nullptr)
+ */
+template <class T, class D>
+bool operator<(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) {
+    return lhs.get_std_unique_ptr() < rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return std::less<unique_ptr<T,D>::pointer>()(nullptr, rhs.get())
+ */
+template <class T, class D>
+bool operator<(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) {
+    return lhs < rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !(nullptr < lhs)
+ */
+template <class T, class D>
+bool operator<=(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) {
+    return lhs.get_std_unique_ptr() <= rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !(rhs < nullptr)
+ */
+template <class T, class D>
+bool operator<=(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) {
+    return lhs <= rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return nullptr < lhs
+ */
+template <class T, class D>
+bool operator>(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) {
+    return lhs.get_std_unique_ptr() > rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return rhs < nullptr
+ */
+template <class T, class D>
+bool operator>(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) {
+    return lhs > rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !(lhs < nullptr)
+ */
+template <class T, class D>
+bool operator>=(const unique_ptr<T, D> &lhs, std::nullptr_t rhs) {
+    return lhs.get_std_unique_ptr() >= rhs;
+}
+
+/** \brief Compare a unique_ptr with a null pointer
+ * \return !(nullptr < rhs)
+ */
+template <class T, class D>
+bool operator>=(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) {
+    return lhs >= rhs.get_std_unique_ptr();
+}
 
 } // namespace throwing
 

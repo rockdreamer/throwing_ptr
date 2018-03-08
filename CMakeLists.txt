@@ -125,6 +125,7 @@ set(TESTS
     shared_ptr_swap
     unique_ptr_access
     unique_ptr_assignment
+    unique_ptr_comparison
     unique_ptr_construction
     unique_ptr_dereference
     unique_ptr_make_unique
