@@ -115,6 +115,7 @@ set(TESTS
     unique_ptr_construction
     unique_ptr_release
     unique_ptr_reset
+    unique_ptr_swap
     unique_ptr_to_array_access
     unique_ptr_to_array_assignment
     unique_ptr_to_array_construction

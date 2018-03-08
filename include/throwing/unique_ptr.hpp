@@ -196,6 +196,11 @@ public:
      */
     void reset(pointer ptr = pointer()) TSP_NOEXCEPT { p.reset(ptr); }
 
+    /** \brief Swaps the managed objects and associated deleters of *this and
+     * another unique_ptr object other.
+     */
+    void swap(unique_ptr &other) TSP_NOEXCEPT { p.swap(other.p); }
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -462,6 +467,11 @@ public:
     /** \brief Equivalent to reset(pointer())
      */
     void reset(std::nullptr_t ptr = nullptr) TSP_NOEXCEPT { p.reset(ptr); }
+
+    /** \brief Swaps the managed objects and associated deleters of *this and
+     * another unique_ptr object other.
+     */
+    void swap(unique_ptr &other) TSP_NOEXCEPT { p.swap(other.p); }
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
