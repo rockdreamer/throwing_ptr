@@ -6,12 +6,14 @@
 #include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
+namespace {
 struct Foo {
     int n1;
     int n2;
     Foo(int a, int b) : n1(a), n2(b) {}
     Foo() : n1(0), n2(0) {}
 };
+} // namespace
 
 TEST_CASE("make_shared struct with arguments", "[shared_ptr][make_shared]") {
     auto ptr = throwing::make_shared<Foo>(1, 2);
