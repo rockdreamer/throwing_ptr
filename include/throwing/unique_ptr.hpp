@@ -762,6 +762,21 @@ operator<<(std::basic_ostream<CharT, Traits> &os, const unique_ptr<Y, D> &ptr) {
     return os;
 }
 
+/** \brief Specializes the std::swap algorithm for throwing::unique_ptr.
+ *
+ * Swaps the pointers of lhs and rhs.
+ *
+ * Calls lhs.swap(rhs).
+ *
+ * This function does not participate in overload resolution unless
+ * std::is_swappable<D>::value is true. (since C++17)
+ */
+template <class T>
+void swap(throwing::unique_ptr<T> &lhs,
+          throwing::unique_ptr<T> &rhs) TSP_NOEXCEPT {
+    std::swap(lhs.get_std_unique_ptr(), rhs.get_std_unique_ptr());
+}
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
