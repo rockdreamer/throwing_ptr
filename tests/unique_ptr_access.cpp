@@ -10,7 +10,17 @@ TEST_CASE("unique_ptr to nullptr get returns nullptr",
           "[unique_ptr][nullptr]") {
     throwing::unique_ptr<int> nothing;
     REQUIRE(nothing.get() == nullptr);
+    REQUIRE(!nothing);
 
     throwing::unique_ptr<int> nothing2(nullptr);
     REQUIRE(nothing2.get() == nullptr);
+    REQUIRE(!nothing2);
+}
+
+TEST_CASE("unique_ptr: operator bool", "[unique_ptr][bool]") {
+    throwing::unique_ptr<int> nothing;
+    REQUIRE(!nothing);
+
+    throwing::unique_ptr<int> something(new int);
+    REQUIRE(something);
 }

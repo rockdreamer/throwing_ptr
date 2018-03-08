@@ -16,9 +16,11 @@ TEST_CASE("unique_ptr to array: get on null returns nullptr",
           "[unique_ptr][array][nullptr][access]") {
     throwing::unique_ptr<int[]> nothing;
     REQUIRE(nothing.get() == nullptr);
+    REQUIRE(!nothing);
 
     throwing::unique_ptr<int[]> nothing_nullptr(nullptr);
     REQUIRE(nothing.get() == nullptr);
+    REQUIRE(!nothing);
 }
 
 TEST_CASE("unique_ptr to array: get returns first element",
@@ -40,4 +42,12 @@ TEST_CASE("unique_ptr to array: [0] returns first element",
     int *ptr = new int[10];
     throwing::unique_ptr<int[]> t_ptr(ptr);
     REQUIRE(&t_ptr[0] == ptr);
+}
+
+TEST_CASE("unique_ptr to array: operator bool", "[unique_ptr][array][bool]") {
+    throwing::unique_ptr<int[]> nothing;
+    REQUIRE(!nothing);
+
+    throwing::unique_ptr<int[]> something(new int[10]);
+    REQUIRE(something);
 }

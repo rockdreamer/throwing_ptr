@@ -216,6 +216,11 @@ public:
      */
     const Deleter &get_deleter() const TSP_NOEXCEPT { return p.get_deleter(); }
 
+    /** \brief Checks whether *this owns an object, i.e. whether
+     * get() != nullptr.
+     */
+    explicit operator bool() const TSP_NOEXCEPT { return p.operator bool(); }
+
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
     std_unique_ptr_type &get_unique_ptr() { return p; }
@@ -487,6 +492,11 @@ public:
      * the managed object.
      */
     const Deleter &get_deleter() const TSP_NOEXCEPT { return p.get_deleter(); }
+
+    /** \brief Checks whether *this owns an object, i.e. whether
+     * get() != nullptr.
+     */
+    explicit operator bool() const TSP_NOEXCEPT { return p.operator bool(); }
 
     /** \brief provides access to elements of an array managed by a unique_ptr.
      *
