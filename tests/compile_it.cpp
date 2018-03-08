@@ -10,5 +10,7 @@ int main(int, char **) {
     // Have one instance of each class in throwing::
     throwing::shared_ptr<int> ptr;
     ptr.reset();
+    throwing::unique_ptr<int> uptr;
+    uptr.reset();
     return 0;
 }
