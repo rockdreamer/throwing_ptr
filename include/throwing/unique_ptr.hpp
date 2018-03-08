@@ -184,6 +184,18 @@ public:
      */
     pointer release() TSP_NOEXCEPT { return p.release(); }
 
+    /** \brief Replaces the managed object.
+     *
+     * Given current_ptr, the pointer that was managed by *this, performs the
+     * following actions, in this order:
+     *
+     * - Saves a copy of the current pointer old_ptr = current_ptr
+     * - Overwrites the current pointer with the argument current_ptr = ptr
+     * - If the old pointer was non-empty, deletes the previously managed object
+     * if(old_ptr != nullptr) get_deleter()(old_ptr).
+     */
+    void reset(pointer ptr = pointer()) TSP_NOEXCEPT { p.reset(ptr); }
+
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.
      */
@@ -416,6 +428,40 @@ public:
      * object, i.e. the value which would be returned by get() before the call.
      */
     pointer release() TSP_NOEXCEPT { return p.release(); }
+
+    /** \brief Replaces the managed object.
+     *
+     * Given current_ptr, the pointer that was managed by *this, performs the
+     * following actions, in this order:
+     *
+     * - Saves a copy of the current pointer old_ptr = current_ptr
+     * - Overwrites the current pointer with the argument current_ptr = ptr
+     * - If the old pointer was non-empty, deletes the previously managed object
+     * if(old_ptr != nullptr) get_deleter()(old_ptr).
+     */
+    void reset(pointer ptr = pointer()) TSP_NOEXCEPT { p.reset(ptr); }
+
+    /** \brief Replaces the managed object.
+     *
+     * Given current_ptr, the pointer that was managed by *this, performs the
+     * following actions, in this order:
+     *
+     * - Saves a copy of the current pointer old_ptr = current_ptr
+     * - Overwrites the current pointer with the argument current_ptr = ptr
+     * - If the old pointer was non-empty, deletes the previously managed object
+     * if(old_ptr != nullptr) get_deleter()(old_ptr).
+     *
+     * Will only participate in overload resolution if either:
+     * - U is the same type as pointer, or
+     * - pointer is the same type as element_type* and U is a pointer type V*
+     * such that V(*)[] is convertible to element_type(*)[].
+     * (available since C++17)
+     */
+    template <class U> void reset(U ptr) TSP_NOEXCEPT { p.reset(ptr); }
+
+    /** \brief Equivalent to reset(pointer())
+     */
+    void reset(std::nullptr_t ptr = nullptr) TSP_NOEXCEPT { p.reset(ptr); }
 
     /** \brief Returns a pointer to the managed object or nullptr if no object
      * is owned.

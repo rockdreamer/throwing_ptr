@@ -57,6 +57,18 @@ int main(){
 }
 " HAVE_SHARED_PTR_TO_ARRAY)
 
+check_cxx_source_compiles("
+#include <memory>
+
+int main(){
+    const int* p1 = new int[10];
+    std::unique_ptr<const int[]> sp(p);
+    int* p2 = new int[10];
+    up.reset(p2);
+    return 0;
+}
+" HAVE_RESET_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
+
 add_executable( compile_it 
 	tests/compile_it.cpp
 	include/throwing/shared_ptr.hpp
@@ -102,6 +114,7 @@ set(TESTS
     unique_ptr_assignment
     unique_ptr_construction
     unique_ptr_release
+    unique_ptr_reset
     unique_ptr_to_array_access
     unique_ptr_to_array_assignment
     unique_ptr_to_array_construction
@@ -110,6 +123,10 @@ set(TESTS
 if(HAVE_SHARED_PTR_TO_ARRAY)
     list(APPEND TESTS shared_ptr_to_array )
 endif()
+if(HAVE_RESET_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
+    list(APPEND TESTS unique_ptr_to_array_reset )
+endif()
+
 # GCC < 5.0 has no support for atomic_ operations on std::shared_ptr
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57250
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" 
