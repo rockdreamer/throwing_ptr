@@ -540,6 +540,55 @@ public:
 private:
     std::unique_ptr<T[], Deleter> p;
 };
+
+// Helpers for make_unique type resolution, see n3656
+// https://isocpp.org/blog/2013/04/n3656-make-unique-revision-1
+namespace detail {
+template <class T> struct _Unique_if { typedef throwing::unique_ptr<T> _Single_object; };
+
+template <class T> struct _Unique_if<T[]> {
+    typedef throwing::unique_ptr<T[]> _Unknown_bound;
+};
+
+template <class T, size_t N> struct _Unique_if<T[N]> {
+    typedef void _Known_bound;
+};
+} // namespace detail
+
+/** \brief Constructs an object of non-array type T and wraps it in a
+ * throwing::unique_ptr using args as the parameter list for the constructor of
+ * T.
+ *
+ * Equivalent to: unique_ptr<T>(new T(std::forward<Args>(args)...))
+ *
+ * This overload only participates in overload resolution if T is not an array
+ * type.
+ */
+template <class T, class... Args>
+typename detail::_Unique_if<T>::_Single_object make_unique(Args &&... args) {
+    return unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+
+/** \brief Constructs an array of unknown bound T and wraps it in a
+ * throwing::unique_ptr
+ *
+ * Equivalent to: unique_ptr<T>(new typename
+ * std::remove_extent<T>::type[size]())
+ *
+ * This overload only participates in overload resolution if T is an array of
+ * unknown bound.
+ */
+template <class T>
+typename detail::_Unique_if<T>::_Unknown_bound make_unique(size_t n) {
+    typedef typename std::remove_extent<T>::type U;
+    return unique_ptr<T>(new U[n]());
+}
+
+/** \brief Construction of arrays of known bound is disallowed.
+ */
+template <class T, class... Args>
+typename detail::_Unique_if<T>::_Known_bound make_unique(Args &&...) = delete;
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>
