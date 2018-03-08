@@ -749,6 +749,19 @@ bool operator>=(std::nullptr_t lhs, const unique_ptr<T, D> &rhs) {
     return lhs >= rhs.get_std_unique_ptr();
 }
 
+/** \brief Inserts the value of the pointer stored in ptr into the output stream
+ * os
+ *
+ * Equivalent to os << ptr.get().
+ * \return os
+ */
+template <class CharT, class Traits, class Y, class D>
+std::basic_ostream<CharT, Traits> &
+operator<<(std::basic_ostream<CharT, Traits> &os, const unique_ptr<Y, D> &ptr) {
+    os << ptr.get();
+    return os;
+}
+
 } // namespace throwing
 
 #include <throwing/private/clear_compiler_checks.hpp>

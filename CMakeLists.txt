@@ -129,6 +129,7 @@ set(TESTS
     unique_ptr_construction
     unique_ptr_dereference
     unique_ptr_make_unique
+    unique_ptr_ostream
     unique_ptr_release
     unique_ptr_reset
     unique_ptr_swap
