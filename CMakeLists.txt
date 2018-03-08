@@ -69,6 +69,19 @@ int main(){
 }
 " HAVE_RESET_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
 
+check_cxx_source_compiles("
+#include <memory>
+
+int main(){
+    const int* p1 = new int[10];
+    std::unique_ptr<const int[]> up1(p1);
+    int* p2 = new int[10];
+    std::unique_ptr<int[]> up2(p2);
+    p1 = p2;
+    return 0;
+}
+" HAVE_ASSIGNMENT_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
+
 add_executable( compile_it 
 	tests/compile_it.cpp
 	include/throwing/shared_ptr.hpp
@@ -126,6 +139,9 @@ if(HAVE_SHARED_PTR_TO_ARRAY)
 endif()
 if(HAVE_RESET_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
     list(APPEND TESTS unique_ptr_to_array_reset )
+endif()
+if(HAVE_ASSIGNMENT_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
+    list(APPEND TESTS unique_ptr_to_array_assignment_from_convertible )
 endif()
 
 # GCC < 5.0 has no support for atomic_ operations on std::shared_ptr

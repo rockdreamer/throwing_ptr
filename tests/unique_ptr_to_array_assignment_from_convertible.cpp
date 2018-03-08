@@ -24,21 +24,13 @@ struct DeleterA {
 };
 } // namespace
 
-TEST_CASE("move assignment from throwing::unique_ptr to array",
-          "[unique_ptr][assignment][array]") {
+TEST_CASE("move assignment from throwing::unique_ptr to array of convertible "
+          "type",
+          "[unique_ptr][assignment][array][conv.qual]") {
     A *ptr1 = new A[10];
     throwing::unique_ptr<A[]> t_ptr1(ptr1);
-    throwing::unique_ptr<A[]> t_ptr2;
+    throwing::unique_ptr<const A[]> t_ptr2;
     t_ptr2 = std::move(t_ptr1);
     REQUIRE(t_ptr2.get() == ptr1);
     REQUIRE(t_ptr1.get() == nullptr);
-}
-
-TEST_CASE("assignment from nullptr to array",
-          "[unique_ptr][assignment][nullptr][array]") {
-    throwing::unique_ptr<A[], DeleterA> t_ptr(new A[10]);
-    REQUIRE(t_ptr.get());
-    t_ptr = nullptr;
-    REQUIRE_FALSE(t_ptr.get());
-    REQUIRE(t_ptr.get_deleter().called);
 }
