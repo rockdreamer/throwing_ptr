@@ -27,10 +27,11 @@ struct DeleterA {
 TEST_CASE("move assignment from throwing::unique_ptr to array of convertible "
           "type",
           "[unique_ptr][assignment][array][conv.qual]") {
-    A *ptr1 = new A[10];
-    throwing::unique_ptr<A[]> t_ptr1(ptr1);
-    throwing::unique_ptr<const A[]> t_ptr2;
-    t_ptr2 = std::move(t_ptr1);
-    REQUIRE(t_ptr2.get() == ptr1);
-    REQUIRE(t_ptr1.get() == nullptr);
+    const A* p1 = new A[10];
+    throwing::unique_ptr<const A[]> t_ptr1(p1);
+    A* p2 = new A[10];
+    throwing::unique_ptr<A[]> t_ptr2(p2);
+	t_ptr1 = std::move(t_ptr2);
+    REQUIRE(t_ptr1.get() == p2);
+    REQUIRE(!t_ptr2);
 }
