@@ -221,6 +221,27 @@ public:
      */
     explicit operator bool() const TSP_NOEXCEPT { return p.operator bool(); }
 
+    /** \brief Dereferences the stored pointer.
+     *
+     * Throws null_ptr_exception<T> if the pointer is null
+     */
+    typename std::add_lvalue_reference<T>::type operator*() const {
+        if (nullptr == get())
+            throw null_ptr_exception<T>();
+        return *p;
+    }
+
+    /** \brief Dereferences the stored pointer.
+     *
+     * Throws null_ptr_exception<T> if the pointer is null
+     */
+    pointer operator->() const {
+        const auto ptr = get();
+        if (nullptr == ptr)
+            throw null_ptr_exception<T>();
+        return ptr;
+    }
+
     /** \brief Returns reference to the wrapped std::unique_ptr
      */
     std_unique_ptr_type &get_unique_ptr() { return p; }
