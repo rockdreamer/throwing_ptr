@@ -3,8 +3,12 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-// This header file must not be included directly
-// and definitions herein may change without notice
+/** \file throwing/private/compiler_checks.hpp 
+ * \brief Implementation details
+ * This header file must not be included directly
+ * and definitions herein may change without notice
+ */
+
 
 #if (defined(_MSC_VER) && _MSC_VER < 1800) ||                                  \
         (!defined(_MSC_VER) && __cplusplus < 201103L)

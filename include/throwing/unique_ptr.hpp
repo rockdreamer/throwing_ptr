@@ -2,6 +2,9 @@
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
+/** \file unique_ptr.hpp throwing/unique_ptr.hpp
+ * \brief throwing::unique_ptr implementation
+ */
 
 #pragma once
 #include <functional>
@@ -11,7 +14,8 @@
 
 namespace throwing {
 
-/** \brief unique_ptr that manages a single object
+/** \class throwing::unique_ptr throwing/unique_ptr.hpp
+ * \brief unique_ptr that manages a single object
  *
  * throwing::unique_ptr is a smart pointer that owns and manages another object
  * through a pointer and disposes of that object when the unique_ptr goes out of
@@ -33,9 +37,13 @@ namespace throwing {
 template <typename T, typename Deleter = std::default_delete<T>>
 class unique_ptr {
 public:
+    /** \brief type of the wrapped std::unique_ptr. */
     typedef typename std::unique_ptr<T, Deleter> std_unique_ptr_type;
+    /** \brief type of the pointer to the pointed object. */
     typedef typename std::unique_ptr<T, Deleter>::pointer pointer;
+    /** \brief type of the pointed object. */
     typedef typename std::unique_ptr<T, Deleter>::element_type element_type;
+    /** \brief type of the deleter. */
     typedef typename std::unique_ptr<T, Deleter>::deleter_type deleter_type;
 
     // allow access to p for other throwing::unique_ptr instantiations
@@ -223,7 +231,7 @@ public:
 
     /** \brief Dereferences the stored pointer.
      *
-     * Throws null_ptr_exception<T> if the pointer is null
+     * \throw null_ptr_exception<T> if the pointer is null
      */
     typename std::add_lvalue_reference<T>::type operator*() const {
         if (nullptr == get())
@@ -233,7 +241,7 @@ public:
 
     /** \brief Dereferences the stored pointer.
      *
-     * Throws null_ptr_exception<T> if the pointer is null
+     * \throw null_ptr_exception<T> if the pointer is null
      */
     pointer operator->() const {
         const auto ptr = get();
@@ -277,9 +285,13 @@ private:
  */
 template <typename T, typename Deleter> class unique_ptr<T[], Deleter> {
 public:
+    /** \brief type of the wrapped std::unique_ptr. */
     typedef typename std::unique_ptr<T[], Deleter> std_unique_ptr_type;
+    /** \brief type of the pointer to the pointed objects. */
     typedef typename std::unique_ptr<T[], Deleter>::pointer pointer;
+    /** \brief type of the pointed objects. */
     typedef typename std::unique_ptr<T[], Deleter>::element_type element_type;
+    /** \brief type of the deleter. */
     typedef typename std::unique_ptr<T[], Deleter>::deleter_type deleter_type;
 
     // allow access to p for other throwing::unique_ptr instantiations
@@ -553,17 +565,25 @@ private:
     std::unique_ptr<T[], Deleter> p;
 };
 
-// Helpers for make_unique type resolution, see n3656
-// https://isocpp.org/blog/2013/04/n3656-make-unique-revision-1
+/** \namespace throwing::detail
+ * \brief Helpers for make_unique type resolution, see n3656
+ * \see https://isocpp.org/blog/2013/04/n3656-make-unique-revision-1
+ */
 namespace detail {
+/** \brief true for throwing::unique_ptr to single object
+ */
 template <class T> struct _Unique_if {
     typedef throwing::unique_ptr<T> _Single_object;
 };
 
+/** \brief true for throwing::unique_ptr to arrays of unknown length
+ */
 template <class T> struct _Unique_if<T[]> {
     typedef throwing::unique_ptr<T[]> _Unknown_bound;
 };
 
+/** \brief true for throwing::unique_ptr to arrays of known length
+ */
 template <class T, size_t N> struct _Unique_if<T[N]> {
     typedef void _Known_bound;
 };

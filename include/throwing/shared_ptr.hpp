@@ -2,6 +2,9 @@
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
+/** \file shared_ptr.hpp throwing/shared_ptr.hpp
+ * \brief throwing::shared_ptr implementation
+ */
 
 #pragma once
 #include <atomic>
@@ -11,10 +14,15 @@
 #include <throwing/null_ptr_exception.hpp>
 #include <throwing/private/compiler_checks.hpp>
 
+/** \namespace throwing
+ * \brief Implementations of throwing::shared_ptr, throwing::unique_ptr and
+ * related
+ */
 namespace throwing {
 
 template <typename T> class shared_ptr {
 public:
+    /** \brief the type pointed to. */
     typedef typename std::shared_ptr<T>::element_type element_type;
 
     // allow access to p for other throwing::shared_ptr instantiations
@@ -370,7 +378,7 @@ public:
 
     /** \brief Dereferences the stored pointer.
      *
-     * Throws null_ptr_exception<T> if the pointer is null
+     * \throw null_ptr_exception<T> if the pointer is null
      */
     T &operator*() const {
         const auto ptr = get();
@@ -381,7 +389,7 @@ public:
 
     /** \brief Dereferences the stored pointer.
      *
-     * Throws null_ptr_exception<T> if the pointer is null
+     * \throw null_ptr_exception<T> if the pointer is null
      */
     T *operator->() const {
         const auto ptr = get();
@@ -401,7 +409,7 @@ public:
      *
      * This method is available if the underlying compiler and c++ library
      * implementation support it
-     * 
+     *
      * Throws null_ptr_exception<T> if the pointer is null
      */
     element_type &operator[](std::ptrdiff_t idx) {

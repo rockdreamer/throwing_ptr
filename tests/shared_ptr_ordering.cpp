@@ -6,11 +6,13 @@
 #include <catch.hpp>
 #include <throwing/shared_ptr.hpp>
 
+namespace {
 struct Foo {
     int n1;
     int n2;
     Foo(int a, int b) : n1(a), n2(b) {}
 };
+} // namespace
 
 TEST_CASE("owner_before of shared_ptr", "[shared_ptr][ordering]") {
     Foo *ptr = new Foo(1, 2);

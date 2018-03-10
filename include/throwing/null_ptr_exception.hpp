@@ -3,6 +3,10 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/** \file throwing/null_ptr_exception.hpp 
+ * \brief Exceptions thrown by smart pointers in namespace throwing
+ */
+
 #pragma once
 #include <exception>
 #include <string>
@@ -10,7 +14,7 @@
 
 namespace throwing {
 
-/** \brief Thrown upon dereferencing a null shared_ptr.
+/** \brief Base class thrown upon dereferencing a null shared_ptr.
  *
  * Use to catch all such errors
  */
@@ -20,7 +24,7 @@ public:
     virtual std::string what_type() const { return ""; }
 };
 
-/** \brief Thrown upon dereferencing a null shared_ptr.
+/** \brief Concrete class thrown upon dereferencing a null shared_ptr.
  *
  * Use to catch dereferencing of specific types
  */

@@ -3,8 +3,11 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-// This header file must not be included directly
-// and definitions herein may change without notice
+/** \file throwing/private/clear_compiler_checks.hpp 
+ * \brief Implementation details
+ * This header file must not be included directly
+ * and definitions herein may change without notice
+ */
 
 // Do not leak these definitions
 #undef TSP_CONSTEXPR
