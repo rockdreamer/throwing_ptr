@@ -74,7 +74,7 @@ To run it, install cmake and conan and build the package for your environment.
 
 ## Documentation
 
-All methods have doxygen documentation, largely based on the high quality documentation of the standard library from [cppreference](http://en.cppreference.com)
+All methods have [doxygen documentation](https://rockdreamer.github.io/throwing_ptr/), largely based on the high quality documentation of the standard library from [cppreference](http://en.cppreference.com)
 
 ## License
 
