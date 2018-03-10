@@ -538,28 +538,6 @@ void swap(throwing::shared_ptr<T> &lhs,
     lhs.swap(rhs);
 }
 
-/** \brief Specializes the std::swap algorithm for throwing::shared_ptr.
- *
- * Swaps the pointers of lhs and rhs.
- *
- * Calls lhs.swap(rhs).
- */
-template <class T>
-void swap(std::shared_ptr<T> &lhs, throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
-    lhs.swap(rhs.get_std_shared_ptr());
-}
-
-/** \brief Specializes the std::swap algorithm for throwing::shared_ptr.
- *
- * Swaps the pointers of lhs and rhs.
- *
- * Calls lhs.swap(rhs).
- */
-template <class T>
-void swap(throwing::shared_ptr<T> &lhs, std::shared_ptr<T> &rhs) TSP_NOEXCEPT {
-    lhs.get_std_shared_ptr().swap(rhs);
-}
-
 /** \brief Constructs an object of type T and wraps it in a throwing::shared_ptr
  * using args as the parameter list for the constructor of T.
  *
