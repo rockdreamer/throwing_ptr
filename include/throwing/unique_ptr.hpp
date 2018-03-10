@@ -127,6 +127,26 @@ public:
     unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
             : p(std::move(u.get_std_unique_ptr())) {}
 
+    /** \brief Constructs a unique_ptr by transferring ownership from a
+     * std::unique_ptr u to *this, where u is constructed with a specified
+     * deleter (E).
+     *
+     * It depends upon whether E is a reference type, as following:
+     * a) if E is a reference type, this deleter is copy constructed from u's
+     * deleter (requires that this construction does not throw)
+     * b) if E is a non-reference type, this deleter is move constructed from
+     * u's deleter (requires that this construction does not throw)
+     *
+     * This constructor only participates in overload resolution if all of the
+     * following is true:
+     * a) std::unique_ptr<U, E>::pointer is implicitly convertible to pointer
+     * b) U is not an array type
+     * c) Either Deleter is a reference type and E is the same type as D, or
+     * Deleter is not a reference type and E is implicitly convertible to D
+     */
+    template <class U, class E>
+    unique_ptr(std::unique_ptr<U, E> &&u) TSP_NOEXCEPT : p(std::move(u)) {}
+
     /** \brief Destructor
      * If get() == nullptr there are no effects. Otherwise, the owned object is
      * destroyed via get_deleter()(get()) on the underlying unique_ptr.
@@ -171,6 +191,28 @@ public:
     template <class U, class E>
     unique_ptr &operator=(unique_ptr<U, E> &&r) TSP_NOEXCEPT {
         p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment from std::unique_ptr operator
+     *
+     * Transfers ownership from a std::unique_ptr r to *this as if by calling
+     * reset(r.release()) followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     *
+     * Only participates in overload resolution if U is not an array type and
+     * unique_ptr<U,E>::pointer is implicitly convertible to pointer and
+     * std::is_assignable<Deleter&, E&&>::value is true (since C++17).
+     */
+    template <class U, class E>
+    unique_ptr &operator=(std::unique_ptr<U, E> &&r) TSP_NOEXCEPT {
+        p = std::move(r);
         return *this;
     }
 
@@ -409,6 +451,30 @@ public:
     unique_ptr(unique_ptr<U, E> &&u) TSP_NOEXCEPT
             : p(std::move(u.get_std_unique_ptr())) {}
 
+    /** \brief Constructs a unique_ptr by transferring ownership from u to
+     * *this, where u is constructed with a specified deleter (E).
+     *
+     * It depends upon whether E is a reference type, as following:
+     * a) if E is a reference type, this deleter is copy constructed from u's
+     * deleter (requires that this construction does not throw)
+     * b) if E is a non-reference type, this deleter is move constructed from
+     * u's deleter (requires that this construction does not throw)
+     *
+     * This constructor only participates in overload resolution if all of the
+     * following are true:
+     * a) unique_ptr<U, E>::pointer is implicitly convertible to pointer
+     * b) U is an array type
+     * c) pointer is the same type as element_type*
+     * d) unique_ptr<U,E>::pointer is the same type as
+     * unique_ptr<U,E>::element_type*
+     * e) unique_ptr<U,E>::element_type(*)[] is convertible to element_type(*)[]
+     * f) Either Deleter is a reference type and E is the same type as Deleter,
+     * or Deleter is not a reference type and E is implicitly convertible to
+     * Deleter.
+     */
+    template <class U, class E>
+    unique_ptr(std::unique_ptr<U, E> &&u) TSP_NOEXCEPT : p(std::move(u)) {}
+
     /** \brief Destructor
      * If get() == nullptr there are no effects. Otherwise, the owned object is
      * destroyed via get_deleter()(get()) on the underlying unique_ptr.
@@ -457,6 +523,32 @@ public:
     template <class U, class E>
     unique_ptr &operator=(unique_ptr<U, E> &&r) TSP_NOEXCEPT {
         p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment from std::unique_ptr operator
+     *
+     * Transfers ownership from r to *this as if by calling reset(r.release())
+     * followed by an assignment of get_deleter() from
+     * std::forward<E>(r.get_deleter()).
+     *
+     * If Deleter is not a reference type, requires that it is
+     * nothrow-MoveAssignable.
+     *
+     * If Deleter is a reference type, requires that
+     * std::remove_reference<Deleter>::type is nothrow-CopyAssignable.
+     *
+     * Only participates in overload resolution if all of the following is true:
+     * - U is an array type
+     * - pointer is the same type as element_type*
+     * - unique_ptr<U,E>::pointer is the same type as
+     * unique_ptr<U,E>::element_type*
+     * - unique_ptr<U,E>::element_type(*)[] is convertible to element_type(*)[]
+     * - std::is_assignable<Deleter&, E&&>::value is true
+     */
+    template <class U, class E>
+    unique_ptr &operator=(std::unique_ptr<U, E> &&r) TSP_NOEXCEPT {
+        p = std::move(r);
         return *this;
     }
 

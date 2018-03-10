@@ -68,6 +68,22 @@ TEST_CASE("unique_ptr to single object constructor from pointer",
     REQUIRE(up.get() == p);
 }
 
+TEST_CASE("unique_ptr to single object move constructor",
+          "[unique_ptr][single][constructor]") {
+    int *p = new int;
+    throwing::unique_ptr<int> up(p);
+    throwing::unique_ptr<int> up2(std::move(up));
+    REQUIRE(up2.get() == p);
+}
+
+TEST_CASE("unique_ptr to single object move constructor from std::unique_ptr",
+          "[unique_ptr][single][constructor]") {
+    int *p = new int;
+    std::unique_ptr<int> up(p);
+    throwing::unique_ptr<int> up2(std::move(up));
+    REQUIRE(up2.get() == p);
+}
+
 TEST_CASE("unique_ptr to single object constructor from pointer and non "
           "reference deleter",
           "[unique_ptr][single][constructor]") {

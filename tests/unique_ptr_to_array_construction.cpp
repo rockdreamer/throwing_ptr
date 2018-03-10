@@ -48,6 +48,22 @@ TEST_CASE("unique_ptr to array construction from pointer",
     REQUIRE(up.get() == p);
 }
 
+TEST_CASE("unique_ptr to array move constructor",
+          "[unique_ptr][array][constructor]") {
+    int *p = new int[10];
+    throwing::unique_ptr<int[]> up(p);
+    throwing::unique_ptr<int[]> up2(std::move(up));
+    REQUIRE(up2.get() == p);
+}
+
+TEST_CASE("unique_ptr to array move constructor from std::unique_ptr",
+          "[unique_ptr][array][constructor]") {
+    int *p = new int[10];
+    std::unique_ptr<int[]> up(p);
+    throwing::unique_ptr<int[]> up2(std::move(up));
+    REQUIRE(up2.get() == p);
+}
+
 TEST_CASE("unique_ptr to array construction from pointer and non reference "
           "deleter",
           "[unique_ptr][array][constructor]") {

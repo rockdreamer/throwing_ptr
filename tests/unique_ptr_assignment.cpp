@@ -51,6 +51,16 @@ TEST_CASE("move assignment from throwing::unique_ptr to derived class",
     REQUIRE(t_ptr1.get() == nullptr);
 }
 
+TEST_CASE("move assignment from std::unique_ptr to derived class",
+          "[unique_ptr][assignment]") {
+    B *ptr1 = new B;
+    std::unique_ptr<B> t_ptr1(ptr1);
+    throwing::unique_ptr<A> t_ptr2;
+    t_ptr2 = std::move(t_ptr1);
+    REQUIRE(t_ptr2.get() == ptr1);
+    REQUIRE(t_ptr1.get() == nullptr);
+}
+
 TEST_CASE("assignment from nullptr", "[unique_ptr][assignment][nullptr]") {
     throwing::unique_ptr<A, DeleterA> t_ptr(new A);
     REQUIRE(t_ptr.get());

@@ -24,14 +24,38 @@ struct DeleterA {
 };
 } // namespace
 
-TEST_CASE("move assignment from throwing::unique_ptr to array of convertible "
-          "type",
+TEST_CASE("move assignment from std::unique_ptr to array of convertible "
+          "type to std::unique_ptr",
           "[unique_ptr][assignment][array][conv.qual]") {
-    const A* p1 = new A[10];
+    const A *p1 = new A[10];
+    std::unique_ptr<const A[]> t_ptr1(p1);
+    A *p2 = new A[10];
+    std::unique_ptr<A[]> t_ptr2(p2);
+    t_ptr1 = std::move(t_ptr2);
+    REQUIRE(t_ptr1.get() == p2);
+    REQUIRE(!t_ptr2);
+}
+
+TEST_CASE("move assignment from throwing::unique_ptr to array of convertible "
+          "type to throwing::unique_ptr",
+          "[unique_ptr][assignment][array][conv.qual]") {
+    const A *p1 = new A[10];
     throwing::unique_ptr<const A[]> t_ptr1(p1);
-    A* p2 = new A[10];
+    A *p2 = new A[10];
     throwing::unique_ptr<A[]> t_ptr2(p2);
-	t_ptr1 = std::move(t_ptr2);
+    t_ptr1 = std::move(t_ptr2);
+    REQUIRE(t_ptr1.get() == p2);
+    REQUIRE(!t_ptr2);
+}
+
+TEST_CASE("move assignment from std::unique_ptr to array of convertible "
+          "type to throwing::unique_ptr",
+          "[unique_ptr][assignment][array][conv.qual]") {
+    const A *p1 = new A[10];
+    throwing::unique_ptr<const A[]> t_ptr1(p1);
+    A *p2 = new A[10];
+    std::unique_ptr<A[]> t_ptr2(p2);
+    t_ptr1 = std::move(t_ptr2);
     REQUIRE(t_ptr1.get() == p2);
     REQUIRE(!t_ptr2);
 }
