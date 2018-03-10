@@ -77,7 +77,7 @@ int main(){
     std::unique_ptr<const int[]> up1(p1);
     int* p2 = new int[10];
     std::unique_ptr<int[]> up2(p2);
-    p1 = std::move(p2);
+    p1 = std::move(up2);
     return 0;
 }
 " HAVE_ASSIGNMENT_TO_CONVERTIBLE_ARRAY_UNIQUE_PTR)
