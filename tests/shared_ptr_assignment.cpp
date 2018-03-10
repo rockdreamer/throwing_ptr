@@ -80,13 +80,3 @@ TEST_CASE("move assignment from std::shared_ptr to derived class",
     REQUIRE(t_ptr1.get() == nullptr);
     REQUIRE(t_ptr2.get() == ptr);
 }
-
-TEST_CASE("move assignment from std::unique_ptr to derived class",
-          "[shared_ptr][assignment]") {
-    B *ptr1 = new B;
-    std::unique_ptr<B> u_ptr1(ptr1);
-    throwing::shared_ptr<A> t_ptr2;
-    t_ptr2 = std::move(u_ptr1);
-    REQUIRE(u_ptr1.get() == nullptr);
-    REQUIRE(t_ptr2.get() == ptr1);
-}

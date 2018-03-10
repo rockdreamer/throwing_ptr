@@ -171,7 +171,7 @@ TEST_CASE("shared_ptr constructor from std::shared_ptr",
           "[shared_ptr][constructor]") {
     A *ptr1 = new A;
     auto t_ptr1 = std::shared_ptr<A>(ptr1);
-    throwing::shared_ptr<A> t_ptr2 = t_ptr1;
+    throwing::shared_ptr<A> t_ptr2(t_ptr1);
     REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
     REQUIRE(t_ptr2.get() == ptr1);
@@ -181,7 +181,7 @@ TEST_CASE("shared_ptr constructor from std::shared_ptr to derived",
           "[shared_ptr][constructor]") {
     B *ptr1 = new B;
     auto t_ptr1 = std::shared_ptr<B>(ptr1);
-    throwing::shared_ptr<A> t_ptr2 = t_ptr1;
+    throwing::shared_ptr<A> t_ptr2(t_ptr1);
     REQUIRE(t_ptr2.get() == t_ptr1.get());
     t_ptr1.reset();
     REQUIRE(t_ptr2.get() == ptr1);
