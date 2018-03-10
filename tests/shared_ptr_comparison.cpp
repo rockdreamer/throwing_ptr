@@ -46,6 +46,86 @@ TEST_CASE("comparison operators between valid throwing::shared_ptr",
     REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
 }
 
+TEST_CASE("comparison operators between valid throwing::shared_ptr and "
+          "std::shared_ptr",
+          "[shared_ptr][comparison]") {
+    int *ptr1 = new int;
+    int *ptr2 = new int;
+    auto t_ptr1 = throwing::shared_ptr<int>(ptr1);
+    auto t_ptr1_1 = t_ptr1;
+    auto t_ptr2 = std::shared_ptr<int>(ptr2);
+
+    REQUIRE_FALSE(t_ptr1 == t_ptr2);
+    REQUIRE_FALSE(t_ptr1_1 == t_ptr2);
+    REQUIRE(t_ptr1 == t_ptr1);
+    REQUIRE(t_ptr1 == t_ptr1_1);
+
+    REQUIRE(t_ptr1 != t_ptr2);
+    REQUIRE(t_ptr1_1 != t_ptr2);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1_1);
+
+    REQUIRE((t_ptr1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE((t_ptr1_1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE_FALSE(t_ptr1 < t_ptr1);
+    REQUIRE_FALSE(t_ptr1 < t_ptr1_1);
+
+    REQUIRE((t_ptr1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE((t_ptr1_1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE_FALSE(t_ptr1 > t_ptr1);
+    REQUIRE_FALSE(t_ptr1 > t_ptr1_1);
+
+    REQUIRE((t_ptr1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1_1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1 <= t_ptr1) == (ptr1 <= ptr1));
+    REQUIRE((t_ptr1 <= t_ptr1_1) == (ptr1 <= ptr1));
+
+    REQUIRE((t_ptr1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1_1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1 >= t_ptr1) == (ptr1 >= ptr1));
+    REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
+}
+
+TEST_CASE("comparison operators between valid throwing::shared_ptr and "
+          "std::shared_ptr (other side)",
+          "[shared_ptr][comparison]") {
+    int *ptr1 = new int;
+    int *ptr2 = new int;
+    auto t_ptr1 = std::shared_ptr<int>(ptr1);
+    auto t_ptr1_1 = t_ptr1;
+    auto t_ptr2 = throwing::shared_ptr<int>(ptr2);
+
+    REQUIRE_FALSE(t_ptr1 == t_ptr2);
+    REQUIRE_FALSE(t_ptr1_1 == t_ptr2);
+    REQUIRE(t_ptr1 == t_ptr1);
+    REQUIRE(t_ptr1 == t_ptr1_1);
+
+    REQUIRE(t_ptr1 != t_ptr2);
+    REQUIRE(t_ptr1_1 != t_ptr2);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1_1);
+
+    REQUIRE((t_ptr1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE((t_ptr1_1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE_FALSE(t_ptr1 < t_ptr1);
+    REQUIRE_FALSE(t_ptr1 < t_ptr1_1);
+
+    REQUIRE((t_ptr1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE((t_ptr1_1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE_FALSE(t_ptr1 > t_ptr1);
+    REQUIRE_FALSE(t_ptr1 > t_ptr1_1);
+
+    REQUIRE((t_ptr1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1_1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1 <= t_ptr1) == (ptr1 <= ptr1));
+    REQUIRE((t_ptr1 <= t_ptr1_1) == (ptr1 <= ptr1));
+
+    REQUIRE((t_ptr1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1_1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1 >= t_ptr1) == (ptr1 >= ptr1));
+    REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
+}
+
 TEST_CASE("comparison operators with null throwing::shared_ptr",
           "[shared_ptr][comparison]") {
     int *ptr = new int;
