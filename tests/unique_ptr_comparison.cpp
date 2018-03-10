@@ -51,6 +51,84 @@ TEST_CASE("comparison operators between valid throwing::unique_ptr",
     REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
 }
 
+TEST_CASE("comparison operators between valid throwing::unique_ptr and "
+          "std::unique_ptr",
+          "[unique_ptr][comparison]") {
+    int *ptr1 = new int;
+    int *ptr2 = new int;
+    auto t_ptr1 = std::unique_ptr<int>(ptr1);
+    auto t_ptr1_1 = std::unique_ptr<int, NullDeleter>(ptr1);
+    auto t_ptr2 = throwing::unique_ptr<int>(ptr2);
+
+    REQUIRE_FALSE(t_ptr1 == t_ptr2);
+    REQUIRE(t_ptr1 == t_ptr1);
+    REQUIRE(t_ptr1 == t_ptr1_1);
+
+    REQUIRE(t_ptr1 != t_ptr2);
+    REQUIRE(t_ptr1_1 != t_ptr2);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1_1);
+
+    REQUIRE((t_ptr1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE((t_ptr1_1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE_FALSE(t_ptr1 < t_ptr1);
+    REQUIRE_FALSE(t_ptr1 < t_ptr1_1);
+
+    REQUIRE((t_ptr1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE((t_ptr1_1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE_FALSE(t_ptr1 > t_ptr1);
+    REQUIRE_FALSE(t_ptr1 > t_ptr1_1);
+
+    REQUIRE((t_ptr1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1_1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1 <= t_ptr1) == (ptr1 <= ptr1));
+    REQUIRE((t_ptr1 <= t_ptr1_1) == (ptr1 <= ptr1));
+
+    REQUIRE((t_ptr1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1_1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1 >= t_ptr1) == (ptr1 >= ptr1));
+    REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
+}
+
+TEST_CASE("comparison operators between valid throwing::unique_ptr and "
+          "std::unique_ptr (other way)",
+          "[unique_ptr][comparison]") {
+    int *ptr1 = new int;
+    int *ptr2 = new int;
+    auto t_ptr1 = throwing::unique_ptr<int>(ptr1);
+    auto t_ptr1_1 = throwing::unique_ptr<int, NullDeleter>(ptr1);
+    auto t_ptr2 = std::unique_ptr<int>(ptr2);
+
+    REQUIRE_FALSE(t_ptr1 == t_ptr2);
+    REQUIRE(t_ptr1 == t_ptr1);
+    REQUIRE(t_ptr1 == t_ptr1_1);
+
+    REQUIRE(t_ptr1 != t_ptr2);
+    REQUIRE(t_ptr1_1 != t_ptr2);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1);
+    REQUIRE_FALSE(t_ptr1 != t_ptr1_1);
+
+    REQUIRE((t_ptr1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE((t_ptr1_1 < t_ptr2) == (ptr1 < ptr2));
+    REQUIRE_FALSE(t_ptr1 < t_ptr1);
+    REQUIRE_FALSE(t_ptr1 < t_ptr1_1);
+
+    REQUIRE((t_ptr1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE((t_ptr1_1 > t_ptr2) == (ptr1 > ptr2));
+    REQUIRE_FALSE(t_ptr1 > t_ptr1);
+    REQUIRE_FALSE(t_ptr1 > t_ptr1_1);
+
+    REQUIRE((t_ptr1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1_1 <= t_ptr2) == (ptr1 <= ptr2));
+    REQUIRE((t_ptr1 <= t_ptr1) == (ptr1 <= ptr1));
+    REQUIRE((t_ptr1 <= t_ptr1_1) == (ptr1 <= ptr1));
+
+    REQUIRE((t_ptr1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1_1 >= t_ptr2) == (ptr1 >= ptr2));
+    REQUIRE((t_ptr1 >= t_ptr1) == (ptr1 >= ptr1));
+    REQUIRE((t_ptr1 >= t_ptr1_1) == (ptr1 >= ptr1));
+}
+
 TEST_CASE("comparison operators with null throwing::unique_ptr",
           "[unique_ptr][comparison]") {
     int *ptr = new int;

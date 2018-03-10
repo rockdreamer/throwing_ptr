@@ -673,6 +673,118 @@ bool operator>=(const unique_ptr<T1, D1> &lhs, const unique_ptr<T2, D2> &rhs) {
     return lhs.get_std_unique_ptr() >= rhs.get_std_unique_ptr();
 }
 
+/** \brief Compare two unique_ptr objects
+ * \return lhs.get() == rhs.get()
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator==(const std::unique_ptr<T1, D1> &lhs,
+                const unique_ptr<T2, D2> &rhs) {
+    return lhs == rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs.get() == rhs.get())
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator!=(const std::unique_ptr<T1, D1> &lhs,
+                const unique_ptr<T2, D2> &rhs) {
+    return lhs != rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return std::less<CT>()(lhs.get(), rhs.get()),  where CT is
+ * std::common_type<unique_ptr<T1, D1>::pointer,
+ *  unique_ptr<T2,D2>::pointer>::type
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<(const std::unique_ptr<T1, D1> &lhs,
+               const unique_ptr<T2, D2> &rhs) {
+    return lhs < rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(rhs < lhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<=(const std::unique_ptr<T1, D1> &lhs,
+                const unique_ptr<T2, D2> &rhs) {
+    return lhs <= rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return rhs < lhs
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>(const std::unique_ptr<T1, D1> &lhs,
+               const unique_ptr<T2, D2> &rhs) {
+    return lhs > rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs < rhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>=(const std::unique_ptr<T1, D1> &lhs,
+                const unique_ptr<T2, D2> &rhs) {
+    return lhs >= rhs.get_std_unique_ptr();
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return lhs.get() == rhs.get()
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator==(const unique_ptr<T1, D1> &lhs,
+                const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() == rhs;
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs.get() == rhs.get())
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator!=(const unique_ptr<T1, D1> &lhs,
+                const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() != rhs;
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return std::less<CT>()(lhs.get(), rhs.get()),  where CT is
+ * std::common_type<unique_ptr<T1, D1>::pointer,
+ * unique_ptr<T2,D2>::pointer>::type
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<(const unique_ptr<T1, D1> &lhs,
+               const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() < rhs;
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(rhs < lhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator<=(const unique_ptr<T1, D1> &lhs,
+                const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() <= rhs;
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return rhs < lhs
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>(const unique_ptr<T1, D1> &lhs,
+               const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() > rhs;
+}
+
+/** \brief Compare two unique_ptr objects
+ * \return !(lhs < rhs)
+ */
+template <class T1, class D1, class T2, class D2>
+bool operator>=(const unique_ptr<T1, D1> &lhs,
+                const std::unique_ptr<T2, D2> &rhs) {
+    return lhs.get_std_unique_ptr() >= rhs;
+}
+
 /** \brief Compare a unique_ptr with a null pointer
  * \return !lhs
  */
