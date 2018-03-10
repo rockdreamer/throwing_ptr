@@ -339,7 +339,7 @@ public:
     // allow access to p for other throwing::unique_ptr instantiations
     template <typename OtherT, typename OtherDeleter> friend class unique_ptr;
 
-    /** \brief Constructs a unique_ptr that owns nothing.
+    /** \brief Constructs a throwing::unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
@@ -347,7 +347,7 @@ public:
      */
     TSP_CONSTEXPR unique_ptr() TSP_NOEXCEPT = default;
 
-    /** \brief Constructs a unique_ptr that owns nothing.
+    /** \brief Constructs a throwing::unique_ptr that owns nothing.
      *
      * Value-initializes the stored pointer and the stored deleter.
      * Requires that Deleter is DefaultConstructible and that construction does
@@ -355,7 +355,7 @@ public:
      */
     TSP_CONSTEXPR unique_ptr(std::nullptr_t) TSP_NOEXCEPT {}
 
-    /** \brief Constructs a unique_ptr which owns p.
+    /** \brief Constructs a throwing::unique_ptr which owns p.
      *
      * Initialises the stored pointer with ptr and value-initialises the stored
      * deleter.
@@ -380,7 +380,7 @@ public:
      */
     template <class U> explicit unique_ptr(U ptr) TSP_NOEXCEPT : p(ptr) {}
 
-    /** \brief Constructs a std::unique_ptr object which owns ptr
+    /** \brief Constructs a throwing::unique_ptr object which owns ptr
      *
      * Initialises the stored pointer with ptr and initialises the stored
      * deleter with d1
@@ -400,7 +400,7 @@ public:
                                          Deleter, const Deleter &>::type d1)
             TSP_NOEXCEPT : p(ptr, std::forward<decltype(d1)>(d1)) {}
 
-    /** \brief Constructs a std::unique_ptr object which owns ptr
+    /** \brief Constructs a throwing::unique_ptr object which owns ptr
      *
      * Initialises the stored pointer with ptr.
      * Moves d2 into stored_deleter.
