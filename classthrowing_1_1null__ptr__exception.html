@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Thrown upon dereferencing a null <a class="el" href="classthrowing_1_1shared__ptr.html">shared_ptr</a>.  
+<p>Concrete class thrown upon dereferencing a null <a class="el" href="classthrowing_1_1shared__ptr.html" title="Wrapper aroung std::shared_ptr that throws when a wrapped null pointer is dereferenced. ">shared_ptr</a>.  
  <a href="classthrowing_1_1null__ptr__exception.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for throwing::null_ptr_exception&lt; T &gt;:</div>
@@ -79,7 +79,7 @@ Inheritance diagram for throwing::null_ptr_exception&lt; T &gt;:</div>
  <div class="center">
   <img src="classthrowing_1_1null__ptr__exception.png" usemap="#throwing::null_5Fptr_5Fexception_3C_20T_20_3E_map" alt=""/>
   <map id="throwing::null_5Fptr_5Fexception_3C_20T_20_3E_map" name="throwing::null_5Fptr_5Fexception_3C_20T_20_3E_map">
-<area href="classthrowing_1_1base__null__ptr__exception.html" title="Thrown upon dereferencing a null shared_ptr. " alt="throwing::base_null_ptr_exception" shape="rect" coords="0,56,203,80"/>
+<area href="classthrowing_1_1base__null__ptr__exception.html" title="Base class thrown upon dereferencing a null shared_ptr. " alt="throwing::base_null_ptr_exception" shape="rect" coords="0,56,203,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -95,10 +95,10 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class throwing::null_ptr_exception&lt; T &gt;</h3>
 
-<p>Thrown upon dereferencing a null <a class="el" href="classthrowing_1_1shared__ptr.html">shared_ptr</a>. </p>
+<p>Concrete class thrown upon dereferencing a null <a class="el" href="classthrowing_1_1shared__ptr.html" title="Wrapper aroung std::shared_ptr that throws when a wrapped null pointer is dereferenced. ">shared_ptr</a>. </p>
 <p>Use to catch dereferencing of specific types </p>
 
-<p class="definition">Definition at line <a class="el" href="null__ptr__exception_8hpp_source.html#l00028">28</a> of file <a class="el" href="null__ptr__exception_8hpp_source.html">null_ptr_exception.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="null__ptr__exception_8hpp_source.html#l00032">32</a> of file <a class="el" href="null__ptr__exception_8hpp_source.html">null_ptr_exception.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4b45c652fe48ebf49d55c16ab3452caf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b45c652fe48ebf49d55c16ab3452caf">&#9670;&nbsp;</a></span>what_type()</h2>
@@ -127,8 +127,8 @@ template&lt;typename T &gt; </div>
 
 <p>Reimplemented from <a class="el" href="classthrowing_1_1base__null__ptr__exception.html#a47d711e315325381f5c455e314e310c9">throwing::base_null_ptr_exception</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="null__ptr__exception_8hpp_source.html#l00030">30</a> of file <a class="el" href="null__ptr__exception_8hpp_source.html">null_ptr_exception.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                        {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        std::string result(<span class="stringliteral">&quot;Dereferenced nullptr of type &quot;</span>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        result.append(<span class="keyword">typeid</span>(T).name());</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> result;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="null__ptr__exception_8hpp_source.html#l00034">34</a> of file <a class="el" href="null__ptr__exception_8hpp_source.html">null_ptr_exception.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                        {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::string result(<span class="stringliteral">&quot;Dereferenced nullptr of type &quot;</span>);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        result.append(<span class="keyword">typeid</span>(T).name());</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> result;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

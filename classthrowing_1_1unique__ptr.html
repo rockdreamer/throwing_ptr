@@ -79,12 +79,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a1a3a4064a301c2dd240c9bf0598e0a7c"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; T, Deleter &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a1a3a4064a301c2dd240c9bf0598e0a7c">std_unique_ptr_type</a></td></tr>
+<tr class="memdesc:a1a3a4064a301c2dd240c9bf0598e0a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the wrapped std::unique_ptr.  <a href="#a1a3a4064a301c2dd240c9bf0598e0a7c">More...</a><br /></td></tr>
 <tr class="separator:a1a3a4064a301c2dd240c9bf0598e0a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89116cf72b639ec131fa352662c7a8c0"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; T, Deleter &gt;::<a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0">pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0">pointer</a></td></tr>
+<tr class="memdesc:a89116cf72b639ec131fa352662c7a8c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the pointer to the pointed object.  <a href="#a89116cf72b639ec131fa352662c7a8c0">More...</a><br /></td></tr>
 <tr class="separator:a89116cf72b639ec131fa352662c7a8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73855cdd2c360d17d5d0c85a5766fbef"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; T, Deleter &gt;::<a class="el" href="classthrowing_1_1unique__ptr.html#a73855cdd2c360d17d5d0c85a5766fbef">element_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a73855cdd2c360d17d5d0c85a5766fbef">element_type</a></td></tr>
+<tr class="memdesc:a73855cdd2c360d17d5d0c85a5766fbef"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the pointed object.  <a href="#a73855cdd2c360d17d5d0c85a5766fbef">More...</a><br /></td></tr>
 <tr class="separator:a73855cdd2c360d17d5d0c85a5766fbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a565df1ba5ce1360e258c113da39e89d1"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; T, Deleter &gt;::<a class="el" href="classthrowing_1_1unique__ptr.html#a565df1ba5ce1360e258c113da39e89d1">deleter_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a565df1ba5ce1360e258c113da39e89d1">deleter_type</a></td></tr>
+<tr class="memdesc:a565df1ba5ce1360e258c113da39e89d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the deleter.  <a href="#a565df1ba5ce1360e258c113da39e89d1">More...</a><br /></td></tr>
 <tr class="separator:a565df1ba5ce1360e258c113da39e89d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -111,6 +115,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad2894f55901c535e5e8588060441b3e6"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#ad2894f55901c535e5e8588060441b3e6">unique_ptr</a> (<a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a>&lt; U, E &gt; &amp;&amp;u) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
 <tr class="memdesc:ad2894f55901c535e5e8588060441b3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> by transferring ownership from u to *this, where u is constructed with a specified deleter (E).  <a href="#ad2894f55901c535e5e8588060441b3e6">More...</a><br /></td></tr>
 <tr class="separator:ad2894f55901c535e5e8588060441b3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230b637d0152952f552fb075aac0adad"><td class="memTemplParams" colspan="2">template&lt;class U , class E &gt; </td></tr>
+<tr class="memitem:a230b637d0152952f552fb075aac0adad"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a230b637d0152952f552fb075aac0adad">unique_ptr</a> (std::unique_ptr&lt; U, E &gt; &amp;&amp;u) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
+<tr class="memdesc:a230b637d0152952f552fb075aac0adad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> by transferring ownership from a std::unique_ptr u to *this, where u is constructed with a specified deleter (E).  <a href="#a230b637d0152952f552fb075aac0adad">More...</a><br /></td></tr>
+<tr class="separator:a230b637d0152952f552fb075aac0adad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae80d53b897216f3744c250b54bfc79a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#ae80d53b897216f3744c250b54bfc79a4">~unique_ptr</a> ()=default</td></tr>
 <tr class="memdesc:ae80d53b897216f3744c250b54bfc79a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor If <a class="el" href="classthrowing_1_1unique__ptr.html#ad83ed828ed043e412946cf59cd456d82" title="Returns a pointer to the managed object or nullptr if no object is owned. ">get()</a> == nullptr there are no effects. Otherwise, the owned object is destroyed via <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a>(<a class="el" href="classthrowing_1_1unique__ptr.html#ad83ed828ed043e412946cf59cd456d82" title="Returns a pointer to the managed object or nullptr if no object is owned. ">get()</a>) on the underlying <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a>.  <a href="#ae80d53b897216f3744c250b54bfc79a4">More...</a><br /></td></tr>
 <tr class="separator:ae80d53b897216f3744c250b54bfc79a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,6 +129,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a10f7420fc83faabe97e4a14c4c0823db"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a10f7420fc83faabe97e4a14c4c0823db">operator=</a> (<a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a>&lt; U, E &gt; &amp;&amp;r) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
 <tr class="memdesc:a10f7420fc83faabe97e4a14c4c0823db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a10f7420fc83faabe97e4a14c4c0823db">More...</a><br /></td></tr>
 <tr class="separator:a10f7420fc83faabe97e4a14c4c0823db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad96b835ac93fe7c4c89a35d2568e01"><td class="memTemplParams" colspan="2">template&lt;class U , class E &gt; </td></tr>
+<tr class="memitem:a7ad96b835ac93fe7c4c89a35d2568e01"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a7ad96b835ac93fe7c4c89a35d2568e01">operator=</a> (std::unique_ptr&lt; U, E &gt; &amp;&amp;r) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
+<tr class="memdesc:a7ad96b835ac93fe7c4c89a35d2568e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment from std::unique_ptr operator.  <a href="#a7ad96b835ac93fe7c4c89a35d2568e01">More...</a><br /></td></tr>
+<tr class="separator:a7ad96b835ac93fe7c4c89a35d2568e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a111b6adee7ee74caa0cccdfed05e212a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthrowing_1_1unique__ptr.html#a111b6adee7ee74caa0cccdfed05e212a">operator=</a> (std::nullptr_t) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
 <tr class="memdesc:a111b6adee7ee74caa0cccdfed05e212a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a111b6adee7ee74caa0cccdfed05e212a">More...</a><br /></td></tr>
 <tr class="separator:a111b6adee7ee74caa0cccdfed05e212a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,7 +189,7 @@ class throwing::unique_ptr&lt; T, Deleter &gt;</h3>
 <p>The object is disposed of using a potentially user-supplied deleter by calling <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a>(ptr). The default deleter uses the delete operator, which destroys the object and deallocates the memory.</p>
 <p>A <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> may alternatively own no object, in which case it is called empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00034">34</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00038">38</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a565df1ba5ce1360e258c113da39e89d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a565df1ba5ce1360e258c113da39e89d1">&#9670;&nbsp;</a></span>deleter_type</h2>
@@ -193,7 +205,9 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00039">39</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p>type of the deleter. </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00047">47</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 
 </div>
 </div>
@@ -211,7 +225,9 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00038">38</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p>type of the pointed object. </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00045">45</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 
 </div>
 </div>
@@ -229,7 +245,9 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00037">37</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p>type of the pointer to the pointed object. </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00043">43</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 
 </div>
 </div>
@@ -247,13 +265,15 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00036">36</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p>type of the wrapped std::unique_ptr. </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00041">41</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aac9a7f6329b19a623f5a09dff39fe358"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac9a7f6329b19a623f5a09dff39fe358">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aac9a7f6329b19a623f5a09dff39fe358">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -283,7 +303,7 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 </div>
 </div>
 <a id="a4aaed0a7c66af1c01a1c18c47059cc88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4aaed0a7c66af1c01a1c18c47059cc88">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aaed0a7c66af1c01a1c18c47059cc88">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,12 +331,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> that owns nothing. </p>
 <p>Value-initializes the stored pointer and the stored deleter. Requires that Deleter is DefaultConstructible and that construction does not throw an exception. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00058">58</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00066">66</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a6a6b68ff5cd73e57224195c50ee7e5d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a6b68ff5cd73e57224195c50ee7e5d8">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a6b68ff5cd73e57224195c50ee7e5d8">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,12 +365,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Initialises the stored pointer with ptr and value-initialises the stored deleter.</p>
 <p>Requires that Deleter is DefaultConstructible and that construction does not throw an exception. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00068">68</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;: p(ptr) {}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00076">76</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;: p(ptr) {}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a7f844318e10b47043bb50095b26a0f49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f844318e10b47043bb50095b26a0f49">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f844318e10b47043bb50095b26a0f49">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -389,12 +409,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Initialises the stored pointer with ptr and initialises the stored deleter with d1</p>
 <p>Requires that Deleter is nothrow-CopyConstructible</p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00079">79</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                         : p(ptr, std::forward&lt;decltype(d1)&gt;(d1)) {}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00087">87</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                         : p(ptr, std::forward&lt;decltype(d1)&gt;(d1)) {}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="acc631323eae7c31ece7f78ca6e61b46a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc631323eae7c31ece7f78ca6e61b46a">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acc631323eae7c31ece7f78ca6e61b46a">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,12 +452,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Constructs a std::unique_ptr object which owns p. </p>
 <p>Initialises the stored pointer with ptr. Moves d2 into stored_deleter. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00089">89</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            : p(ptr, std::forward&lt;decltype(d2)&gt;(d2)) {}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00097">97</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            : p(ptr, std::forward&lt;decltype(d2)&gt;(d2)) {}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a2459723178bee6b7e886f25bfe809c7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2459723178bee6b7e886f25bfe809c7e">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2459723178bee6b7e886f25bfe809c7e">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,12 +485,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> by transferring ownership from u to *this. </p>
 <p>If Deleter is not a reference type, requires that it is nothrow-MoveConstructible (if Deleter is a reference, <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a> and <a class="el" href="namespacethrowing.html#a5255215e28b4b2bb9fbee46d1d0ccd0a" title="Access to the p&#39;s deleter. ">u.get_deleter()</a> after move construction reference the same value) </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00100">100</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;: p(std::move(u.p)) {}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00108">108</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;: p(std::move(u.p)) {}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ad2894f55901c535e5e8588060441b3e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2894f55901c535e5e8588060441b3e6">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2894f55901c535e5e8588060441b3e6">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -499,10 +519,46 @@ template&lt;class U , class E &gt; </div>
 
 <p>Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> by transferring ownership from u to *this, where u is constructed with a specified deleter (E). </p>
 <p>It depends upon whether E is a reference type, as following: a) if E is a reference type, this deleter is copy constructed from u's deleter (requires that this construction does not throw) b) if E is a non-reference type, this deleter is move constructed from u's deleter (requires that this construction does not throw)</p>
-<p>This constructor only participates in overload resolution if all of the following is true: a) <a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0">unique_ptr&lt;U, E&gt;::pointer</a> is implicitly convertible to pointer b) U is not an array type c) Either Deleter is a reference type and E is the same type as D, or Deleter is not a reference type and E is implicitly convertible to D </p>
+<p>This constructor only participates in overload resolution if all of the following is true: a) <a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0" title="type of the pointer to the pointed object. ">unique_ptr&lt;U, E&gt;::pointer</a> is implicitly convertible to pointer b) U is not an array type c) Either Deleter is a reference type and E is the same type as D, or Deleter is not a reference type and E is implicitly convertible to D </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00119">119</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            : p(std::move(u.get_std_unique_ptr())) {}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00127">127</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            : p(std::move(u.get_std_unique_ptr())) {}</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a230b637d0152952f552fb075aac0adad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230b637d0152952f552fb075aac0adad">&#9670;&nbsp;</a></span>unique_ptr() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;class U , class E &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classthrowing_1_1unique__ptr.html">throwing::unique_ptr</a>&lt; T, Deleter &gt;::<a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; U, E &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>u</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> by transferring ownership from a std::unique_ptr u to *this, where u is constructed with a specified deleter (E). </p>
+<p>It depends upon whether E is a reference type, as following: a) if E is a reference type, this deleter is copy constructed from u's deleter (requires that this construction does not throw) b) if E is a non-reference type, this deleter is move constructed from u's deleter (requires that this construction does not throw)</p>
+<p>This constructor only participates in overload resolution if all of the following is true: a) std::unique_ptr&lt;U, E&gt;::pointer is implicitly convertible to pointer b) U is not an array type c) Either Deleter is a reference type and E is the same type as D, or Deleter is not a reference type and E is implicitly convertible to D </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00148">148</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;: p(std::move(u)) {}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ae80d53b897216f3744c250b54bfc79a4"></a>
@@ -563,8 +619,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Returns a pointer to the managed object or nullptr if no object is owned. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00207">207</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;{ <span class="keywordflow">return</span> p.get(); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00257">257</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;{ <span class="keywordflow">return</span> p.get(); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a0698d596445d6b8220421a5c92dcbf4d"></a>
@@ -594,8 +650,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Returns the deleter object which would be used for destruction of the managed object. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00212">212</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{ <span class="keywordflow">return</span> p.get_deleter(); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00262">262</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;{ <span class="keywordflow">return</span> p.get_deleter(); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aafdf38864fb92d37540334160b0990f4"></a>
@@ -625,8 +681,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Returns the deleter object which would be used for destruction of the managed object. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00217">217</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;{ <span class="keywordflow">return</span> p.get_deleter(); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00267">267</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;{ <span class="keywordflow">return</span> p.get_deleter(); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a4ee6474d93c02bc7189a941a4a2637f1"></a>
@@ -656,8 +712,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Returns reference to the wrapped std::unique_ptr. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00247">247</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;{ <span class="keywordflow">return</span> p; }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00297">297</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;{ <span class="keywordflow">return</span> p; }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a68941b4ce94eda3917532bf79b42c2c6"></a>
@@ -687,8 +743,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Returns const reference to the wrapped std::unique_ptr. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00251">251</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                                                                       {</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">return</span> p;</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00301">301</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                                                                       {</div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">return</span> p;</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ae808d008ae04f6d0f0a080eafd1bddd6"></a>
@@ -718,8 +774,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Checks whether *this owns an object, i.e. whether <a class="el" href="classthrowing_1_1unique__ptr.html#ad83ed828ed043e412946cf59cd456d82" title="Returns a pointer to the managed object or nullptr if no object is owned. ">get()</a> != nullptr. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00222">222</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;{ <span class="keywordflow">return</span> p.operator bool(); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00272">272</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;{ <span class="keywordflow">return</span> p.operator bool(); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a073c10de0c00b7878f9ad7309d05ca2e"></a>
@@ -748,10 +804,15 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 </div><div class="memdoc">
 
 <p>Dereferences the stored pointer. </p>
-<p>Throws null_ptr_exception&lt;T&gt; if the pointer is null </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">null_ptr_exception&lt;T&gt;</td><td>if the pointer is null </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00228">228</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                                                              {</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">nullptr</span> == <span class="keyword">get</span>())</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">throw</span> null_ptr_exception&lt;T&gt;();</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">return</span> *p;</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00278">278</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                                                              {</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">nullptr</span> == <span class="keyword">get</span>())</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <span class="keywordflow">throw</span> null_ptr_exception&lt;T&gt;();</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">return</span> *p;</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abb2470a1a4758bc523dbc5a5a0b584e8"></a>
@@ -780,14 +841,19 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 </div><div class="memdoc">
 
 <p>Dereferences the stored pointer. </p>
-<p>Throws null_ptr_exception&lt;T&gt; if the pointer is null </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">null_ptr_exception&lt;T&gt;</td><td>if the pointer is null </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00238">238</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                               {</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> ptr = <span class="keyword">get</span>();</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">nullptr</span> == ptr)</div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="keywordflow">throw</span> null_ptr_exception&lt;T&gt;();</div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">return</span> ptr;</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00288">288</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                               {</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> ptr = <span class="keyword">get</span>();</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">nullptr</span> == ptr)</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <span class="keywordflow">throw</span> null_ptr_exception&lt;T&gt;();</div><div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        <span class="keywordflow">return</span> ptr;</div><div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ae45eb4a26834ed81dec5ec8ebb4b3a8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae45eb4a26834ed81dec5ec8ebb4b3a8a">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae45eb4a26834ed81dec5ec8ebb4b3a8a">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -817,12 +883,12 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>If Deleter is not a reference type, requires that it is nothrow-MoveAssignable.</p>
 <p>If Deleter is a reference type, requires that std::remove_reference&lt;Deleter&gt;::type is nothrow-CopyAssignable. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00142">142</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                                                       {</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        p = std::move(r.p);</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00170">170</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                                                       {</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        p = std::move(r.p);</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a10f7420fc83faabe97e4a14c4c0823db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10f7420fc83faabe97e4a14c4c0823db">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a10f7420fc83faabe97e4a14c4c0823db">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -853,14 +919,52 @@ template&lt;class U , class E &gt; </div>
 <p>Transfers ownership from r to *this as if by calling reset(r.release()) followed by an assignment of <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a> from std::forward&lt;E&gt;(<a class="el" href="namespacethrowing.html#a5255215e28b4b2bb9fbee46d1d0ccd0a" title="Access to the p&#39;s deleter. ">r.get_deleter()</a>).</p>
 <p>If Deleter is not a reference type, requires that it is nothrow-MoveAssignable.</p>
 <p>If Deleter is a reference type, requires that std::remove_reference&lt;Deleter&gt;::type is nothrow-CopyAssignable.</p>
-<p>Only participates in overload resolution if U is not an array type and <a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0">unique_ptr&lt;U,E&gt;::pointer</a> is implicitly convertible to pointer and std::is_assignable&lt;Deleter&amp;, E&amp;&amp;&gt;::value is true (since C++17). </p>
+<p>Only participates in overload resolution if U is not an array type and <a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0" title="type of the pointer to the pointed object. ">unique_ptr&lt;U,E&gt;::pointer</a> is implicitly convertible to pointer and std::is_assignable&lt;Deleter&amp;, E&amp;&amp;&gt;::value is true (since C++17). </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00164">164</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                                                             {</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        p = std::move(r.p);</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00192">192</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                                                             {</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        p = std::move(r.p);</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a7ad96b835ac93fe7c4c89a35d2568e01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad96b835ac93fe7c4c89a35d2568e01">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;class U , class E &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classthrowing_1_1unique__ptr.html">unique_ptr</a>&amp; <a class="el" href="classthrowing_1_1unique__ptr.html">throwing::unique_ptr</a>&lt; T, Deleter &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; U, E &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assignment from std::unique_ptr operator. </p>
+<p>Transfers ownership from a std::unique_ptr r to *this as if by calling reset(r.release()) followed by an assignment of <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a> from std::forward&lt;E&gt;(<a class="el" href="namespacethrowing.html#a5255215e28b4b2bb9fbee46d1d0ccd0a" title="Access to the p&#39;s deleter. ">r.get_deleter()</a>).</p>
+<p>If Deleter is not a reference type, requires that it is nothrow-MoveAssignable.</p>
+<p>If Deleter is a reference type, requires that std::remove_reference&lt;Deleter&gt;::type is nothrow-CopyAssignable.</p>
+<p>Only participates in overload resolution if U is not an array type and <a class="el" href="classthrowing_1_1unique__ptr.html#a89116cf72b639ec131fa352662c7a8c0" title="type of the pointer to the pointed object. ">unique_ptr&lt;U,E&gt;::pointer</a> is implicitly convertible to pointer and std::is_assignable&lt;Deleter&amp;, E&amp;&amp;&gt;::value is true (since C++17). </p>
+
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00214">214</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                                                                {</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        p = std::move(r);</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a111b6adee7ee74caa0cccdfed05e212a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a111b6adee7ee74caa0cccdfed05e212a">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a111b6adee7ee74caa0cccdfed05e212a">&#9670;&nbsp;</a></span>operator=() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -888,8 +992,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p>Assignment operator. </p>
 <p>Effectively the same as calling <a class="el" href="classthrowing_1_1unique__ptr.html#acab19c2e4797d47b0a48ba3cdfa446e4" title="Replaces the managed object. ">reset()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00173">173</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                     {</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        p = <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00223">223</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                                                     {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        p = <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="adf5f02f104aca39681e38df94194e2e9"></a>
@@ -921,8 +1025,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <p><a class="el" href="classthrowing_1_1unique__ptr.html#ad83ed828ed043e412946cf59cd456d82" title="Returns a pointer to the managed object or nullptr if no object is owned. ">get()</a> returns nullptr after the call.</p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the managed object or nullptr if there was no managed object, i.e. the value which would be returned by <a class="el" href="classthrowing_1_1unique__ptr.html#ad83ed828ed043e412946cf59cd456d82" title="Returns a pointer to the managed object or nullptr if no object is owned. ">get()</a> before the call. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00185">185</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;{ <span class="keywordflow">return</span> p.release(); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00235">235</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;{ <span class="keywordflow">return</span> p.release(); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="acab19c2e4797d47b0a48ba3cdfa446e4"></a>
@@ -959,8 +1063,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 <li>If the old pointer was non-empty, deletes the previously managed object if(old_ptr != nullptr) <a class="el" href="classthrowing_1_1unique__ptr.html#a0698d596445d6b8220421a5c92dcbf4d" title="Returns the deleter object which would be used for destruction of the managed object. ">get_deleter()</a>(old_ptr). </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00197">197</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;{ p.reset(ptr); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00247">247</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;{ p.reset(ptr); }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aaddb3762f2194e9a19f5813393b819d7"></a>
@@ -991,8 +1095,8 @@ template&lt;typename T, typename Deleter = std::default_delete&lt;T&gt;&gt; </di
 
 <p>Swaps the managed objects and associated deleters of *this and another <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> object other. </p>
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00202">202</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;{ p.swap(other.p); }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00252">252</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;{ p.swap(other.p); }</div></div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -1020,7 +1124,7 @@ template&lt;typename OtherT , typename OtherDeleter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00042">42</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="unique__ptr_8hpp_source.html#l00050">50</a> of file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
 
 </div>
 </div>

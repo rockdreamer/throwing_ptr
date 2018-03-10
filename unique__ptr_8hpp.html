@@ -72,6 +72,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> implementation  
+<a href="#details">More...</a></p>
+
 <p><a href="unique__ptr_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -83,10 +86,13 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> that manages a dynamically-allocated array of objects  <a href="classthrowing_1_1unique__ptr_3_01_t[]_00_01_deleter_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthrowing_1_1detail_1_1___unique__if.html">throwing::detail::_Unique_if&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">true for <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> to single object  <a href="structthrowing_1_1detail_1_1___unique__if.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthrowing_1_1detail_1_1___unique__if_3_01_t[]_4.html">throwing::detail::_Unique_if&lt; T[]&gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">true for <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> to arrays of unknown length  <a href="structthrowing_1_1detail_1_1___unique__if_3_01_t[]_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthrowing_1_1detail_1_1___unique__if_3_01_t[_n]_4.html">throwing::detail::_Unique_if&lt; T[N]&gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">true for <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> to arrays of known length  <a href="structthrowing_1_1detail_1_1___unique__if_3_01_t[_n]_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01throwing_1_1unique__ptr_3_01_type_00_01_deleter_01_4_01_4.html">std::hash&lt; throwing::unique_ptr&lt; Type, Deleter &gt; &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template specialization of std::hash for throwing::unique_ptr&lt;T&gt;  <a href="structstd_1_1hash_3_01throwing_1_1unique__ptr_3_01_type_00_01_deleter_01_4_01_4.html#details">More...</a><br /></td></tr>
@@ -95,8 +101,10 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacethrowing"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethrowing.html">throwing</a></td></tr>
+<tr class="memdesc:namespacethrowing"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementations of <a class="el" href="classthrowing_1_1shared__ptr.html" title="Wrapper aroung std::shared_ptr that throws when a wrapped null pointer is dereferenced. ">throwing::shared_ptr</a>, <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> and related. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacethrowing_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethrowing_1_1detail.html">throwing::detail</a></td></tr>
+<tr class="memdesc:namespacethrowing_1_1detail"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helpers for make_unique type resolution, see n3656. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacestd"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestd.html">std</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +147,54 @@ Functions</h2></td></tr>
 <tr class="memitem:a0974a3f27e1618c8465caadf6f6bda3a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a0974a3f27e1618c8465caadf6f6bda3a">throwing::operator&gt;=</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
 <tr class="memdesc:a0974a3f27e1618c8465caadf6f6bda3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a0974a3f27e1618c8465caadf6f6bda3a">More...</a><br /></td></tr>
 <tr class="separator:a0974a3f27e1618c8465caadf6f6bda3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa90ddbd28ae57c717f20232fbc740325"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:aa90ddbd28ae57c717f20232fbc740325"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#aa90ddbd28ae57c717f20232fbc740325">throwing::operator==</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:aa90ddbd28ae57c717f20232fbc740325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#aa90ddbd28ae57c717f20232fbc740325">More...</a><br /></td></tr>
+<tr class="separator:aa90ddbd28ae57c717f20232fbc740325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a171e763dd062f5811881f30f5047c445"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a171e763dd062f5811881f30f5047c445"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a171e763dd062f5811881f30f5047c445">throwing::operator!=</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a171e763dd062f5811881f30f5047c445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a171e763dd062f5811881f30f5047c445">More...</a><br /></td></tr>
+<tr class="separator:a171e763dd062f5811881f30f5047c445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c0ab4471c3426913062e1a4de830553"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a1c0ab4471c3426913062e1a4de830553"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a1c0ab4471c3426913062e1a4de830553">throwing::operator&lt;</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a1c0ab4471c3426913062e1a4de830553"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a1c0ab4471c3426913062e1a4de830553">More...</a><br /></td></tr>
+<tr class="separator:a1c0ab4471c3426913062e1a4de830553"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a4061edea19f4806f676508151e8a3b"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a9a4061edea19f4806f676508151e8a3b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a9a4061edea19f4806f676508151e8a3b">throwing::operator&lt;=</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a9a4061edea19f4806f676508151e8a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a9a4061edea19f4806f676508151e8a3b">More...</a><br /></td></tr>
+<tr class="separator:a9a4061edea19f4806f676508151e8a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9978848446c7f48eedabf20212e67763"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a9978848446c7f48eedabf20212e67763"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a9978848446c7f48eedabf20212e67763">throwing::operator&gt;</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a9978848446c7f48eedabf20212e67763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a9978848446c7f48eedabf20212e67763">More...</a><br /></td></tr>
+<tr class="separator:a9978848446c7f48eedabf20212e67763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1dafe77868e3261239742d427f423e"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a4c1dafe77868e3261239742d427f423e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a4c1dafe77868e3261239742d427f423e">throwing::operator&gt;=</a> (const std::unique_ptr&lt; T1, D1 &gt; &amp;lhs, const unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a4c1dafe77868e3261239742d427f423e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a4c1dafe77868e3261239742d427f423e">More...</a><br /></td></tr>
+<tr class="separator:a4c1dafe77868e3261239742d427f423e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a949572a85183ad06969ae03a541e8f93"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a949572a85183ad06969ae03a541e8f93"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a949572a85183ad06969ae03a541e8f93">throwing::operator==</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a949572a85183ad06969ae03a541e8f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a949572a85183ad06969ae03a541e8f93">More...</a><br /></td></tr>
+<tr class="separator:a949572a85183ad06969ae03a541e8f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a918cd308310cc190b80993d2d20eeb64"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a918cd308310cc190b80993d2d20eeb64"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a918cd308310cc190b80993d2d20eeb64">throwing::operator!=</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a918cd308310cc190b80993d2d20eeb64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a918cd308310cc190b80993d2d20eeb64">More...</a><br /></td></tr>
+<tr class="separator:a918cd308310cc190b80993d2d20eeb64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6113be0d2ece501070dd698f6d5366"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a3b6113be0d2ece501070dd698f6d5366"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a3b6113be0d2ece501070dd698f6d5366">throwing::operator&lt;</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a3b6113be0d2ece501070dd698f6d5366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a3b6113be0d2ece501070dd698f6d5366">More...</a><br /></td></tr>
+<tr class="separator:a3b6113be0d2ece501070dd698f6d5366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b092623f337fc97002f4d613850cb01"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a9b092623f337fc97002f4d613850cb01"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a9b092623f337fc97002f4d613850cb01">throwing::operator&lt;=</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a9b092623f337fc97002f4d613850cb01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a9b092623f337fc97002f4d613850cb01">More...</a><br /></td></tr>
+<tr class="separator:a9b092623f337fc97002f4d613850cb01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd2e4cf1af83c415080ba9f979fa5c8a"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:afd2e4cf1af83c415080ba9f979fa5c8a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#afd2e4cf1af83c415080ba9f979fa5c8a">throwing::operator&gt;</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:afd2e4cf1af83c415080ba9f979fa5c8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#afd2e4cf1af83c415080ba9f979fa5c8a">More...</a><br /></td></tr>
+<tr class="separator:afd2e4cf1af83c415080ba9f979fa5c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed541e9f2a7d6c1649467d21db0b512"><td class="memTemplParams" colspan="2">template&lt;class T1 , class D1 , class T2 , class D2 &gt; </td></tr>
+<tr class="memitem:a3ed541e9f2a7d6c1649467d21db0b512"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a3ed541e9f2a7d6c1649467d21db0b512">throwing::operator&gt;=</a> (const unique_ptr&lt; T1, D1 &gt; &amp;lhs, const std::unique_ptr&lt; T2, D2 &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a3ed541e9f2a7d6c1649467d21db0b512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> objects.  <a href="namespacethrowing.html#a3ed541e9f2a7d6c1649467d21db0b512">More...</a><br /></td></tr>
+<tr class="separator:a3ed541e9f2a7d6c1649467d21db0b512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46b9419192adc27bb8a8506122b1f0d5"><td class="memTemplParams" colspan="2">template&lt;class T , class D &gt; </td></tr>
 <tr class="memitem:a46b9419192adc27bb8a8506122b1f0d5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethrowing.html#a46b9419192adc27bb8a8506122b1f0d5">throwing::operator==</a> (const unique_ptr&lt; T, D &gt; &amp;lhs, std::nullptr_t rhs) <a class="el" href="compiler__checks_8hpp.html#a2998db45be168f991e952469f9789ac6">TSP_NOEXCEPT</a></td></tr>
 <tr class="memdesc:a46b9419192adc27bb8a8506122b1f0d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare a <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">unique_ptr</a> with a null pointer.  <a href="namespacethrowing.html#a46b9419192adc27bb8a8506122b1f0d5">More...</a><br /></td></tr>
@@ -196,7 +252,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:aa33cc870cf4266ac52c8fb07a295bbeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specializes the std::swap algorithm for <a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a>.  <a href="namespacethrowing.html#aa33cc870cf4266ac52c8fb07a295bbeb">More...</a><br /></td></tr>
 <tr class="separator:aa33cc870cf4266ac52c8fb07a295bbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classthrowing_1_1unique__ptr.html" title="unique_ptr that manages a single object ">throwing::unique_ptr</a> implementation </p>
+<p><a class="el" href="unique__ptr_8hpp.html" title="throwing::unique_ptr implementation ">throwing/unique_ptr.hpp</a> </p>
+
+<p class="definition">Definition in file <a class="el" href="unique__ptr_8hpp_source.html">unique_ptr.hpp</a>.</p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

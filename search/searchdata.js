@@ -3,11 +3,11 @@ var indexSectionsWithContent =
   0: "_abcdeghmnoprstuw~",
   1: "_bhnsu",
   2: "st",
-  3: "cnrsu",
-  4: "abcdgmorsuw~",
+  3: "cnrstu",
+  4: "abcdgmorstuw~",
   5: "_deps",
   6: "su",
-  7: "t"
+  7: "ct"
 };
 
 var indexSectionNames =
