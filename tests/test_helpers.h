@@ -18,7 +18,7 @@ public:
 };
 
 struct TestBaseClassSimpleDeleter {
-    void operator()(A *p) const { delete p; }
+    void operator()(TestBaseClass *p) const { delete p; }
 };
 
 struct TestContentClass {
@@ -28,12 +28,12 @@ struct TestContentClass {
 };
 
 struct TestContainingClass {
-    Contained things;
+    TestContentClass things;
 };
 
 struct MemoryPositionHelper {
     // helper for owner_before
     int m1;
     int m2;
-    Foo(int a, int b) : m1(a), m2(b) {}
+    MemoryPositionHelper(int a, int b) : m1(a), m2(b) {}
 };
