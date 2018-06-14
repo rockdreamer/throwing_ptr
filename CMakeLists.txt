@@ -137,6 +137,10 @@ set(TESTS
     unique_ptr_to_array_access
     unique_ptr_to_array_assignment
     unique_ptr_to_array_construction
+    weak_ptr_assignment
+    weak_ptr_construction
+    weak_ptr_modifiers
+    weak_ptr_observers
 )
 
 if(HAVE_SHARED_PTR_TO_ARRAY)
