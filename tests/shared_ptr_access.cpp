@@ -33,15 +33,15 @@ TEST_CASE("shared_ptr get returns correct address", "[shared_ptr][access]") {
 TEST_CASE("shared_ptr dereference via * throws on nullptr",
           "[shared_ptr][dereference][nullptr]") {
     throwing::shared_ptr<int> nothing;
-    REQUIRE_THROWS_AS((*nothing)++, throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS((*nothing)++, throwing::null_ptr_exception<int>);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::null_ptr_exception<int>&);
 }
 
 TEST_CASE("shared_ptr dereference via -> throws on nullptr",
           "[shared_ptr][dereference][nullptr]") {
     throwing::shared_ptr<Foo> nothing;
-    REQUIRE_THROWS_AS(nothing->foo(), throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS(nothing->foo(), throwing::null_ptr_exception<Foo>);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::null_ptr_exception<Foo>&);
 }
 
 TEST_CASE("type specific shared_ptr exceptions are caught by base exception",

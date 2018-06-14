@@ -39,14 +39,14 @@ TEST_CASE("weak_ptr lock creates throwing_ptr", "[weak_ptr][lock]") {
     throwing::weak_ptr<TestBaseClass> wp;
 
     REQUIRE(wp.lock() == nullptr);
-    REQUIRE_THROWS_AS(wp.lock()->dummy(), throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS(wp.lock()->dummy(), throwing::base_null_ptr_exception&);
 
     p = throwing::make_shared<TestBaseClass>();
     wp = p;
     wp.lock()->dummy(); // no exception
 
     p.reset();
-    REQUIRE_THROWS_AS(wp.lock()->dummy(), throwing::base_null_ptr_exception);
+    REQUIRE_THROWS_AS(wp.lock()->dummy(), throwing::base_null_ptr_exception&);
 }
 
 TEST_CASE("weak_ptr owner_before behaves as std::weak_ptr",

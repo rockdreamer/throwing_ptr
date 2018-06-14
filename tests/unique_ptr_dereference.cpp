@@ -16,15 +16,15 @@ struct Foo {
 TEST_CASE("unique_ptr dereference via * throws on nullptr",
           "[unique_ptr][dereference][nullptr]") {
     throwing::unique_ptr<int> nothing;
-    REQUIRE_THROWS_AS((*nothing)++, throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS((*nothing)++, throwing::null_ptr_exception<int>);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS((*nothing)++, throwing::null_ptr_exception<int>&);
 }
 
 TEST_CASE("unique_ptr dereference via -> throws on nullptr",
           "[unique_ptr][dereference][nullptr]") {
     throwing::unique_ptr<Foo> nothing;
-    REQUIRE_THROWS_AS(nothing->foo(), throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS(nothing->foo(), throwing::null_ptr_exception<Foo>);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS(nothing->foo(), throwing::null_ptr_exception<Foo>&);
 }
 
 TEST_CASE("type specific unique_ptr exceptions are caught by base exception",

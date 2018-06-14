@@ -34,8 +34,8 @@ TEST_CASE("shared_ptr to array: get returns first element",
 TEST_CASE("dereferencing null shared_ptr to array throws",
           "[shared_ptr][array][access]") {
     throwing::shared_ptr<Foo[100]> nothing;
-    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo[100]>);
+    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo[100]>&);
 }
 
 TEST_CASE("shared_ptr to array: [0] returns first element",
