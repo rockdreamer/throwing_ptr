@@ -5,7 +5,7 @@
 
 #include "test_helpers.h"
 #include <catch.hpp>
-#include <throwing/weak_ptr.hpp>
+#include <throwing/shared_ptr.hpp>
 
 TEST_CASE("weak_ptr use_count and expired", "[weak_ptr][use_count]") {
     throwing::weak_ptr<int> wp;

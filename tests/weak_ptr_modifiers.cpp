@@ -5,7 +5,7 @@
 
 #include "test_helpers.h"
 #include <catch.hpp>
-#include <throwing/weak_ptr.hpp>
+#include <throwing/shared_ptr.hpp>
 
 TEST_CASE("weak_ptr reset", "[weak_ptr][reset]") {
     auto p = std::make_shared<int>(42);

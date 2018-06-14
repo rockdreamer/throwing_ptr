@@ -5,7 +5,7 @@
 
 #include "test_helpers.h"
 #include <catch.hpp>
-#include <throwing/weak_ptr.hpp>
+#include <throwing/shared_ptr.hpp>
 
 TEST_CASE("weak_ptr default constructor", "[weak_ptr][constructor]") {
     throwing::weak_ptr<int> null;
@@ -21,7 +21,7 @@ TEST_CASE("weak_ptr constructor from std::shared_ptr",
 
 TEST_CASE("weak_ptr constructor from std::shared_ptr to derived class",
           "[weak_ptr][constructor]") {
-    auto p = std::make_shared<TestDerivedClass>(42);
+    auto p = std::make_shared<TestDerivedClass>();
     throwing::weak_ptr<TestBaseClass> wp(p);
     REQUIRE(wp.lock() == p);
 }
