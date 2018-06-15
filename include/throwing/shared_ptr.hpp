@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 /** \file shared_ptr.hpp throwing/shared_ptr.hpp
- * \brief throwing::shared_ptr implementation
+ * \brief throwing::shared_ptr and throwing::weak_ptr implementation
  */
 
 #pragma once
@@ -19,6 +19,9 @@
  * related
  */
 namespace throwing {
+
+template <typename SharedPtrType> class shared_ptr;
+template <typename WeakPtrType> class weak_ptr;
 
 /*! \class throwing::shared_ptr throwing/shared_ptr.hpp
  *  \brief Wrapper aroung std::shared_ptr that throws when a wrapped null
@@ -81,7 +84,7 @@ public:
     /** \brief Constructs a shared_ptr with ptr as the pointer to the managed
      * object.
      */
-    template <class Y> explicit shared_ptr(Y *ptr) : p(ptr) {}
+    template <typename Y> explicit shared_ptr(Y *ptr) : p(ptr) {}
 
     /** \brief Constructs a shared_ptr with ptr as the pointer to the managed
      * object.
@@ -94,7 +97,7 @@ public:
      * The construction of d and of the stored deleter from d must not throw
      * exceptions.
      */
-    template <class Y, class Deleter>
+    template <typename Y, class Deleter>
     shared_ptr(Y *ptr, Deleter d) : p(ptr, d) {}
 
     /** \brief Constructs a shared_ptr with ptr as the pointer to the managed
@@ -126,7 +129,7 @@ public:
      *
      * Alloc must be a Allocator.
      */
-    template <class Y, class Deleter, class Alloc>
+    template <typename Y, class Deleter, class Alloc>
     shared_ptr(Y *ptr, Deleter d, Alloc alloc) : p(ptr, d, alloc) {}
 
     /** \brief  The aliasing constructor
@@ -143,7 +146,7 @@ public:
      * use cases where ptr is a member of the object managed by r or is an alias
      * (e.g., downcast) of r.get()
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr(const shared_ptr<Y> &r, element_type *ptr) TSP_NOEXCEPT
             : p(r.p, ptr) {}
 
@@ -159,7 +162,7 @@ public:
      *
      * If r manages no object, *this manages no object too.
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr(const shared_ptr<Y> &r) TSP_NOEXCEPT : p(r.p) {}
 
     /** \brief  Move-constructs a shared_ptr from r.
@@ -174,7 +177,7 @@ public:
      * After the construction, *this contains a copy of the previous state of r,
      * r is empty and its stored pointer is null.
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr(shared_ptr<Y> &&r) TSP_NOEXCEPT : p(std::move(r.p)) {}
 
     /** \brief  Constructs a shared_ptr which shares ownership of the object
@@ -189,7 +192,7 @@ public:
      *
      * If r manages no object, *this manages no object too.
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr(const std::shared_ptr<Y> &r) TSP_NOEXCEPT : p(r) {}
 
     /** \brief  Move-constructs a shared_ptr from r.
@@ -204,7 +207,7 @@ public:
      * After the construction, *this contains a copy of the previous state of r,
      * r is empty and its stored pointer is null.
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr(std::shared_ptr<Y> &&r) TSP_NOEXCEPT : p(std::move(r)) {}
 
     /** \brief Constructs a shared_ptr which shares ownership of the object
@@ -220,7 +223,23 @@ public:
      * std::weak_ptr<T>::lock() constructs an empty std::shared_ptr in that
      * case.
      */
-    template <class Y> explicit shared_ptr(const std::weak_ptr<Y> &r) : p(r) {}
+    template <typename Y>
+    explicit shared_ptr(const std::weak_ptr<Y> &r) : p(r) {}
+
+    /** \brief Constructs a shared_ptr which shares ownership of the object
+     * managed by r.
+     *
+     * Y* must be implicitly convertible to T*. (until C++17)
+     *
+     * This overload only participates in overload resolution if Y* is
+     * compatible with T*. (since C++17)
+     *
+     * Note that r.lock() may be used for the same purpose: the difference is
+     * that this constructor throws an exception if the argument is empty, while
+     * throwing::weak_ptr<T>::lock() constructs an empty throwing::shared_ptr in
+     * that case.
+     */
+    template <typename Y> explicit shared_ptr(const throwing::weak_ptr<Y> &r);
 
     /**\brief Constructs a shared_ptr which manages the object currently managed
      * by r.
@@ -239,7 +258,7 @@ public:
      * std::ref(r.get_deleter()).
      * Otherwise, equivalent to shared_ptr(r.release(), r.get_deleter())
      */
-    template <class Y, class Deleter>
+    template <typename Y, class Deleter>
     shared_ptr(std::unique_ptr<Y, Deleter> &&r) : p(std::move(r)) {}
 
     /** \brief Destructor
@@ -283,7 +302,7 @@ public:
      * *this manages no object too.
      * Equivalent to shared_ptr<T>(r).swap(*this).
      */
-    template <class Y>
+    template <typename Y>
     shared_ptr &operator=(const shared_ptr<Y> &r) TSP_NOEXCEPT {
         p = r.p;
         return *this;
@@ -316,7 +335,8 @@ public:
      * copy of the previous state of r, r is empty. Equivalent to
      * shared_ptr<T>(std::move(r)).swap(*this)
      */
-    template <class Y> shared_ptr &operator=(shared_ptr<Y> &&r) TSP_NOEXCEPT {
+    template <typename Y>
+    shared_ptr &operator=(shared_ptr<Y> &&r) TSP_NOEXCEPT {
         p = std::move(r.p);
         return *this;
     }
@@ -333,7 +353,7 @@ public:
      * manages no object after the call. Equivalent to
      * shared_ptr<T>(std::move(r)).swap(*this).
      */
-    template <class Y, class Deleter>
+    template <typename Y, class Deleter>
     shared_ptr &operator=(std::unique_ptr<Y, Deleter> &&r) {
         p = std::move(r);
         return *this;
@@ -365,7 +385,7 @@ public:
      *
      * Equivalent to shared_ptr<T>(ptr).swap(*this);
      */
-    template <class Y> void reset(Y *ptr) { p.reset(ptr); }
+    template <typename Y> void reset(Y *ptr) { p.reset(ptr); }
 
     /** \brief Replaces the managed object with an object pointed to by ptr.
      *
@@ -378,7 +398,7 @@ public:
      *
      * Equivalent to shared_ptr<T>(ptr, d).swap(*this);
      */
-    template <class Y, class Deleter> void reset(Y *ptr, Deleter d) {
+    template <typename Y, class Deleter> void reset(Y *ptr, Deleter d) {
         p.reset(ptr, d);
     }
 
@@ -397,7 +417,7 @@ public:
      *
      * Equivalent to shared_ptr<T>(ptr, d, alloc).swap(*this);
      */
-    template <class Y, class Deleter, class Alloc>
+    template <typename Y, class Deleter, class Alloc>
     void reset(Y *ptr, Deleter d, Alloc alloc) {
         p.reset(ptr, d, alloc);
     }
@@ -485,7 +505,7 @@ public:
      * This ordering is used to make shared and weak pointers usable as keys in
      * associative containers, typically through std::owner_less.
      */
-    template <class Y>
+    template <typename Y>
     bool owner_before(const shared_ptr<Y> &other) const TSP_NOEXCEPT {
         return p.owner_before(other.p);
     }
@@ -501,7 +521,7 @@ public:
      * This ordering is used to make shared and weak pointers usable as keys in
      * associative containers, typically through std::owner_less.
      */
-    template <class Y>
+    template <typename Y>
     bool owner_before(const std::shared_ptr<Y> &other) const TSP_NOEXCEPT {
         return p.owner_before(other);
     }
@@ -517,10 +537,24 @@ public:
      * This ordering is used to make shared and weak pointers usable as keys in
      * associative containers, typically through std::owner_less.
      */
-    template <class Y>
+    template <typename Y>
     bool owner_before(const std::weak_ptr<Y> &other) const TSP_NOEXCEPT {
         return p.owner_before(other);
     }
+
+    /** \brief Checks whether this shared_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     */
+    template <typename Y>
+    bool owner_before(const throwing::weak_ptr<Y> &other) const TSP_NOEXCEPT;
 
 private:
     std::shared_ptr<T> p;
@@ -532,7 +566,7 @@ private:
  *
  * Calls lhs.swap(rhs).
  */
-template <class T>
+template <typename T>
 void swap(throwing::shared_ptr<T> &lhs,
           throwing::shared_ptr<T> &rhs) TSP_NOEXCEPT {
     lhs.swap(rhs);
@@ -554,7 +588,8 @@ void swap(throwing::shared_ptr<T> &lhs,
  * This overload only participates in overload resolution if T is not an array
  * type
  */
-template <class T, class... Args> shared_ptr<T> make_shared(Args &&... args) {
+template <typename T, class... Args>
+shared_ptr<T> make_shared(Args &&... args) {
     return shared_ptr<T>(
             std::move(std::make_shared<T>(std::forward<Args>(args)...)));
 }
@@ -579,7 +614,7 @@ template <class T, class... Args> shared_ptr<T> make_shared(Args &&... args) {
  * This overload only participates in overload resolution if T is not an array
  * type
  */
-template <class T, class Alloc, class... Args>
+template <typename T, class Alloc, class... Args>
 shared_ptr<T> allocate_shared(const Alloc &alloc, Args &&... args) {
     return shared_ptr<T>(std::move(
             std::allocate_shared<T>(alloc, std::forward<Args>(args)...)));
@@ -595,7 +630,7 @@ shared_ptr<T> allocate_shared(const Alloc &alloc, Args &&... args) {
  *
  * The behavior is undefined unless static_cast<T*>((U*)nullptr) is well formed.
  */
-template <class T, class U>
+template <typename T, typename U>
 shared_ptr<T> static_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
     auto p = static_cast<typename shared_ptr<T>::element_type *>(r.get());
     return shared_ptr<T>(r, p);
@@ -614,7 +649,7 @@ shared_ptr<T> static_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
  * The behavior is undefined unless dynamic_cast<T*>((U*)nullptr) is well
  * formed.
  */
-template <class T, class U>
+template <typename T, typename U>
 shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
     if (auto p =
                 dynamic_cast<typename shared_ptr<T>::element_type *>(r.get())) {
@@ -634,7 +669,7 @@ shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
  *
  * The behavior is undefined unless const_cast<T*>((U*)nullptr) is well formed.
  */
-template <class T, class U>
+template <typename T, typename U>
 shared_ptr<T> const_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
     auto p = const_cast<typename shared_ptr<T>::element_type *>(r.get());
     return shared_ptr<T>(r, p);
@@ -651,7 +686,7 @@ shared_ptr<T> const_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
  * The behavior is undefined unless reinterpret_cast<T*>((U*)nullptr) is well
  * formed.
  */
-template <class T, class U>
+template <typename T, typename U>
 shared_ptr<T> reinterpret_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
     auto p = reinterpret_cast<typename shared_ptr<T>::element_type *>(r.get());
     return shared_ptr<T>(r, p);
@@ -664,7 +699,7 @@ shared_ptr<T> reinterpret_pointer_cast(const shared_ptr<U> &r) TSP_NOEXCEPT {
  * parameter), then returns a pointer to the deleter. Otherwise, returns a null
  * pointer.
  */
-template <class Deleter, class T>
+template <class Deleter, typename T>
 Deleter *get_deleter(const shared_ptr<T> &p) TSP_NOEXCEPT {
     return std::get_deleter<Deleter>(p.get_std_shared_ptr());
 }
@@ -672,7 +707,7 @@ Deleter *get_deleter(const shared_ptr<T> &p) TSP_NOEXCEPT {
 /** \brief Compare two shared_ptr objects
  * \return lhs.get() == rhs.get()
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator==(const shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() == rhs.get_std_shared_ptr();
@@ -681,7 +716,7 @@ bool operator==(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs == rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator!=(const shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() != rhs.get_std_shared_ptr();
@@ -692,7 +727,7 @@ bool operator!=(const shared_ptr<T> &lhs,
  * pointer type of std::shared_ptr<T>::element_type* and
  * std::shared_ptr<U>::element_type*
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<(const shared_ptr<T> &lhs,
                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() < rhs.get_std_shared_ptr();
@@ -701,7 +736,7 @@ bool operator<(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return rhs < lhs
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>(const shared_ptr<T> &lhs,
                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() > rhs.get_std_shared_ptr();
@@ -710,7 +745,7 @@ bool operator>(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(rhs < lhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<=(const shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() <= rhs.get_std_shared_ptr();
@@ -719,7 +754,7 @@ bool operator<=(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs < rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>=(const shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() >= rhs.get_std_shared_ptr();
@@ -728,7 +763,7 @@ bool operator>=(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return lhs.get() == rhs.get()
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator==(const std::shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs == rhs.get_std_shared_ptr();
@@ -737,7 +772,7 @@ bool operator==(const std::shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs == rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator!=(const std::shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs != rhs.get_std_shared_ptr();
@@ -748,7 +783,7 @@ bool operator!=(const std::shared_ptr<T> &lhs,
  * pointer type of std::shared_ptr<T>::element_type* and
  * std::shared_ptr<U>::element_type*
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<(const std::shared_ptr<T> &lhs,
                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs < rhs.get_std_shared_ptr();
@@ -757,7 +792,7 @@ bool operator<(const std::shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return rhs < lhs
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>(const std::shared_ptr<T> &lhs,
                const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs > rhs.get_std_shared_ptr();
@@ -766,7 +801,7 @@ bool operator>(const std::shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(rhs < lhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<=(const std::shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs <= rhs.get_std_shared_ptr();
@@ -775,7 +810,7 @@ bool operator<=(const std::shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs < rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>=(const std::shared_ptr<T> &lhs,
                 const shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs >= rhs.get_std_shared_ptr();
@@ -784,7 +819,7 @@ bool operator>=(const std::shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return lhs.get() == rhs.get()
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator==(const shared_ptr<T> &lhs,
                 const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() == rhs;
@@ -793,7 +828,7 @@ bool operator==(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs == rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator!=(const shared_ptr<T> &lhs,
                 const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() != rhs;
@@ -804,7 +839,7 @@ bool operator!=(const shared_ptr<T> &lhs,
  * pointer type of std::shared_ptr<T>::element_type* and
  * std::shared_ptr<U>::element_type*
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<(const shared_ptr<T> &lhs,
                const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() < rhs;
@@ -813,7 +848,7 @@ bool operator<(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return rhs < lhs
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>(const shared_ptr<T> &lhs,
                const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() > rhs;
@@ -822,7 +857,7 @@ bool operator>(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(rhs < lhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator<=(const shared_ptr<T> &lhs,
                 const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() <= rhs;
@@ -831,7 +866,7 @@ bool operator<=(const shared_ptr<T> &lhs,
 /** \brief Compare two shared_ptr objects
  * \return !(lhs < rhs)
  */
-template <class T, class U>
+template <typename T, typename U>
 bool operator>=(const shared_ptr<T> &lhs,
                 const std::shared_ptr<U> &rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() >= rhs;
@@ -840,7 +875,7 @@ bool operator>=(const shared_ptr<T> &lhs,
 /** \brief Compare a shared_ptr with a null pointer
  * \return !lhs
  */
-template <class T>
+template <typename T>
 bool operator==(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() == rhs;
 }
@@ -848,7 +883,7 @@ bool operator==(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return !rhs
  */
-template <class T>
+template <typename T>
 bool operator==(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs == rhs.get_std_shared_ptr();
 }
@@ -856,7 +891,7 @@ bool operator==(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return (bool)lhs
  */
-template <class T>
+template <typename T>
 bool operator!=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() != rhs;
 }
@@ -864,7 +899,7 @@ bool operator!=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return (bool)rhs
  */
-template <class T>
+template <typename T>
 bool operator!=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs != rhs.get_std_shared_ptr();
 }
@@ -872,7 +907,7 @@ bool operator!=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return std::less<shared_ptr<T>::element_type*>()(lhs.get(), nullptr)
  */
-template <class T>
+template <typename T>
 bool operator<(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() < rhs;
 }
@@ -880,7 +915,7 @@ bool operator<(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return std::less<shared_ptr<T>::element_type*>()(nullptr, rhs.get())
  */
-template <class T>
+template <typename T>
 bool operator<(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs < rhs.get_std_shared_ptr();
 }
@@ -888,7 +923,7 @@ bool operator<(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return nullptr < lhs
  */
-template <class T>
+template <typename T>
 bool operator>(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() > rhs;
 }
@@ -896,7 +931,7 @@ bool operator>(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return rhs < nullptr
  */
-template <class T>
+template <typename T>
 bool operator>(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs > rhs.get_std_shared_ptr();
 }
@@ -904,7 +939,7 @@ bool operator>(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return !(nullptr < lhs)
  */
-template <class T>
+template <typename T>
 bool operator<=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() <= rhs;
 }
@@ -912,7 +947,7 @@ bool operator<=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return !(rhs < nullptr)
  */
-template <class T>
+template <typename T>
 bool operator<=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs <= rhs.get_std_shared_ptr();
 }
@@ -920,7 +955,7 @@ bool operator<=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return !(lhs < nullptr)
  */
-template <class T>
+template <typename T>
 bool operator>=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
     return lhs.get_std_shared_ptr() >= rhs;
 }
@@ -928,7 +963,7 @@ bool operator>=(const shared_ptr<T> &lhs, std::nullptr_t rhs) TSP_NOEXCEPT {
 /** \brief Compare a shared_ptr with a null pointer
  * \return !(nullptr < rhs)
  */
-template <class T>
+template <typename T>
 bool operator>=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
     return lhs >= rhs.get_std_shared_ptr();
 }
@@ -939,7 +974,7 @@ bool operator>=(std::nullptr_t lhs, const shared_ptr<T> &rhs) TSP_NOEXCEPT {
  * Equivalent to os << ptr.get().
  * \return os
  */
-template <class T, class U, class V>
+template <typename T, typename U, typename V>
 std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
                                      const shared_ptr<T> &ptr) {
     os << ptr.get();
@@ -952,13 +987,13 @@ std::basic_ostream<U, V> &operator<<(std::basic_ostream<U, V> &os,
 /** \brief Determines whether atomic access to the shared pointer pointed-to by
  * p is lock-free.
  */
-template <class T> bool atomic_is_lock_free(shared_ptr<T> const *p) {
+template <typename T> bool atomic_is_lock_free(shared_ptr<T> const *p) {
     return atomic_is_lock_free(reinterpret_cast<std::shared_ptr<T> const *>(p));
 }
 
 /** \brief Equivalent to atomic_load_explicit(p, std::memory_order_seq_cst)
  */
-template <class T> shared_ptr<T> atomic_load(const shared_ptr<T> *p) {
+template <typename T> shared_ptr<T> atomic_load(const shared_ptr<T> *p) {
     return std::move(
             atomic_load(reinterpret_cast<const std::shared_ptr<T> *>(p)));
 }
@@ -968,7 +1003,7 @@ template <class T> shared_ptr<T> atomic_load(const shared_ptr<T> *p) {
  * As with the non-specialized std::atomic_load_explicit, mo cannot be
  * std::memory_order_release or std::memory_order_acq_rel
  */
-template <class T>
+template <typename T>
 shared_ptr<T> atomic_load_explicit(const shared_ptr<T> *p,
                                    std::memory_order mo) {
     return std::move(atomic_load_explicit(
@@ -977,7 +1012,7 @@ shared_ptr<T> atomic_load_explicit(const shared_ptr<T> *p,
 
 /** \brief Equivalent to atomic_store_explicit(p, r, memory_order_seq_cst)
  */
-template <class T> void atomic_store(shared_ptr<T> *p, shared_ptr<T> r) {
+template <typename T> void atomic_store(shared_ptr<T> *p, shared_ptr<T> r) {
     atomic_store(reinterpret_cast<std::shared_ptr<T> *>(p),
                  r.get_std_shared_ptr());
 }
@@ -988,7 +1023,7 @@ template <class T> void atomic_store(shared_ptr<T> *p, shared_ptr<T> r) {
  * As with the non-specialized std::atomic_store_explicit, mo cannot be
  * std::memory_order_acquire or std::memory_order_acq_rel.
  */
-template <class T>
+template <typename T>
 void atomic_store_explicit(shared_ptr<T> *p, shared_ptr<T> r,
                            std::memory_order mo) {
     atomic_store_explicit(reinterpret_cast<std::shared_ptr<T> *>(p),
@@ -997,7 +1032,7 @@ void atomic_store_explicit(shared_ptr<T> *p, shared_ptr<T> r,
 
 /** \brief Equivalent to atomic_exchange(p, r, memory_order_seq_cst)
  */
-template <class T>
+template <typename T>
 shared_ptr<T> atomic_exchange(shared_ptr<T> *p, shared_ptr<T> r) {
     return std::move(atomic_exchange(reinterpret_cast<std::shared_ptr<T> *>(p),
                                      r.get_std_shared_ptr()));
@@ -1008,7 +1043,7 @@ shared_ptr<T> atomic_exchange(shared_ptr<T> *p, shared_ptr<T> r) {
  *
  * Effectively executes p->swap(r) and returns a copy of r after the swap.
  */
-template <class T>
+template <typename T>
 shared_ptr<T> atomic_exchange_explicit(shared_ptr<T> *p, shared_ptr<T> r,
                                        std::memory_order mo) {
     return std::move(
@@ -1019,7 +1054,7 @@ shared_ptr<T> atomic_exchange_explicit(shared_ptr<T> *p, shared_ptr<T> r,
 /** \brief Equivalent to atomic_compare_exchange_weak_explicit(p, expected,
  * desired, std::memory_order_seq_cst, std::memory_order_seq_cst)
  */
-template <class T>
+template <typename T>
 bool atomic_compare_exchange_weak(shared_ptr<T> *p, shared_ptr<T> *expected,
                                   shared_ptr<T> desired) {
     return atomic_compare_exchange_weak(
@@ -1031,7 +1066,7 @@ bool atomic_compare_exchange_weak(shared_ptr<T> *p, shared_ptr<T> *expected,
 /** \brief Equivalent to atomic_compare_exchange_strong_explicit(p, expected,
  * desired, std::memory_order_seq_cst, std::memory_order_seq_cst)
  */
-template <class T>
+template <typename T>
 bool atomic_compare_exchange_strong(shared_ptr<T> *p, shared_ptr<T> *expected,
                                     shared_ptr<T> desired) {
     return atomic_compare_exchange_strong(
@@ -1047,7 +1082,7 @@ bool atomic_compare_exchange_strong(shared_ptr<T> *p, shared_ptr<T> *expected,
  * equivalent, assigns *p into *expected using the memory ordering constraints
  * specified by failure and returns false.
  */
-template <class T>
+template <typename T>
 bool atomic_compare_exchange_strong_explicit(shared_ptr<T> *p,
                                              shared_ptr<T> *expected,
                                              shared_ptr<T> desired,
@@ -1066,7 +1101,7 @@ bool atomic_compare_exchange_strong_explicit(shared_ptr<T> *p,
  * equivalent, assigns *p into *expected using the memory ordering constraints
  * specified by failure and returns false, but may fail spuriously.
  */
-template <class T>
+template <typename T>
 bool atomic_compare_exchange_weak_explicit(shared_ptr<T> *p,
                                            shared_ptr<T> *expected,
                                            shared_ptr<T> desired,
@@ -1079,13 +1114,488 @@ bool atomic_compare_exchange_weak_explicit(shared_ptr<T> *p,
 }
 #endif // atomic methods supported by compiler
 
+/*! \class throwing::weak_ptr throwing/shared_ptr.hpp
+ *  \brief Wrapper aroung std::weak_ptr that returns a throwing::shared_ptr when
+ * lock() is called
+ *
+ * a weak_ptr is a smart pointer that holds a non-owning ("weak") reference to
+ * an object that is managed by a shared_ptr. It must be converted to a
+ * shared_ptr in order to access the referenced object.
+ *
+ * weak_ptr models temporary ownership: when an object needs to be accessed only
+ * if it exists, and it may be deleted at any time by someone else, weak_ptr is
+ * used to track the object, and it is converted to shared_ptr to assume
+ * temporary ownership. If the original shared_ptr is destroyed at this time,
+ * the object's lifetime is extended until the temporary shared_ptr is destroyed
+ * as well.
+ *
+ * In addition, a weak_ptr is used to break circular references of shared_ptr.
+ *
+ * The underlying std::weak_ptr is available via get_std_weak_ptr()
+ */
+template <typename T> class weak_ptr {
+public:
+    /** \brief the type pointed to. */
+    typedef typename std::weak_ptr<T>::element_type element_type;
+
+    // allow access to p for other throwing::weak_ptr instantiations
+    template <typename Y> friend class weak_ptr;
+
+    /** \brief Default constructor. Constructs empty weak_ptr.
+     */
+    TSP_CONSTEXPR weak_ptr() TSP_NOEXCEPT = default;
+
+    /** \brief Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     */
+    weak_ptr(const weak_ptr &r) TSP_NOEXCEPT : p(r.p) {}
+
+    /** \brief Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     */
+    weak_ptr(const std::weak_ptr<T> &r) TSP_NOEXCEPT : p(r) {}
+
+    /** \brief  Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     *
+     * This overload doesn't participate in the overload resolution unless Y* is
+     * implicitly convertible to T* , or Y is the type "array of N U" for some
+     * type U and some number N, and T is the type "array of unknown bound of
+     * (possibly cv-qualified) U". (since C++17)
+     */
+    template <typename Y>
+    weak_ptr(const weak_ptr<Y> &r) TSP_NOEXCEPT : p(r.p) {}
+
+    /** \brief  Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     *
+     * This overload doesn't participate in the overload resolution unless Y* is
+     * implicitly convertible to T* , or Y is the type "array of N U" for some
+     * type U and some number N, and T is the type "array of unknown bound of
+     * (possibly cv-qualified) U". (since C++17)
+     */
+    template <typename Y>
+    weak_ptr(const std::weak_ptr<Y> &r) TSP_NOEXCEPT : p(r) {}
+
+    /** \brief  Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     *
+     * This overload doesn't participate in the overload resolution unless Y* is
+     * implicitly convertible to T* , or Y is the type "array of N U" for some
+     * type U and some number N, and T is the type "array of unknown bound of
+     * (possibly cv-qualified) U". (since C++17)
+     */
+    template <typename Y>
+    weak_ptr(const throwing::shared_ptr<Y> &r) TSP_NOEXCEPT
+            : p(r.get_std_shared_ptr()) {}
+
+    /** \brief  Constructs new weak_ptr which shares an object managed by r.
+     *
+     * If r manages no object, *this manages no object too.
+     *
+     * This overload doesn't participate in the overload resolution unless Y* is
+     * implicitly convertible to T* , or Y is the type "array of N U" for some
+     * type U and some number N, and T is the type "array of unknown bound of
+     * (possibly cv-qualified) U". (since C++17)
+     */
+    template <typename Y>
+    weak_ptr(const std::shared_ptr<Y> &r) TSP_NOEXCEPT : p(r) {}
+
+    /** \brief Moves a weak_ptr instance from r into *this.
+     *
+     * After this, r is empty and r.use_count()==0.
+     */
+    weak_ptr(weak_ptr &&r) TSP_NOEXCEPT : p(std::move(r.p)) {}
+
+    /** \brief Moves a weak_ptr instance from r into *this.
+     *
+     * After this, r is empty and r.use_count()==0.
+     */
+    weak_ptr(std::weak_ptr<T> &&r) TSP_NOEXCEPT : p(std::move(r)) {}
+
+    /** \brief Moves a weak_ptr instance from r into *this.
+     *
+     * After this, r is empty and r.use_count()==0.
+     *
+     * This templated overload doesn't participate in the overload resolution
+     * unless Y* is implicitly convertible to T*
+     */
+    template <typename Y>
+    weak_ptr(weak_ptr<Y> &&r) TSP_NOEXCEPT : p(std::move(r.p)) {}
+
+    /** \brief Moves a weak_ptr instance from r into *this.
+     *
+     * After this, r is empty and r.use_count()==0.
+     *
+     * This templated overload doesn't participate in the overload resolution
+     * unless Y* is implicitly convertible to T*
+     */
+    template <typename Y>
+    weak_ptr(std::weak_ptr<Y> &&r) TSP_NOEXCEPT : p(std::move(r)) {}
+
+    /** \brief Destroys the weak_ptr object.
+     *
+     * Results in no effect to the managed object.
+     */
+    ~weak_ptr() = default;
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    weak_ptr &operator=(const weak_ptr &r) TSP_NOEXCEPT {
+        p = r.p;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    weak_ptr &operator=(const std::weak_ptr<T> &r) TSP_NOEXCEPT {
+        p = r;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y>
+    weak_ptr &operator=(const weak_ptr<Y> &r) TSP_NOEXCEPT {
+        p = r.p;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y>
+    weak_ptr &operator=(const std::weak_ptr<Y> &r) TSP_NOEXCEPT {
+        p = r;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y>
+    weak_ptr &operator=(const throwing::shared_ptr<Y> &r) TSP_NOEXCEPT {
+        p = r.get_std_shared_ptr();
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(r).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y>
+    weak_ptr &operator=(const std::shared_ptr<Y> &r) TSP_NOEXCEPT {
+        p = r;
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(std::move(r)).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    weak_ptr &operator=(weak_ptr &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(std::move(r)).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    weak_ptr &operator=(std::weak_ptr<T> &&r) TSP_NOEXCEPT {
+        p = std::move(r);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(std::move(r)).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y> weak_ptr &operator=(weak_ptr<Y> &&r) TSP_NOEXCEPT {
+        p = std::move(r.p);
+        return *this;
+    }
+
+    /** \brief Assignment operator
+     *
+     * Replaces the managed object with the one managed by r.
+     * The object is shared with r. If r manages no object, *this manages no
+     * object too.
+     *
+     * Equivalent to weak_ptr<T>(std::move(r)).swap(*this).
+     *
+     * The implementation may meet the requirements without creating a temporary
+     * weak_ptr object.
+     */
+    template <typename Y>
+    weak_ptr &operator=(std::weak_ptr<Y> &&r) TSP_NOEXCEPT {
+        p = std::move(r);
+        return *this;
+    }
+
+    /** \brief Releases the reference to the managed object.
+     *
+     * After the call *this manages no object.
+     */
+    void reset() TSP_NOEXCEPT { p.reset(); }
+
+    /** \brief Exchanges the contents of *this and r
+     */
+    void swap(weak_ptr &r) TSP_NOEXCEPT { p.swap(r.p); }
+
+    /** \brief Returns the number of shared_ptr instances that share ownership
+     * of the managed object, or ​0​ if the managed object has already been
+     * deleted, i.e. *this is empty.
+     *
+     * expired() may be faster than use_count(). This function is inherently
+     * racy, if the managed object is shared among threads that might be
+     * creating and destroying copies of the shared_ptr: then, the result is
+     * reliable only if it matches the number of copies uniquely owned by the
+     * calling thread, or zero; any other value may become stale before it can
+     * be used.
+     *
+     * \return The number of shared_ptr instances sharing the ownership of the
+     * managed object at the instant of the call.
+     */
+    long use_count() const TSP_NOEXCEPT { return p.use_count(); }
+
+    /** \brief Equivalent to use_count() == 0. The destructor for the managed
+     * object may not yet have been called, but this object's destruction is
+     * imminent (or may have already happened).
+     *
+     * This function is inherently racy if the managed object is shared among
+     * threads. In particular, a false result may become stale before it can be
+     * used. A true result is reliable.
+     *
+     * \return true if the managed object has already been deleted, false
+     * otherwise.
+     */
+    bool expired() const TSP_NOEXCEPT { return p.expired(); }
+
+    /** \brief Returns the underlying std::weak_ptr.
+     */
+    const std::weak_ptr<T> &get_std_weak_ptr() const TSP_NOEXCEPT { return p; }
+
+    /** \brief Returns the underlying std::weak_ptr.
+     */
+    std::weak_ptr<T> &get_std_weak_ptr() TSP_NOEXCEPT { return p; }
+
+    /** \brief Creates a new throwing::shared_ptr that shares ownership of the
+     * managed object. If there is no managed object, i.e. *this is empty, then
+     * the returned shared_ptr also is empty.
+     *
+     * Effectively returns expired() ? shared_ptr<T>() : shared_ptr<T>(*this),
+     * executed atomically.
+     *
+     * Both this function and the constructor of shared_ptr may be used to
+     * acquire temporary ownership of the managed object referred to by a
+     * weak_ptr. The difference is that the constructor of shared_ptr throws an
+     * exception when its weak_ptr argument is empty, while weak_ptr<T>::lock()
+     * constructs an empty shared_ptr<T>.
+     *
+     * \return A shared_ptr which shares ownership of the owned object if
+     * weak_ptr::expired returns false. Else returns default-constructed
+     * shared_ptr of type T.
+     */
+    throwing::shared_ptr<T> lock() const TSP_NOEXCEPT {
+        return throwing::shared_ptr<T>(p.lock());
+    }
+
+    /** \brief Checks whether this weak_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     *
+     * \param other the throwing::weak_ptr to be compared
+     *
+     * \return true if *this precedes other, false otherwise. Common
+     * implementations compare the addresses of the control blocks.
+     */
+    template <typename Y>
+    bool owner_before(const weak_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other.p);
+    }
+
+    /** \brief Checks whether this weak_ptr precedes other in implementation
+     defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     are both empty or if they both own the same object, even if the values of
+     the pointers obtained by get() are different (e.g. because they point at
+     different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     associative containers, typically through std::owner_less.
+
+     * \param other the std::weak_ptr to be compared
+     *
+     * \return true if *this precedes other, false otherwise. Common
+     implementations compare the addresses of the control blocks.
+     */
+    template <typename Y>
+    bool owner_before(const std::weak_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other);
+    }
+
+    /** \brief Checks whether this weak_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     *
+     * \param other the throwing::shared_ptr to be compared
+     *
+     * \return true if *this precedes other, false otherwise. Common
+     * implementations compare the addresses of the control blocks.
+     */
+    template <typename Y>
+    bool owner_before(const throwing::shared_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other.get_std_shared_ptr());
+    }
+
+    /** \brief Checks whether this weak_ptr precedes other in implementation
+     * defined owner-based (as opposed to value-based) order.
+     *
+     * The order is such that two smart pointers compare equivalent only if they
+     * are both empty or if they both own the same object, even if the values of
+     * the pointers obtained by get() are different (e.g. because they point at
+     * different subobjects within the same object)
+     *
+     * This ordering is used to make shared and weak pointers usable as keys in
+     * associative containers, typically through std::owner_less.
+     *
+     * \param other the std::shared_ptr to be compared
+     *
+     * \return true if *this precedes other, false otherwise. Common
+     * implementations compare the addresses of the control blocks.
+     */
+    template <typename Y>
+    bool owner_before(const std::shared_ptr<Y> &other) const TSP_NOEXCEPT {
+        return p.owner_before(other);
+    }
+
+private:
+    std::weak_ptr<T> p;
+};
+
+/** \brief Specializes the std::swap algorithm for throwing::weak_ptr.
+ *
+ * Swaps the pointers of lhs and rhs.
+ *
+ * Calls lhs.swap(rhs).
+ */
+template <typename T>
+void swap(throwing::weak_ptr<T> &lhs, throwing::weak_ptr<T> &rhs) TSP_NOEXCEPT {
+    lhs.swap(rhs);
+}
+
+// shared_ptr implementations that require weak_ptr
+
+template <typename T>
+template <typename Y>
+bool shared_ptr<T>::owner_before(const throwing::weak_ptr<Y> &other) const
+        TSP_NOEXCEPT {
+    return p.owner_before(other.get_std_weak_ptr());
+}
+
+template <typename T>
+template <typename Y>
+shared_ptr<T>::shared_ptr(const throwing::weak_ptr<Y> &r) : p(r) {}
+
 } // namespace throwing
 
 namespace std {
 
 /** \brief Template specialization of std::hash for throwing::shared_ptr<T>
  */
-template <class T> struct hash<throwing::shared_ptr<T>> {
+template <typename T> struct hash<throwing::shared_ptr<T>> {
     size_t operator()(const throwing::shared_ptr<T> &x) const {
         return std::hash<typename throwing::shared_ptr<T>::element_type *>()(
                 x.get());

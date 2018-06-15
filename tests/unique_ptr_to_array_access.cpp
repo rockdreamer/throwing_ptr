@@ -33,8 +33,8 @@ TEST_CASE("unique_ptr to array: get returns first element",
 TEST_CASE("unique_ptr to array: dereferencing nullptr throws",
           "[unique_ptr][array][access][nullptr]") {
     throwing::unique_ptr<Foo[]> nothing;
-    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception);
-    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo>);
+    REQUIRE_THROWS_AS(nothing[0], throwing::base_null_ptr_exception&);
+    REQUIRE_THROWS_AS(nothing[0], throwing::null_ptr_exception<Foo>&);
 }
 
 TEST_CASE("unique_ptr to array: [0] returns first element",
