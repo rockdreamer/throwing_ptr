@@ -1589,6 +1589,134 @@ template <typename T>
 template <typename Y>
 shared_ptr<T>::shared_ptr(const throwing::weak_ptr<Y> &r) : p(r) {}
 
+/*! \class throwing::enable_shared_from_this throwing/shared_ptr.hpp
+ *  \brief Wrapper around std::enable_shared_from_this that returns a
+ * throwing::shared_ptr when shared_from_this() is called
+ *
+ * throwing::enable_shared_from_this allows an object t that is currently
+ * managed by a std::shared_ptr or throwing::shared_ptr named pt to safely
+ * generate additional shared_ptr instances pt1, pt2, ... that all share
+ * ownership of t with pt.
+ *
+ * Publicly inheriting from throwing::enable_shared_from_this<T> provides the
+ * type T with a member function shared_from_this. If an object t of type T is
+ * managed by a shared_ptr<T> named pt, then calling T::shared_from_this will
+ * return a new throwing::shared_ptr<T> that shares ownership of t with pt.
+ */
+template <typename T>
+class enable_shared_from_this : public std::enable_shared_from_this<T> {
+protected:
+    /** \brief Constructs a new enable_shared_from_this object.
+     *
+     * The private std::weak_ptr<T> member is value-initialized.
+     *
+     * Note: There is no move constructor: moving from an object derived from
+     * shared_from_this does not transfer its shared identity.
+     */
+    TSP_CONSTEXPR enable_shared_from_this() TSP_NOEXCEPT = default;
+
+    /** \brief Constructs a new enable_shared_from_this object.
+     *
+     * The private std::weak_ptr<T> member is value-initialized.
+     *
+     * Note: There is no move constructor: moving from an object derived from
+     * shared_from_this does not transfer its shared identity.
+     */
+    enable_shared_from_this(const enable_shared_from_this &)
+            TSP_NOEXCEPT = default;
+
+    /** \brief destroys *this
+     *
+     */
+    ~enable_shared_from_this() = default;
+
+    /** \brief Does nothing
+     *
+     * The private std::weak_ptr<T> member is not affected by this assignment
+     * operator.
+     *
+     * \return *this.
+     */
+    enable_shared_from_this &
+    operator=(const enable_shared_from_this &) TSP_NOEXCEPT {
+        return *this;
+    }
+
+public:
+    /** \brief Returns a throwing::shared_ptr<T> that shares ownership of *this
+     * with all existing std::shared_ptr or throwing::shared_ptr that refer to
+     * *this.
+     *
+     * Effectively executes std::shared_ptr<T>(weak_this), where weak_this is
+     * the private mutable std::weak_ptr<T> member of enable_shared_from_this
+     * and wraps the result in a throwing::shared_ptr.
+     *
+     * It is permitted to call shared_from_this only on a previously shared
+     * object, i.e. on an object managed by std::shared_ptr. Otherwise the
+     * behavior is undefined (until C++17)
+     *
+     * std::bad_weak_ptr is thrown (by the shared_ptr constructor from a
+     * default-constructed weak_this) (since C++17).
+     *
+     * \return throwing::shared_ptr<T> that shares ownership of *this with
+     * pre-existing std::shared_ptrs
+     */
+    shared_ptr<T> shared_from_this() {
+        return shared_ptr<T>(
+                std::enable_shared_from_this<T>::shared_from_this());
+    }
+
+    /** \brief Returns a const throwing::shared_ptr<T> that shares ownership of
+     * *this with all existing std::shared_ptr or throwing::shared_ptr that
+     * refer to *this.
+     *
+     * Effectively executes std::shared_ptr<T>(weak_this), where weak_this is
+     * the private mutable std::weak_ptr<T> member of enable_shared_from_this
+     * and wraps the result in a throwing::shared_ptr.
+     *
+     * It is permitted to call shared_from_this only on a previously shared
+     * object, i.e. on an object managed by std::shared_ptr. Otherwise the
+     * behavior is undefined (until C++17)
+     *
+     * std::bad_weak_ptr is thrown (by the shared_ptr constructor from a
+     * default-constructed weak_this) (since C++17).
+     *
+     * \return throwing::shared_ptr<T> that shares ownership of *this with
+     * pre-existing std::shared_ptrs
+     */
+    shared_ptr<const T> shared_from_this() const {
+        return shared_ptr<const T>(
+                std::enable_shared_from_this<T>::shared_from_this());
+    }
+
+    /** \brief Returns a throwing::weak_ptr<T> that tracks ownership of *this by
+     * all existing shared_ptr that refer to *this.
+     *
+     * This is a copy of the the private mutable weak_ptr member that is part of
+     * enable_shared_from_this.
+     *
+     * \return throwing::weak_ptr<T> that shares ownership of *this with
+     * pre-existing shared_ptrs
+     */
+    weak_ptr<T> weak_from_this() TSP_NOEXCEPT {
+        return weak_ptr<T>(std::enable_shared_from_this<T>::weak_from_this());
+    }
+
+    /** \brief Returns a throwing::weak_ptr<T> that tracks ownership of *this by
+     * all existing shared_ptr that refer to *this.
+     *
+     * This is a copy of the the private mutable weak_ptr member that is part of
+     * enable_shared_from_this.
+     *
+     * \return throwing::weak_ptr<T> that shares ownership of *this with
+     * pre-existing shared_ptrs
+     */
+    weak_ptr<const T> weak_from_this() const TSP_NOEXCEPT {
+        return weak_ptr<const T>(
+                std::enable_shared_from_this<T>::weak_from_this());
+    }
+};
+
 } // namespace throwing
 
 namespace std {
